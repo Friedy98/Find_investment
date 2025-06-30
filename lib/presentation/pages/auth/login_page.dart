@@ -33,97 +33,141 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(24.w),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(height: 40.h),
-
-                // Logo and Title
-                _buildHeader(),
-
-                SizedBox(height: 48.h),
-
-                // Login Form
-                _buildLoginForm(),
-
-                SizedBox(height: 24.h),
-
-                // Login Button
-                CustomButton(
-                  text: AppLocalizations.of(context)!.login,
-                  onPressed: _isLoading ? null : _handleLogin,
-                  isLoading: _isLoading,
-                ),
-
-                SizedBox(height: 16.h),
-
-                // Forgot Password
-                TextButton(
-                  onPressed: () => context.push(AppRoutes.forgotPassword),
-                  child: Text(AppLocalizations.of(context)!.forgotPassword),
-                ),
-
-                SizedBox(height: 32.h),
-
-                // Divider
-                _buildDivider(),
-
-                SizedBox(height: 32.h),
-
-                // Social Login
-                _buildSocialLogin(),
-
-                SizedBox(height: 32.h),
-
-                // Register Link
-                _buildRegisterLink(),
-              ],
+        body: Stack(
+      children: [
+        // Background Image (Top Half)
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          height: MediaQuery.of(context).size.height * 0.5,
+          child: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/login_background.png'),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
-      ),
-    );
+        // Gradient Overlay
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          height: MediaQuery.of(context).size.height * 0.5,
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.white.withOpacity(0.0),
+                  Colors.white.withOpacity(0.5),
+                  Colors.white.withOpacity(0.7),
+                  Colors.white.withOpacity(0.8),
+                  Colors.white.withOpacity(0.9),
+                  Colors.white.withOpacity(1),
+                  Colors.white,
+                ],
+              ),
+            ),
+          ),
+        ),
+        SafeArea(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(24.w),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.27),
+
+                  // Logo and Title
+                  _buildHeader(),
+
+                  SizedBox(height: 30.h),
+
+                  // Login Form
+                  _buildLoginForm(),
+
+                  SizedBox(height: 24.h),
+
+                  // Login Button
+                  CustomButton(
+                    text: AppLocalizations.of(context)!.login,
+                    onPressed: _isLoading ? null : _handleLogin,
+                    isLoading: _isLoading,
+                  ),
+
+                  SizedBox(height: 16.h),
+
+                  // Forgot Password
+                  TextButton(
+                    onPressed: () => context.push(AppRoutes.forgotPassword),
+                    child: Text(AppLocalizations.of(context)!.forgotPassword),
+                  ),
+
+                  // SizedBox(height: 32.h),
+
+                  // // Divider
+                  // _buildDivider(),
+
+                  // SizedBox(height: 32.h),
+
+                  // // Social Login
+                  // _buildSocialLogin(),
+
+                  SizedBox(height: 32.h),
+
+                  // Register Link
+                  _buildRegisterLink(),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    ));
   }
 
   Widget _buildHeader() {
     return Column(
       children: [
-        Container(
-          width: 80.w,
-          height: 80.w,
-          decoration: BoxDecoration(
-            color: AppColors.primary,
-            borderRadius: BorderRadius.circular(20.r),
-          ),
-          child: Icon(
-            Icons.handshake_outlined,
-            size: 40.sp,
-            color: AppColors.white,
-          ),
-        ),
-        SizedBox(height: 24.h),
+        // Container(
+        //   width: 80.w,
+        //   height: 80.w,
+        //   decoration: BoxDecoration(
+        //     color: AppColors.primary,
+        //     borderRadius: BorderRadius.circular(20.r),
+        //   ),
+        //   child: Icon(
+        //     Icons.handshake_outlined,
+        //     size: 40.sp,
+        //     color: AppColors.white,
+        //   ),
+        // ),
+        // SizedBox(height: 24.h),
         Text(
-          AppLocalizations.of(context)!.welcomeBack,
+          AppLocalizations.of(context)!.signInToAccount,
           style: TextStyle(
             fontSize: 28.sp,
+            height: 1.3,
             fontWeight: FontWeight.bold,
             color: AppColors.textPrimary,
           ),
-        ),
-        SizedBox(height: 8.h),
-        Text(
-          AppLocalizations.of(context)!.loginSubtitle,
-          style: TextStyle(
-            fontSize: 16.sp,
-            color: AppColors.textSecondary,
-          ),
           textAlign: TextAlign.center,
         ),
+        // SizedBox(height: 8.h),
+        // Text(
+        //   AppLocalizations.of(context)!.loginSubtitle,
+        //   style: TextStyle(
+        //     fontSize: 16.sp,
+        //     color: AppColors.textSecondary,
+        //   ),
+        //   textAlign: TextAlign.center,
+        // ),
       ],
     );
   }
@@ -267,6 +311,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         }
       } catch (e) {
         // TODO: Handle login error
+        if (!mounted) {
+          return;
+        }
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(AppLocalizations.of(context)!.loginError)),
         );

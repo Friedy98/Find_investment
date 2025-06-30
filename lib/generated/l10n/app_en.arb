@@ -61,5 +61,11 @@
   
   "loginError": "Login failed. Please try again.",
   "registrationError": "Registration failed. Please try again.",
-  "accountCreatedSuccess": "Account created successfully!"
+  "accountCreatedSuccess": "Account created successfully!",
+
+  "welcomeSubtitle": "Connect with investors and projects aligned with Christian values",
+  "next": "Next",
+  "start": "Start",
+  "go": "Go",
+  "signInToAccount": "Sign in to your account"
 }

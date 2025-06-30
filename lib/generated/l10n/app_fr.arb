@@ -61,5 +61,11 @@
   
   "loginError": "Échec de la connexion. Veuillez réessayer.",
   "registrationError": "Échec de l'inscription. Veuillez réessayer.",
-  "accountCreatedSuccess": "Compte créé avec succès !"
+  "accountCreatedSuccess": "Compte créé avec succès !",
+
+  "welcomeSubtitle": "Connectez-vous avec des investisseurs et des projets alignés sur les valeurs chrétiennes",
+  "next": "Suivant",
+  "start": "Commencer",
+  "go": "Aller",
+  "signInToAccount": "Connectez-vous à votre compte"
 }

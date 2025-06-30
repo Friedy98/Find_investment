@@ -46,7 +46,7 @@ class OnboardingPage extends ConsumerWidget {
             borderRadius: BorderRadius.circular(12.r),
           ),
           child: Text(
-            AppLocalizations.of(context)!.getStarted,
+            AppLocalizations.of(context)!.go,
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,
@@ -55,10 +55,10 @@ class OnboardingPage extends ConsumerWidget {
           ),
         ),
         dotsDecorator: DotsDecorator(
-          size: Size(10.w, 10.w),
+          size: Size(8.w, 8.w),
           activeSize: Size(24.w, 10.w),
           activeColor: AppColors.primary,
-          color: AppColors.gray300,
+          color: AppColors.gray300.withOpacity(0.6),
           spacing: EdgeInsets.symmetric(horizontal: 4.w),
           activeShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5.r),
@@ -106,7 +106,7 @@ class OnboardingPage extends ConsumerWidget {
       height: 200.w,
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(100.r),
+        borderRadius: BorderRadius.circular(150.r),
       ),
       child: Icon(
         icon,

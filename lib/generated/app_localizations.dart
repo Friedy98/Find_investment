@@ -418,6 +418,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Account created successfully!'**
   String get accountCreatedSuccess;
+
+  /// No description provided for @welcomeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect with investors and projects aligned with Christian values'**
+  String get welcomeSubtitle;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// No description provided for @start.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get start;
+
+  /// No description provided for @go.
+  ///
+  /// In en, this message translates to:
+  /// **'Go'**
+  String get go;
+
+  /// No description provided for @signInToAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to your account'**
+  String get signInToAccount;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

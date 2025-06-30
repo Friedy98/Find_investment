@@ -167,4 +167,19 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get accountCreatedSuccess => 'Compte créé avec succès !';
+
+  @override
+  String get welcomeSubtitle => 'Connectez-vous avec des investisseurs et des projets alignés sur les valeurs chrétiennes';
+
+  @override
+  String get next => 'Suivant';
+
+  @override
+  String get start => 'Commencer';
+
+  @override
+  String get go => 'Aller';
+
+  @override
+  String get signInToAccount => 'Connectez-vous à votre compte';
 }

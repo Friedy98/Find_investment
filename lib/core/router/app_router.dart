@@ -1,3 +1,4 @@
+import 'package:find_invest_mobile/presentation/pages/onboarding/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -28,11 +29,16 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const SplashPage(),
       ),
       GoRoute(
+        path: AppRoutes.welcome,
+        name: 'welcome',
+        builder: (context, state) => const WelcomePage(),
+      ),
+      GoRoute(
         path: AppRoutes.onboarding,
         name: 'onboarding',
         builder: (context, state) => const OnboardingPage(),
       ),
-      
+
       // Authentication
       GoRoute(
         path: AppRoutes.login,
@@ -49,7 +55,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       //   name: 'forgotPassword',
       //   builder: (context, state) => const ForgotPasswordPage(),
       // ),
-      
+
       // Main App
       // ShellRoute(
       //   builder: (context, state, child) => MainPage(child: child),
@@ -71,7 +77,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       //     ),
       //   ],
       // ),
-      
+
       // Project Details
       // GoRoute(
       //   path: '${AppRoutes.projectDetail}/:id',

@@ -167,4 +167,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountCreatedSuccess => 'Account created successfully!';
+
+  @override
+  String get welcomeSubtitle => 'Connect with investors and projects aligned with Christian values';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get start => 'Start';
+
+  @override
+  String get go => 'Go';
+
+  @override
+  String get signInToAccount => 'Sign in to your account';
 }

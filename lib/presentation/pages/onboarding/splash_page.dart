@@ -18,7 +18,7 @@ class _SplashPageState extends ConsumerState<SplashPage>
     with TickerProviderStateMixin {
   late AnimationController _logoController;
   late AnimationController _textController;
-  late Animation<double> _logoAnimation;
+  // late Animation<double> _logoAnimation;
   late Animation<double> _textAnimation;
   late Animation<Offset> _slideAnimation;
 
@@ -40,13 +40,13 @@ class _SplashPageState extends ConsumerState<SplashPage>
       vsync: this,
     );
 
-    _logoAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _logoController,
-      curve: Curves.elasticOut,
-    ));
+    // _logoAnimation = Tween<double>(
+    //   begin: 0.0,
+    //   end: 1.0,
+    // ).animate(CurvedAnimation(
+    //   parent: _logoController,
+    //   curve: Curves.elasticOut,
+    // ));
 
     _textAnimation = Tween<double>(
       begin: 0.0,
@@ -71,10 +71,10 @@ class _SplashPageState extends ConsumerState<SplashPage>
   }
 
   void _navigateToNext() {
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 5), () {
       if (mounted) {
         // TODO: Check if user is logged in and onboarding completed
-        context.go(AppRoutes.onboarding);
+        context.go(AppRoutes.welcome);
       }
     });
   }
@@ -90,122 +90,162 @@ class _SplashPageState extends ConsumerState<SplashPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primary,
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              AppColors.primary,
-              AppColors.primaryDark,
-            ],
+      body: Stack(children: [
+        Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                AppColors.primary,
+                AppColors.primaryDark,
+              ],
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Logo Animation
-                      AnimatedBuilder(
-                        animation: _logoAnimation,
-                        builder: (context, child) {
-                          return Transform.scale(
-                            scale: _logoAnimation.value,
-                            child: Container(
-                              width: 120.w,
-                              height: 120.w,
-                              decoration: BoxDecoration(
-                                color: AppColors.white,
-                                borderRadius: BorderRadius.circular(30.r),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.2),
-                                    blurRadius: 20,
-                                    offset: const Offset(0, 10),
+          child: SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Logo Animation
+                        // AnimatedBuilder(
+                        //   animation: _logoAnimation,
+                        //   builder: (context, child) {
+                        //     return Transform.scale(
+                        //       scale: _logoAnimation.value,
+                        //       child: Container(
+                        //         width: 120.w,
+                        //         height: 120.w,
+                        //         decoration: BoxDecoration(
+                        //           color: AppColors.white,
+                        //           borderRadius: BorderRadius.circular(30.r),
+                        //           boxShadow: [
+                        //             BoxShadow(
+                        //               color: Colors.black.withOpacity(0.2),
+                        //               blurRadius: 20,
+                        //               offset: const Offset(0, 10),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //         child: Icon(
+                        //           Icons.handshake_outlined,
+                        //           size: 60.sp,
+                        //           color: AppColors.primary,
+                        //         ),
+                        //       ),
+                        //     );
+                        //   },
+                        // ),
+
+                        SizedBox(height: 32.h),
+
+                        // App Name Animation
+                        SlideTransition(
+                          position: _slideAnimation,
+                          child: FadeTransition(
+                            opacity: _textAnimation,
+                            child: Column(
+                              children: [
+                                Text(
+                                  'FindInvest',
+                                  style: TextStyle(
+                                    fontSize: 25.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.white,
+                                    letterSpacing: 0.5,
                                   ),
-                                ],
-                              ),
-                              child: Icon(
-                                Icons.handshake_outlined,
-                                size: 60.sp,
-                                color: AppColors.primary,
-                              ),
+                                ),
+                                SizedBox(height: 3.h),
+                                // Text(
+                                //   AppLocalizations.of(context)!.appSubtitle,
+                                //   style: TextStyle(
+                                //     fontSize: 14.sp,
+                                //     color: AppColors.white.withOpacity(0.8),
+                                //     fontWeight: FontWeight.w400,
+                                //   ),
+                                //   textAlign: TextAlign.center,
+                                // ),
+                              ],
                             ),
-                          );
-                        },
-                      ),
-
-                      SizedBox(height: 32.h),
-
-                      // App Name Animation
-                      SlideTransition(
-                        position: _slideAnimation,
-                        child: FadeTransition(
-                          opacity: _textAnimation,
-                          child: Column(
-                            children: [
-                              Text(
-                                'Find App',
-                                style: TextStyle(
-                                  fontSize: 32.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.white,
-                                  letterSpacing: 1.2,
-                                ),
-                              ),
-                              SizedBox(height: 8.h),
-                              Text(
-                                AppLocalizations.of(context)!.appSubtitle,
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  color: AppColors.white.withOpacity(0.8),
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
                           ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                // Loading Indicator
+                Padding(
+                  padding: EdgeInsets.only(bottom: 50.h),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: 40.w,
+                        height: 40.w,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 3,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            AppColors.white.withOpacity(0.8),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16.h),
+                      Text(
+                        AppLocalizations.of(context)!.loading,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: AppColors.white.withOpacity(0.7),
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
-
-              // Loading Indicator
-              Padding(
-                padding: EdgeInsets.only(bottom: 50.h),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: 40.w,
-                      height: 40.w,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 3,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          AppColors.white.withOpacity(0.8),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 16.h),
-                    Text(
-                      AppLocalizations.of(context)!.loading,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: AppColors.white.withOpacity(0.7),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
+        Positioned(
+          top: 40,
+          left: -160,
+          child: Transform.rotate(
+              angle: 44 / 12,
+              child: Opacity(
+                opacity: 0.5,
+                child: Container(
+                  width: 200,
+                  height: 400,
+                  decoration: const BoxDecoration(
+                    color: AppColors.primaryLight,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(50),
+                    ),
+                  ),
+                ),
+              )),
+        ),
+        Positioned(
+          bottom: 40,
+          right: -160,
+          child: Transform.rotate(
+              angle: 44 / 12,
+              child: Opacity(
+                opacity: 0.5,
+                child: Container(
+                  width: 200,
+                  height: 400,
+                  decoration: const BoxDecoration(
+                    color: AppColors.primaryLight,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(50),
+                    ),
+                  ),
+                ),
+              )),
+        )
+      ]),
     );
   }
 }
