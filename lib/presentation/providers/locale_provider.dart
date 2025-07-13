@@ -1,8 +1,8 @@
+import 'package:find_invest_mobile/config/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/di/injection.dart';
-import '../../core/storage/storage_service.dart';
+import '../../core/services/shared_preferences_service.dart';
 
 final localeProvider = StateNotifierProvider<LocaleNotifier, Locale>((ref) {
   final storageService = ref.watch(storageServiceProvider);
@@ -10,7 +10,7 @@ final localeProvider = StateNotifierProvider<LocaleNotifier, Locale>((ref) {
 });
 
 class LocaleNotifier extends StateNotifier<Locale> {
-  final StorageService _storageService;
+  final SharedPreferenceService _storageService;
 
   LocaleNotifier(this._storageService) : super(const Locale('fr')) {
     _loadLocale();

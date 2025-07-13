@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/router/app_routes.dart';
+import '../../../config/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text_field.dart';
@@ -43,10 +43,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.createAccount),
-        centerTitle: true,
-      ),
+      // appBar: AppBar(
+      //   title: Text(AppLocalizations.of(context)!.createAccount),
+      //   centerTitle: true,
+      // ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(24.w),

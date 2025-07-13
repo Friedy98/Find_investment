@@ -67,5 +67,87 @@
   "next": "Next",
   "start": "Start",
   "go": "Go",
-  "signInToAccount": "Sign in to your account"
+  "signInToAccount": "Sign in to your account",
+
+  "resetPassword": "Reset Password",
+  "resetPasswordSubtitle": "Enter your email address and we'll send you a code to reset your password",
+  "sendResetCode": "Send Reset Code",
+  "backToLogin": "Back to Login",
+  "sendCodeError": "Failed to send reset code. Please try again.",
+
+  "verifyCode": "Verify Code",
+  "verifyYourEmail": "Verify Your Email",
+  "otpSentTo": "We've sent a 6-digit code to ",
+  "enterCompleteOtp": "Please enter the complete 6-digit code",
+  "invalidOtp": "Invalid verification code",
+  "didntReceiveCode": "Didn't receive the code?",
+  "resendCode": "Resend Code",
+  "resendIn": "Resend in ",
+  "seconds": "s",
+  "codeResent": "Code sent successfully!",
+  "resendError": "Failed to resend code. Please try again.",
+
+  "newPassword": "New Password",
+  "createNewPassword": "Create New Password",
+  "createNewPasswordSubtitle": "Your new password must be different from previous passwords",
+  "enterNewPassword": "Enter new password",
+  "confirmNewPassword": "Confirm New Password",
+  "enterConfirmNewPassword": "Confirm your new password",
+  "passwordRequirements": "Password Requirements:",
+  "requirement8Characters": "At least 8 characters",
+  "requirementUppercase": "One uppercase letter",
+  "requirementLowercase": "One lowercase letter",
+  "requirementNumber": "One number",
+  "resetPasswordError": "Failed to reset password. Please try again.",
+
+  "passwordResetSuccess": "Password Reset Successful!",
+  "passwordResetSuccessMessage": "Your password has been successfully reset. You can now login with your new password.",
+  "goToLogin": "Go to Login",
+
+  "rememberMe": "Remember me",
+  "termsConditionsTitle": "Terms and Conditions",
+  "privacyPolicyTitle": "Privacy Policy",
+  "lastUpdated": "Last updated: {date}",
+
+  "dataCollection": "Data Collection",
+  "dataCollectionContent": "We collect information you provide directly to us, such as when you create an account, update your profile, or contact us for support.",
+
+  "dataUsage": "How We Use Your Data",
+  "dataUsageContent": "We use the information we collect to provide, maintain, and improve our services, communicate with you, and ensure platform security.",
+
+  "dataSharing": "Data Sharing",
+  "dataSharingContent": "We do not sell, trade, or otherwise transfer your personal information to third parties without your consent, except as described in this policy.",
+
+  "dataSecurity": "Data Security",
+  "dataSecurityContent": "We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.",
+
+  "userRights": "Your Rights",
+  "userRightsContent": "You have the right to access, update, or delete your personal information. You may also opt out of certain communications from us.",
+
+  "cookiesPolicy": "Cookies Policy",
+  "cookiesPolicyContent": "We use cookies to enhance your browsing experience, analyze site traffic, and personalize content.",
+
+  "contactUs": "Contact Us",
+  "contactUsContent": "If you have any questions about this Privacy Policy, please contact us at privacy@findapp.com.",
+
+  "acceptance": "Acceptance of Terms",
+  "acceptanceContent": "By accessing and using this service, you accept and agree to be bound by the terms and provision of this agreement.",
+
+  "serviceDescription": "Service Description",
+  "serviceDescriptionContent": "Find App is a platform that connects Christian investors, project owners, and job seekers to create meaningful opportunities.",
+
+  "userResponsibilities": "User Responsibilities",
+  "userResponsibilitiesContent": "Users are responsible for maintaining the confidentiality of their account information and for all activities under their account.",
+
+  "prohibitedActivities": "Prohibited Activities",
+  "prohibitedActivitiesContent": "Users may not use the service for any unlawful purpose or to solicit others to perform unlawful acts.",
+
+  "intellectualProperty": "Intellectual Property",
+  "intellectualPropertyContent": "The service and its original content, features, and functionality are owned by Find App and are protected by copyright and other laws.",
+
+  "limitation": "Limitation of Liability",
+  "limitationContent": "Find App shall not be liable for any indirect, incidental, special, consequential, or punitive damages.",
+
+  "termination": "Termination",
+  "terminationContent": "We may terminate or suspend your account and access to the service immediately, without prior notice, for conduct that we believe violates these Terms."
 }

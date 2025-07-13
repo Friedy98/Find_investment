@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
+  static const Color primary = Color(0xFF007AFF); // Vibrant blue
+  static const Color accent = Color(0xFFFF2D55); // Bright red for accents
+  static const Color background = Color(0xFFF5F7FA); // Light gray background
+  static const Color cardBackground = Colors.white; // White for card
+  static const Color textPrimary = Color(0xFF1A1A1A); // Dark gray for text
+  static const Color textSecondary =
+      Color(0xFF757575); // Lighter gray for hints/icons
+  static const Color gray50 =
+      Color(0xFFFAFAFA); // Light gray for field background
+  static const Color gray200 = Color(0xFFEEEEEE); // Border color
+  static const Color error = Color(0xFFFF3B30); // Red for errors
+
   // Primary Colors (Blue)
-  static const Color primary = Color(0xFF0067FF); // Main blue
+  // static const Color primary = Color(0xFF0067FF); // Main blue
   static const Color primaryLight = Color(0xFF4B8FFF); // Lighter blue (derived)
   static const Color primaryDark = Color(0xFF0047B3); // Darker blue (derived)
 
@@ -10,14 +22,15 @@ class AppColors {
   static const Color secondary = Color(0xFF6E7174); // Dark gray
   static const Color secondaryLight =
       Color(0xFF8E9194); // Lighter gray (derived)
-  static const Color secondaryDark = Color(0xFF4F4F5); // Darker gray (derived)
+  static const Color secondaryDark =
+      Color.fromARGB(138, 244, 244, 245); // Darker gray (derived)
 
   // Neutral Colors
   static const Color white = Color(0xFFF9F9F9); // Off-white
   static const Color black = Color(0xFF232323); // Black
-  static const Color gray50 = Color(0xFFF9F9F9); // Off-white
+  // static const Color gray50 = Color(0xFFF9F9F9); // Off-white
   static const Color gray100 = Color(0xFFE7E5E5); // Light gray
-  static const Color gray200 = Color(0xFFD4D2D2); // Softer gray (derived)
+  // static const Color gray200 = Color(0xFFD4D2D2); // Softer gray (derived)
   static const Color gray300 = Color(0xFFB0B0B0); // Medium gray (derived)
   static const Color gray400 = Color(0xFF8E9194); // Secondary light gray
   static const Color gray500 = Color(0xFF6E7174); // Secondary dark gray
@@ -29,12 +42,12 @@ class AppColors {
   // Status Colors
   static const Color success = Color(0xFF14B8A6); // Teal 500 (accent)
   static const Color warning = Color(0xFFFBBF24); // Amber 400 (accent)
-  static const Color error = Color(0xFFF87171); // Red 400 (accent)
+  // static const Color error = Color(0xFFF87171); // Red 400 (accent)
   static const Color info = Color(0xFF8B5CF6); // Purple 500 (accent)
 
   // Text Colors
-  static const Color textPrimary = Color(0xFF232323); // Black for light theme
-  static const Color textSecondary = Color(0xFF6E7174); // Dark gray
+  // static const Color textPrimary = Color(0xFF232323); // Black for light theme
+  // static const Color textSecondary = Color(0xFF6E7174); // Dark gray
   static const Color textTertiary = Color(0xFFE7E5E5); // Light gray for hints
   static const Color textInverse =
       Color(0xFFF9F9F9); // Off-white for dark theme

@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:find_invest_mobile/core/services/logging_service.dart';
 
 import '../../exceptions/app_exception.dart';
-import '../../utils/logger.dart';
 
 class ErrorInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    AppLogger.error('Network Error: ${err.message}', err);
+    LoggingService.error('Network Error: ${err.message}', err);
 
     final appException = _handleError(err);
     handler.reject(DioException(

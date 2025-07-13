@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/router/app_routes.dart';
+import '../../../config/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 
 class SplashPage extends ConsumerStatefulWidget {

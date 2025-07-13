@@ -1,34 +1,34 @@
 import 'package:dio/dio.dart';
+import 'package:find_invest_mobile/core/services/logging_service.dart';
 
-import '../../utils/logger.dart';
 
 class LoggingInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    AppLogger.info('REQUEST: ${options.method} ${options.path}');
-    AppLogger.debug('Headers: ${options.headers}');
+    LoggingService.info('REQUEST: ${options.method} ${options.path}');
+    LoggingService.debug('Headers: ${options.headers}');
     if (options.data != null) {
-      AppLogger.debug('Body: ${options.data}');
+      LoggingService.debug('Body: ${options.data}');
     }
     super.onRequest(options, handler);
   }
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    AppLogger.info(
+    LoggingService.info(
         'RESPONSE: ${response.statusCode} ${response.requestOptions.path}');
-    AppLogger.debug('Data: ${response.data}');
+    LoggingService.debug('Data: ${response.data}');
     super.onResponse(response, handler);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    AppLogger.error(
+    LoggingService.error(
         'ERROR: ${err.requestOptions.method} ${err.requestOptions.path}');
-    AppLogger.error('Message: ${err.message}');
+    LoggingService.error('Message: ${err.message}');
     if (err.response != null) {
-      AppLogger.error('Status: ${err.response!.statusCode}');
-      AppLogger.error('Data: ${err.response!.data}');
+      LoggingService.error('Status: ${err.response!.statusCode}');
+      LoggingService.error('Data: ${err.response!.data}');
     }
     super.onError(err, handler);
   }

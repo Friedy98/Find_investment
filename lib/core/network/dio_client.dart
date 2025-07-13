@@ -1,14 +1,15 @@
 import 'package:dio/dio.dart';
+import 'package:find_invest_mobile/core/services/secure_storage_service.dart';
 import 'package:flutter/foundation.dart';
 
-import '../config/app_config.dart';
+import '../../config/app_config.dart';
 import 'interceptors/auth_interceptor.dart';
 import 'interceptors/error_interceptor.dart';
 import 'interceptors/language_interceptor.dart';
 import 'interceptors/logging_interceptor.dart';
 
 class DioClient {
-  static Dio createDio() {
+  static Dio createDio({required SecureStorageService secureStorage}) {
     final dio = Dio(
       BaseOptions(
         baseUrl: AppConfig.baseUrl,
@@ -24,7 +25,7 @@ class DioClient {
     // Add interceptors
     dio.interceptors.addAll([
       LanguageInterceptor(),
-      AuthInterceptor(),
+      AuthInterceptor(secureStorage: secureStorage),
       ErrorInterceptor(),
       if (kDebugMode) LoggingInterceptor(),
     ]);

@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
-import '../../../core/router/app_routes.dart';
+import '../../../config/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 
 class OnboardingPage extends ConsumerWidget {
@@ -136,7 +136,6 @@ class OnboardingPage extends ConsumerWidget {
   }
 
   void _onDone(BuildContext context) {
-    // TODO: Mark onboarding as completed
     context.go(AppRoutes.login);
   }
 }

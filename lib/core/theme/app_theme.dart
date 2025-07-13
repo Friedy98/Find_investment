@@ -1,7 +1,44 @@
+import 'package:find_invest_mobile/config/providers.dart';
+import 'package:find_invest_mobile/core/services/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:google_fonts/google_fonts.dart';
 
 import 'app_colors.dart';
+
+final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>((ref) {
+  final storageService = ref.watch(storageServiceProvider);
+  return ThemeNotifier(storageService: storageService);
+});
+
+class ThemeNotifier extends StateNotifier<ThemeMode> {
+  final SharedPreferenceService storageService;
+
+  ThemeNotifier({required this.storageService}) : super(ThemeMode.system) {
+    _loadTheme();
+  }
+
+  Future<void> _loadTheme() async {
+    final savedTheme = storageService.getString(StorageKeys.themeMode);
+    if (savedTheme != null) {
+      state = ThemeMode.values.firstWhere(
+        (mode) => mode.name == savedTheme,
+        orElse: () => ThemeMode.system,
+      );
+    }
+  }
+
+  Future<void> setThemeMode(ThemeMode themeMode) async {
+    state = themeMode;
+    await storageService.setString(StorageKeys.themeMode, themeMode.name);
+  }
+
+  Future<void> toggleTheme() async {
+    final newTheme =
+        state == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+    await setThemeMode(newTheme);
+  }
+}
 
 class AppTheme {
   static ThemeData get lightTheme {
@@ -43,78 +80,93 @@ class AppTheme {
   }
 
   static TextTheme get _textTheme {
-    return GoogleFonts.interTextTheme().copyWith(
-      displayLarge: GoogleFonts.inter(
+    return const TextTheme().copyWith(
+      displayLarge: const TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 32,
         fontWeight: FontWeight.w700,
         height: 1.2,
       ),
-      displayMedium: GoogleFonts.inter(
+      displayMedium: const TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 28,
         fontWeight: FontWeight.w600,
         height: 1.3,
       ),
-      displaySmall: GoogleFonts.inter(
+      displaySmall: const TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 24,
         fontWeight: FontWeight.w600,
         height: 1.3,
       ),
-      headlineLarge: GoogleFonts.inter(
+      headlineLarge: const TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 22,
         fontWeight: FontWeight.w600,
         height: 1.4,
       ),
-      headlineMedium: GoogleFonts.inter(
+      headlineMedium: const TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 20,
         fontWeight: FontWeight.w600,
         height: 1.4,
       ),
-      headlineSmall: GoogleFonts.inter(
+      headlineSmall: const TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 18,
         fontWeight: FontWeight.w600,
         height: 1.4,
       ),
-      titleLarge: GoogleFonts.inter(
+      titleLarge: const TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 16,
         fontWeight: FontWeight.w600,
         height: 1.5,
       ),
-      titleMedium: GoogleFonts.inter(
+      titleMedium: const TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 14,
         fontWeight: FontWeight.w500,
         height: 1.5,
       ),
-      titleSmall: GoogleFonts.inter(
+      titleSmall: const TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 12,
         fontWeight: FontWeight.w500,
         height: 1.5,
       ),
-      bodyLarge: GoogleFonts.inter(
+      bodyLarge: const TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 16,
         fontWeight: FontWeight.w400,
         height: 1.5,
       ),
-      bodyMedium: GoogleFonts.inter(
+      bodyMedium: const TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 14,
         fontWeight: FontWeight.w400,
         height: 1.5,
       ),
-      bodySmall: GoogleFonts.inter(
+      bodySmall: const TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 12,
         fontWeight: FontWeight.w400,
         height: 1.5,
       ),
-      labelLarge: GoogleFonts.inter(
+      labelLarge: const TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 14,
         fontWeight: FontWeight.w500,
         height: 1.4,
       ),
-      labelMedium: GoogleFonts.inter(
+      labelMedium: const TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 12,
         fontWeight: FontWeight.w500,
         height: 1.4,
       ),
-      labelSmall: GoogleFonts.inter(
+      labelSmall: const TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 10,
         fontWeight: FontWeight.w500,
         height: 1.4,
@@ -128,7 +180,8 @@ class AppTheme {
       scrolledUnderElevation: 1,
       backgroundColor: AppColors.lightColorScheme.surface,
       foregroundColor: AppColors.lightColorScheme.onSurface,
-      titleTextStyle: GoogleFonts.inter(
+      titleTextStyle: TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 18,
         fontWeight: FontWeight.w600,
         color: AppColors.lightColorScheme.onSurface,
@@ -142,7 +195,8 @@ class AppTheme {
       scrolledUnderElevation: 1,
       backgroundColor: AppColors.darkColorScheme.surface,
       foregroundColor: AppColors.darkColorScheme.onSurface,
-      titleTextStyle: GoogleFonts.inter(
+      titleTextStyle: TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 18,
         fontWeight: FontWeight.w600,
         color: AppColors.darkColorScheme.onSurface,
@@ -158,7 +212,8 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        textStyle: GoogleFonts.inter(
+        textStyle: const TextStyle(
+          fontFamily: 'Poppins',
           fontSize: 14,
           fontWeight: FontWeight.w600,
         ),
@@ -173,7 +228,8 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        textStyle: GoogleFonts.inter(
+        textStyle: const TextStyle(
+          fontFamily: 'Poppins',
           fontSize: 14,
           fontWeight: FontWeight.w600,
         ),
@@ -188,7 +244,8 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        textStyle: GoogleFonts.inter(
+        textStyle: const TextStyle(
+          fontFamily: 'Poppins',
           fontSize: 14,
           fontWeight: FontWeight.w600,
         ),
@@ -229,7 +286,8 @@ class AppTheme {
         ),
       ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      hintStyle: GoogleFonts.inter(
+      hintStyle: const TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 14,
         fontWeight: FontWeight.w400,
         color: AppColors.textSecondary,
@@ -252,16 +310,18 @@ class AppTheme {
   }
 
   static BottomNavigationBarThemeData get _bottomNavigationBarTheme {
-    return BottomNavigationBarThemeData(
+    return const BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
       elevation: 8,
       selectedItemColor: AppColors.primary,
       unselectedItemColor: AppColors.textSecondary,
-      selectedLabelStyle: GoogleFonts.inter(
+      selectedLabelStyle: TextStyle(
+        fontFamily: "Poppins",
         fontSize: 12,
         fontWeight: FontWeight.w600,
       ),
-      unselectedLabelStyle: GoogleFonts.inter(
+      unselectedLabelStyle: TextStyle(
+        fontFamily: "Poppins",
         fontSize: 12,
         fontWeight: FontWeight.w400,
       ),

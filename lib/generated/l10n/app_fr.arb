@@ -67,5 +67,88 @@
   "next": "Suivant",
   "start": "Commencer",
   "go": "Aller",
-  "signInToAccount": "Connectez-vous à votre compte"
+  "signInToAccount": "Connectez-vous à votre compte",
+
+  "resetPassword": "Réinitialiser le mot de passe",
+  "resetPasswordSubtitle": "Entrez votre adresse email et nous vous enverrons un code pour réinitialiser votre mot de passe",
+  "sendResetCode": "Envoyer le code",
+  "backToLogin": "Retour à la connexion",
+  "sendCodeError": "Échec de l'envoi du code. Veuillez réessayer.",
+
+  "verifyCode": "Vérifier le code",
+  "verifyYourEmail": "Vérifiez votre email",
+  "otpSentTo": "Nous avons envoyé un code à 6 chiffres à ",
+  "enterCompleteOtp": "Veuillez entrer le code complet à 6 chiffres",
+  "invalidOtp": "Code de vérification invalide",
+  "didntReceiveCode": "Vous n'avez pas reçu le code ?",
+  "resendCode": "Renvoyer le code",
+  "resendIn": "Renvoyer dans ",
+  "seconds": "s",
+  "codeResent": "Code envoyé avec succès !",
+  "resendError": "Échec du renvoi du code. Veuillez réessayer.",
+
+  "newPassword": "Nouveau mot de passe",
+  "createNewPassword": "Créer un nouveau mot de passe",
+  "createNewPasswordSubtitle": "Votre nouveau mot de passe doit être différent des précédents",
+  "enterNewPassword": "Entrez le nouveau mot de passe",
+  "confirmNewPassword": "Confirmer le nouveau mot de passe",
+  "enterConfirmNewPassword": "Confirmez votre nouveau mot de passe",
+  "passwordRequirements": "Exigences du mot de passe :",
+  "requirement8Characters": "Au moins 8 caractères",
+  "requirementUppercase": "Une lettre majuscule",
+  "requirementLowercase": "Une lettre minuscule",
+  "requirementNumber": "Un chiffre",
+  "resetPasswordError": "Échec de la réinitialisation. Veuillez réessayer.",
+
+  "passwordResetSuccess": "Réinitialisation réussie !",
+  "passwordResetSuccessMessage": "Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.",
+  "goToLogin": "Aller à la connexion",
+
+  "rememberMe": "Se souvenir de moi",
+
+  "privacyPolicyTitle": "Politique de Confidentialité",
+  "termsConditionsTitle": "Conditions Générales d'Utilisation",
+  "lastUpdated": "Dernière mise à jour : {date}",
+
+  "dataCollection": "Collecte de Données",
+  "dataCollectionContent": "Nous collectons les informations que vous nous fournissez directement, comme lorsque vous créez un compte, mettez à jour votre profil ou nous contactez pour le support.",
+
+  "dataUsage": "Utilisation de vos Données",
+  "dataUsageContent": "Nous utilisons les informations collectées pour fournir, maintenir et améliorer nos services, communiquer avec vous et assurer la sécurité de la plateforme.",
+
+  "dataSharing": "Partage de Données",
+  "dataSharingContent": "Nous ne vendons, n'échangeons ni ne transférons vos informations personnelles à des tiers sans votre consentement, sauf comme décrit dans cette politique.",
+
+  "dataSecurity": "Sécurité des Données",
+  "dataSecurityContent": "Nous mettons en place des mesures de sécurité appropriées pour protéger vos informations personnelles contre l'accès non autorisé, l'altération, la divulgation ou la destruction.",
+
+  "userRights": "Vos Droits",
+  "userRightsContent": "Vous avez le droit d'accéder, de mettre à jour ou de supprimer vos informations personnelles. Vous pouvez également vous désabonner de certaines communications.",
+
+  "cookiesPolicy": "Politique des Cookies",
+  "cookiesPolicyContent": "Nous utilisons des cookies pour améliorer votre expérience de navigation, analyser le trafic du site et personnaliser le contenu.",
+
+  "contactUs": "Nous Contacter",
+  "contactUsContent": "Si vous avez des questions concernant cette Politique de Confidentialité, veuillez nous contacter à privacy@findapp.com.",
+
+  "acceptance": "Acceptation des Conditions",
+  "acceptanceContent": "En accédant et en utilisant ce service, vous acceptez et acceptez d'être lié par les termes et dispositions de cet accord.",
+
+  "serviceDescription": "Description du Service",
+  "serviceDescriptionContent": "Find App est une plateforme qui connecte les investisseurs chrétiens, les porteurs de projets et les chercheurs d'emploi pour créer des opportunités significatives.",
+
+  "userResponsibilities": "Responsabilités de l'Utilisateur",
+  "userResponsibilitiesContent": "Les utilisateurs sont responsables du maintien de la confidentialité de leurs informations de compte et de toutes les activités sous leur compte.",
+
+  "prohibitedActivities": "Activités Interdites",
+  "prohibitedActivitiesContent": "Les utilisateurs ne peuvent pas utiliser le service à des fins illégales ou pour solliciter d'autres personnes à effectuer des actes illégaux.",
+
+  "intellectualProperty": "Propriété Intellectuelle",
+  "intellectualPropertyContent": "Le service et son contenu original, ses fonctionnalités et ses fonctionnalités sont la propriété de Find App et sont protégés par le droit d'auteur et d'autres lois.",
+
+  "limitation": "Limitation de Responsabilité",
+  "limitationContent": "Find App ne sera pas responsable de tout dommage indirect, accessoire, spécial, consécutif ou punitif.",
+
+  "termination": "Résiliation",
+  "terminationContent": "Nous pouvons résilier ou suspendre votre compte et l'accès au service immédiatement, sans préavis, pour une conduite que nous croyons violer ces Conditions."
 }

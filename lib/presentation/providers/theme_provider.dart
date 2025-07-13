@@ -1,8 +1,8 @@
+import 'package:find_invest_mobile/config/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/di/injection.dart';
-import '../../core/storage/storage_service.dart';
+import '../../core/services/shared_preferences_service.dart';
 
 final themeModeProvider =
     StateNotifierProvider<ThemeModeNotifier, ThemeMode>((ref) {
@@ -11,7 +11,7 @@ final themeModeProvider =
 });
 
 class ThemeModeNotifier extends StateNotifier<ThemeMode> {
-  final StorageService _storageService;
+  final SharedPreferenceService _storageService;
 
   ThemeModeNotifier(this._storageService) : super(ThemeMode.system) {
     _loadThemeMode();
