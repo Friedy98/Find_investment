@@ -71,25 +71,33 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen>
   Future<void> _handleVerifyOtp() async {
     if (!_formKey.currentState!.validate()) return;
 
-    try {
-      await ref.read(authProvider.notifier).verifyOtp(
-          widget.email, _otpController.text.trim(), "password_reset");
-      if (mounted) {
+    // Réinitialiser l'erreur avant de lancer la requête
+    ref.read(authProvider.notifier).clearError();
+
+    await ref
+        .read(authProvider.notifier)
+        .verifyOtp(widget.email, _otpController.text.trim(), "password_reset");
+
+    if (mounted) {
+      final authState = ref.read(authProvider);
+      if (authState.error == null) {
         context.push(AppRoutes.resetPassword,
             extra: {'email': widget.email, 'otp': _otpController.text.trim()});
       }
-    } catch (e) {
-      if (mounted) {
-        showDialog(
-          context: context,
-          builder: (context) => ResultModal(
-            isSuccess: false,
-            title: 'Error',
-            message: e.toString(),
-          ),
-        );
-      }
     }
+
+    // try {} catch (e) {
+    //   if (mounted) {
+    //     showDialog(
+    //       context: context,
+    //       builder: (context) => ResultModal(
+    //         isSuccess: false,
+    //         title: 'Error',
+    //         message: e.toString(),
+    //       ),
+    //     );
+    //   }
+    // }
   }
 
   Future<void> _resendOtp() async {
@@ -122,7 +130,9 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen>
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authProvider);
+    // Surveiller uniquement isLoading pour minimiser les redessins
+    final isLoading =
+        ref.watch(authProvider.select((state) => state.isLoading));
 
     return Scaffold(
       backgroundColor: AppColors.cardBackground,
@@ -256,7 +266,7 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen>
                     CustomButton(
                       text: 'Verify',
                       onPressed: _handleVerifyOtp,
-                      isLoading: authState.isLoading,
+                      isLoading: isLoading,
                     ),
                   ],
                 ),

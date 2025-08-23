@@ -1,3 +1,4 @@
+import 'package:find_invest_mobile/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:google_fonts/google_fonts.dart';
@@ -14,7 +15,7 @@ class CustomButton extends StatelessWidget {
     required this.text,
     required this.onPressed,
     this.isLoading = false,
-    this.backgroundColor = Colors.blue,
+    this.backgroundColor = AppColors.primary,
     this.textColor = Colors.white,
   });
 
@@ -25,7 +26,7 @@ class CustomButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
         foregroundColor: textColor,
-        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
+        padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 24.w),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25.r),
         ),

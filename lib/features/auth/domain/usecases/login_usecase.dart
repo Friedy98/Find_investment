@@ -1,4 +1,4 @@
-import 'package:find_invest_mobile/features/auth/data/models/auth_response_model.dart';
+import 'package:find_invest_mobile/features/auth/domain/entities/user_entity.dart';
 import 'package:find_invest_mobile/features/auth/domain/repositories/auth_repository.dart';
 
 class LoginUseCase {
@@ -6,7 +6,7 @@ class LoginUseCase {
 
   LoginUseCase(this.repository);
 
-  Future<AuthResponseModel> call({
+  Future<UserEntity> call({
     required String email,
     required String password,
     required bool rememberMe,

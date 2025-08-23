@@ -6,7 +6,7 @@ import 'package:find_invest_mobile/core/theme/app_colors.dart';
 import 'package:find_invest_mobile/features/auth/presentation/providers/auth_provider.dart';
 import 'package:find_invest_mobile/features/auth/presentation/widgets/custom_button.dart';
 import 'package:find_invest_mobile/features/auth/presentation/widgets/custom_text_field.dart';
-import 'package:find_invest_mobile/features/auth/presentation/widgets/result_modal.dart';
+// import 'package:find_invest_mobile/features/auth/presentation/widgets/result_modal.dart';
 
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -46,31 +46,41 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
   Future<void> _handleRequestOtp() async {
     if (!_formKey.currentState!.validate()) return;
 
-    try {
-      await ref
-          .read(authProvider.notifier)
-          .requestOtp(_emailController.text.trim(), 'email');
-      if (mounted) {
+    // Réinitialiser l'erreur avant de lancer la requête
+    ref.read(authProvider.notifier).clearError();
+
+    // Appeler requestOtp
+    await ref
+        .read(authProvider.notifier)
+        .requestOtp(_emailController.text.trim(), 'email');
+
+    // Vérifier l'état après l'appel
+    if (mounted) {
+      final authState = ref.read(authProvider);
+      if (authState.error != null) {
+        // Afficher la modal d'erreur si une erreur est présente
+        // showDialog(
+        //   context: context,
+        //   builder: (context) => ResultModal(
+        //     isSuccess: false,
+        //     title: 'Erreur',
+        //     message: authState.error!,
+        //   ),
+        // );
+        // showErrorDialo()
+      } else {
+        // Naviguer si aucune erreur n'est présente
         context.push('/otp-verification',
             extra: {'email': _emailController.text.trim()});
-      }
-    } catch (e) {
-      if (mounted) {
-        showDialog(
-          context: context,
-          builder: (context) => ResultModal(
-            isSuccess: false,
-            title: 'Error',
-            message: e.toString(),
-          ),
-        );
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authProvider);
+    // Surveiller uniquement isLoading pour minimiser les redessins
+    final isLoading =
+        ref.watch(authProvider.select((state) => state.isLoading));
 
     return Scaffold(
       backgroundColor: AppColors.cardBackground,
@@ -78,7 +88,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios,
+          icon: Icon(Icons.arrow_back,
               color: AppColors.textPrimary, size: 20.sp),
           onPressed: () => context.pop(),
         ),
@@ -177,7 +187,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen>
                     CustomButton(
                       text: 'Send Code',
                       onPressed: _handleRequestOtp,
-                      isLoading: authState.isLoading,
+                      isLoading: isLoading,
                     ),
                   ],
                 ),

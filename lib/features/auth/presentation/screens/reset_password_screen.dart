@@ -6,7 +6,7 @@ import 'package:find_invest_mobile/core/theme/app_colors.dart';
 import 'package:find_invest_mobile/features/auth/presentation/providers/auth_provider.dart';
 import 'package:find_invest_mobile/features/auth/presentation/widgets/custom_button.dart';
 import 'package:find_invest_mobile/features/auth/presentation/widgets/custom_text_field.dart';
-import 'package:find_invest_mobile/features/auth/presentation/widgets/result_modal.dart';
+// import 'package:find_invest_mobile/features/auth/presentation/widgets/result_modal.dart';
 
 class ResetPasswordScreen extends ConsumerStatefulWidget {
   final String email;
@@ -54,28 +54,29 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen>
   Future<void> _handleResetPassword() async {
     if (!_formKey.currentState!.validate()) return;
 
-    try {
-      await ref.read(authProvider.notifier).resetPassword(
-            widget.email,
-            widget.otp,
-            _passwordController.text,
-            _confirmPasswordController.text
-          );
-      if (mounted) {
+    // Réinitialiser l'erreur avant de lancer la requête
+    ref.read(authProvider.notifier).clearError();
+
+    await ref.read(authProvider.notifier).resetPassword(widget.email,
+        widget.otp, _passwordController.text, _confirmPasswordController.text);
+    if (mounted) {
+      final authState = ref.read(authProvider);
+      if (authState.error == null) {
         context.push('/reset-success');
       }
-    } catch (e) {
-      if (mounted) {
-        showDialog(
-          context: context,
-          builder: (context) => ResultModal(
-            isSuccess: false,
-            title: 'Error',
-            message: e.toString(),
-          ),
-        );
-      }
     }
+    // try {} catch (e) {
+    //   if (mounted) {
+    //     showDialog(
+    //       context: context,
+    //       builder: (context) => ResultModal(
+    //         isSuccess: false,
+    //         title: 'Error',
+    //         message: e.toString(),
+    //       ),
+    //     );
+    //   }
+    // }
   }
 
   @override

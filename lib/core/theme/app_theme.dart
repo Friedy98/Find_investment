@@ -1,6 +1,7 @@
 import 'package:find_invest_mobile/config/providers.dart';
 import 'package:find_invest_mobile/core/services/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
@@ -86,12 +87,14 @@ class AppTheme {
         fontSize: 32,
         fontWeight: FontWeight.w700,
         height: 1.2,
+        letterSpacing: -0.5,
       ),
       displayMedium: const TextStyle(
         fontFamily: 'Poppins',
         fontSize: 28,
         fontWeight: FontWeight.w600,
         height: 1.3,
+        letterSpacing: -0.25,
       ),
       displaySmall: const TextStyle(
         fontFamily: 'Poppins',
@@ -175,31 +178,42 @@ class AppTheme {
   }
 
   static AppBarTheme get _lightAppBarTheme {
-    return AppBarTheme(
+    return const AppBarTheme(
       elevation: 0,
       scrolledUnderElevation: 1,
-      backgroundColor: AppColors.lightColorScheme.surface,
-      foregroundColor: AppColors.lightColorScheme.onSurface,
+      backgroundColor: AppColors.backgroundLight,
+      foregroundColor: AppColors.textPrimary,
+      surfaceTintColor: AppColors.primary,
       titleTextStyle: TextStyle(
         fontFamily: 'Poppins',
         fontSize: 18,
         fontWeight: FontWeight.w600,
-        color: AppColors.lightColorScheme.onSurface,
+        color: AppColors.textPrimary,
+      ),
+      iconTheme: IconThemeData(
+        color: AppColors.textPrimary,
+        size: 24,
       ),
     );
   }
 
   static AppBarTheme get _darkAppBarTheme {
-    return AppBarTheme(
+    return const AppBarTheme(
       elevation: 0,
       scrolledUnderElevation: 1,
-      backgroundColor: AppColors.darkColorScheme.surface,
-      foregroundColor: AppColors.darkColorScheme.onSurface,
+      backgroundColor: AppColors.backgroundDark,
+      foregroundColor: AppColors.gray100,
+      surfaceTintColor: AppColors.primaryLight,
+      systemOverlayStyle: SystemUiOverlayStyle.light,
       titleTextStyle: TextStyle(
         fontFamily: 'Poppins',
         fontSize: 18,
         fontWeight: FontWeight.w600,
-        color: AppColors.darkColorScheme.onSurface,
+        color: AppColors.gray100,
+      ),
+      iconTheme: IconThemeData(
+        color: AppColors.gray100,
+        size: 24,
       ),
     );
   }
@@ -208,9 +222,10 @@ class AppTheme {
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         elevation: 0,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        shadowColor: Colors.transparent,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
         ),
         textStyle: const TextStyle(
           fontFamily: 'Poppins',
@@ -224,9 +239,13 @@ class AppTheme {
   static OutlinedButtonThemeData get _outlinedButtonTheme {
     return OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        side: const BorderSide(
+          color: AppColors.border,
+          width: 1.5,
         ),
         textStyle: const TextStyle(
           fontFamily: 'Poppins',
@@ -240,9 +259,9 @@ class AppTheme {
   static TextButtonThemeData get _textButtonTheme {
     return TextButtonThemeData(
       style: TextButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(12),
         ),
         textStyle: const TextStyle(
           fontFamily: 'Poppins',
@@ -256,36 +275,43 @@ class AppTheme {
   static InputDecorationTheme get _inputDecorationTheme {
     return InputDecorationTheme(
       filled: true,
+      fillColor: AppColors.gray50,
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(16),
+        borderSide: const BorderSide(
+          color: AppColors.border,
+          width: 1,
+        ),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(16),
+        borderSide: const BorderSide(
+          color: AppColors.border,
+          width: 1,
+        ),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         borderSide: const BorderSide(
-          color: AppColors.primary,
+          color: AppColors.borderFocus,
           width: 2,
         ),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         borderSide: const BorderSide(
           color: AppColors.error,
           width: 1,
         ),
       ),
       focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         borderSide: const BorderSide(
           color: AppColors.error,
           width: 2,
         ),
       ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       hintStyle: const TextStyle(
         fontFamily: 'Poppins',
         fontSize: 14,
@@ -313,6 +339,7 @@ class AppTheme {
     return const BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
       elevation: 8,
+      backgroundColor: AppColors.backgroundLight,
       selectedItemColor: AppColors.primary,
       unselectedItemColor: AppColors.textSecondary,
       selectedLabelStyle: TextStyle(
@@ -331,8 +358,9 @@ class AppTheme {
   static FloatingActionButtonThemeData get _floatingActionButtonTheme {
     return FloatingActionButtonThemeData(
       elevation: 4,
+      highlightElevation: 8,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
       ),
     );
   }

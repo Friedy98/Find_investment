@@ -1,13 +1,13 @@
 // import 'package:find_invest_mobile/features/auth/data/models/auth_response_model.dart';
+import 'package:find_invest_mobile/features/auth/domain/entities/user_entity.dart';
 import 'package:find_invest_mobile/features/auth/domain/repositories/auth_repository.dart';
-import 'package:find_invest_mobile/features/auth/data/models/auth_register_response_model.dart';
 
 class RegisterUseCase {
   final AuthRepository repository;
 
   RegisterUseCase(this.repository);
 
-  Future<AuthRegisterResponseModel> call({
+  Future<UserEntity> call({
     required String firstName,
     required String lastName,
     required String email,

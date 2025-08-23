@@ -36,7 +36,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
 
-  final List<String> _roles = ['investor', 'projectOwner', 'jobSeeker', 'user'];
+  final List<String> _roles = ['investor', 'project owner', 'job candidate'];
+  final Map<String, String> _validRoles = {
+    'investor': "investor",
+    'project_owner': "project owner",
+    'job_candidate': "job candidate"
+  };
 
   @override
   void initState() {
@@ -146,12 +151,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
         elevation: 0,
         leading: _currentStep > 0
             ? IconButton(
-                icon: Icon(Icons.arrow_back_ios,
+                icon: Icon(Icons.arrow_back,
                     color: AppColors.textPrimary, size: 20.sp),
                 onPressed: _previousStep,
               )
             : IconButton(
-                icon: Icon(Icons.arrow_back_ios,
+                icon: Icon(Icons.arrow_back,
                     color: AppColors.textPrimary, size: 20.sp),
                 onPressed: () => context.go("/login"),
               ),
@@ -421,12 +426,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                                 ),
                               ),
                               value: _selectedRole,
-                              items: _roles
-                                  .map((role) => DropdownMenuItem<String>(
-                                        value: role,
+                              items: _validRoles.entries
+                                  .map((entry) => DropdownMenuItem<String>(
+                                        value: entry.key,
                                         child: Text(
-                                          role[0].toUpperCase() +
-                                              role.substring(1),
+                                          entry.value[0].toUpperCase() +
+                                              entry.value.substring(1),
                                           style: TextStyle(
                                             fontFamily: 'Poppins',
                                             fontSize: 15.sp,

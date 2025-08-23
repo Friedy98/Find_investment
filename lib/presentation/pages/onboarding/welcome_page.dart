@@ -1,3 +1,4 @@
+import 'package:find_invest_mobile/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../config/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../generated/app_localizations.dart';
-import '../../widgets/custom_button.dart';
+// import '../../widgets/custom_button.dart';
 
 class WelcomePage extends ConsumerStatefulWidget {
   const WelcomePage({super.key});

@@ -11,7 +11,11 @@ void main() async {
   // ✅ Initialise le logger en premier
   LoggingService.init();
 
-  await setupServiceLocator(); // Configure l'injection de dépendances
+  // Create navigatorKey
+  final navigatorKey = GlobalKey<NavigatorState>();
+
+  await setupServiceLocator(
+      navigatorKey: navigatorKey); // Configure l'injection de dépendances
 
   // Set preferred orientations
   await SystemChrome.setPreferredOrientations([
@@ -20,8 +24,8 @@ void main() async {
   ]);
 
   runApp(
-    const ProviderScope(
-      child: FindInvestApp(),
+    ProviderScope(
+      child: FindInvestApp(navigatorKey: navigatorKey),
     ),
   );
 }

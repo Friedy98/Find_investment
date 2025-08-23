@@ -44,7 +44,7 @@ class _ResetSuccessScreenState extends State<ResetSuccessScreen>
           opacity: _fadeAnimation,
           child: Center(
             child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
               child: Container(
                 padding: EdgeInsets.all(20.w),
                 constraints: BoxConstraints(maxWidth: 420.w),

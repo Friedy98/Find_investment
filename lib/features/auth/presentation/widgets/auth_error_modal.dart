@@ -13,7 +13,7 @@ class AuthErrorModal extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 24.w),
+          margin: EdgeInsets.symmetric(horizontal: 32.w),
           padding: EdgeInsets.all(16.w),
           decoration: BoxDecoration(
             color: AppColors.cardBackground,
@@ -29,16 +29,21 @@ class AuthErrorModal extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                'Error',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.error,
-                ),
+              // Text(
+              //   'Error',
+              //   style: TextStyle(
+              //     fontFamily: 'Poppins',
+              //     fontSize: 20.sp,
+              //     fontWeight: FontWeight.bold,
+              //     color: AppColors.error,
+              //   ),
+              // ),
+              Icon(
+                Icons.warning_amber_rounded,
+                size: 80.sp,
+                color: AppColors.error,
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: 10.h),
               Text(
                 errorMessage,
                 style: TextStyle(

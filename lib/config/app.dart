@@ -9,13 +9,15 @@ import '../core/theme/app_theme.dart';
 import 'router/app_router.dart';
 
 class FindInvestApp extends ConsumerWidget {
-  const FindInvestApp({super.key});
+  final GlobalKey<NavigatorState> navigatorKey;
+
+  const FindInvestApp({super.key, required this.navigatorKey});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeProvider);
     final locale = ref.watch(localeProvider);
-    final router = ref.watch(routerProvider);
+    final router = ref.watch(routerProvider(navigatorKey));
 
     return ScreenUtilInit(
       designSize: const Size(375, 812),

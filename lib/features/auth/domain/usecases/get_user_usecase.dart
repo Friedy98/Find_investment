@@ -1,4 +1,4 @@
-import 'package:find_invest_mobile/features/auth/data/models/user_model.dart';
+import 'package:find_invest_mobile/features/auth/domain/entities/user_entity.dart';
 import 'package:find_invest_mobile/features/auth/domain/repositories/auth_repository.dart';
 
 class GetUserUseCase {
@@ -6,7 +6,7 @@ class GetUserUseCase {
 
   GetUserUseCase(this.repository);
 
-  Future<UserModel> call() async {
+  Future<UserEntity> call() async {
     return await repository.getUser();
   }
 }

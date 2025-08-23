@@ -32,29 +32,50 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Future<void> _handleLogin() async {
     if (!_formKey.currentState!.validate()) return;
 
+    // Réinitialiser l'erreur avant l'appel
+    ref.read(authProvider.notifier).clearError();
+
+    // Appeler login
     await ref.read(authProvider.notifier).login(
           email: _emailController.text.trim(),
           password: _passwordController.text,
           rememberMe: _rememberMe,
         );
+
+    // Vérifier l'état après l'appel
+    if (mounted) {
+      final authState = ref.read(authProvider);
+      if (authState.error != null) {
+        // Afficher la modal d'erreur
+        showDialog(
+          context: context,
+          builder: (context) => AuthErrorModal(errorMessage: authState.error!),
+        );
+      } else if (authState.user != null) {
+        // Naviguer en fonction du rôle
+        final role = authState.user!.role;
+        switch (role) {
+          case 'project_owner':
+            context.go('/project-owner/home');
+            break;
+          case 'investor':
+            context.go('/investor/home');
+            break;
+          case 'job_candidate':
+            context.go('/job-seeker/home');
+            break;
+          default:
+            context.go('/user/home');
+        }
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(authProvider, (previous, next) {
-      if (next.error != null && previous?.error != next.error && mounted) {
-        showDialog(
-          context: context,
-          builder: (context) => AuthErrorModal(errorMessage: next.error!),
-        );
-      }
-      // Ajouter la redirection si la connexion réussit
-      if (next.user != null && previous?.user != next.user && mounted) {
-        context.go('/success');
-      }
-    });
-
-    final authState = ref.watch(authProvider);
+    // Surveiller uniquement isLoading pour minimiser les redessins
+    final isLoading =
+        ref.watch(authProvider.select((state) => state.isLoading));
 
     return Scaffold(
       backgroundColor: AppColors.cardBackground,
@@ -206,7 +227,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     CustomButton(
                       text: 'Sign In',
                       onPressed: _handleLogin,
-                      isLoading: authState.isLoading,
+                      isLoading: isLoading,
                     ),
                     SizedBox(height: 16.h),
                     Row(
