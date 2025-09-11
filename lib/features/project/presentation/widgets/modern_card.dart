@@ -1,6 +1,6 @@
-import 'package:find_invest_mobile/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:find_invest_mobile/core/theme/app_colors.dart';
 
 class ModernCard extends StatelessWidget {
   final String title;
@@ -22,11 +22,23 @@ class ModernCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.cardBackground,
         borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(
+          color: AppColors.primary.withOpacity(0.2),
+          width: 1.w,
+        ),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            AppColors.cardBackground,
+            AppColors.cardBackground.withOpacity(0.95),
+          ],
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -36,19 +48,30 @@ class ModernCard extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(16.w),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.05),
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  AppColors.primary.withOpacity(0.1),
+                  AppColors.primaryLight.withOpacity(0.1),
+                ],
+              ),
               borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
             ),
             child: Row(
               children: [
                 Container(
-                  width: 32.w,
-                  height: 32.h,
+                  width: 40.w,
+                  height: 40.h,
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8.r),
+                    color: AppColors.primary.withOpacity(0.15),
+                    shape: BoxShape.circle,
                   ),
-                  child: Icon(icon, color: AppColors.primary, size: 18.sp),
+                  child: Icon(
+                    icon,
+                    color: AppColors.primary,
+                    size: 20.sp,
+                  ),
                 ),
                 SizedBox(width: 12.w),
                 Expanded(

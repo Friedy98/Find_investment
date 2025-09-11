@@ -121,12 +121,12 @@ class ProjectReportRemoteDataSourceImpl
         throw Exception('Failed to fetch published reports');
       }
       LoggingService.info(
-          'ProjectReportRemoteDataSource: Fetched ${response.data['data']['reports']?.length ?? 0} published reports');
+          'ProjectReportRemoteDataSource: Fetched ${response.data['data']?.length ?? 0} published reports');
       return {
-        'reports': (response.data['data']['reports'] as List)
+        'reports': (response.data['data'] as List)
             .map((json) => ProjectReportModel.fromJson(json))
             .toList(),
-        'pagination': response.data['data']['pagination'],
+        'pagination': response.data['pagination'],
       };
     } catch (e) {
       LoggingService.error('Get published reports error: $e');

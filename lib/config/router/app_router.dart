@@ -11,14 +11,24 @@ import 'package:find_invest_mobile/features/kyc/presentation/screens/kyc_audit_l
 import 'package:find_invest_mobile/features/kyc/presentation/screens/kyc_dashboard_page.dart';
 import 'package:find_invest_mobile/features/kyc/presentation/screens/kyc_start_page.dart';
 import 'package:find_invest_mobile/features/kyc/presentation/screens/kyc_upload_page.dart';
+import 'package:find_invest_mobile/features/project-milestone/presentation/screens/deliverable_add_page.dart';
+import 'package:find_invest_mobile/features/project-milestone/presentation/screens/milestone_create_page.dart';
+import 'package:find_invest_mobile/features/project-milestone/presentation/screens/milestone_edit_page.dart';
+import 'package:find_invest_mobile/features/project-milestone/presentation/screens/milestone_management_page.dart';
+import 'package:find_invest_mobile/features/project/presentation/screens/basic_info_form_component.dart';
 // import 'package:find_invest_mobile/features/project/presentation/screens/add_project_screen.dart';
 import 'package:find_invest_mobile/features/project/presentation/screens/create_project_screen.dart';
+import 'package:find_invest_mobile/features/project/presentation/screens/financial_info_update_page.dart';
+import 'package:find_invest_mobile/features/project/presentation/screens/funding_form_component.dart';
+import 'package:find_invest_mobile/features/project/presentation/screens/location_form_component.dart';
 // import 'package:find_invest_mobile/features/project/presentation/screens/edit_project_page.dart';
 import 'package:find_invest_mobile/features/project/presentation/screens/project_details_page.dart';
 // import 'package:find_invest_mobile/features/project/presentation/screens/profile_screen.dart';
 // import 'package:find_invest_mobile/features/project/presentation/screens/project_details_screen.dart';
 // import 'package:find_invest_mobile/features/project/presentation/screens/project_documents_page.dart';
 import 'package:find_invest_mobile/features/project/presentation/screens/project_owner_home_screen.dart';
+import 'package:find_invest_mobile/features/project/presentation/screens/update_project_screen.dart';
+import 'package:find_invest_mobile/features/project_doc/presentation/screens/document_management_page.dart';
 import 'package:find_invest_mobile/features/questionnaire/presentation/screens/questionnaire_overview_page.dart';
 import 'package:find_invest_mobile/features/questionnaire/presentation/screens/questionnaire_result_page.dart';
 import 'package:find_invest_mobile/features/questionnaire/presentation/screens/take_questionnaire_page.dart';
@@ -215,9 +225,72 @@ final routerProvider =
         },
       ),
       GoRoute(
+        path: '/project/create',
+        builder: (context, state) => const CreateProjectScreen(),
+      ),
+      GoRoute(
         path: '/project/:id',
-        builder: (context, state) => ProjectDetailPage(
+        builder: (context, state) => ProjectDetailsPage(
           projectId: state.pathParameters['id']!,
+        ),
+      ),
+      GoRoute(
+        path: '/project/:id/milestones',
+        builder: (context, state) => MilestoneManagementPage(
+          projectId: state.pathParameters['id']!,
+        ),
+      ),
+      GoRoute(
+        path: '/project/:id/documents/create',
+        builder: (context, state) => DocumentManagementPage(
+          projectId: state.pathParameters['id']!,
+        ),
+      ),
+      GoRoute(
+        path: '/project/:id/milestones/create',
+        builder: (context, state) => MilestoneCreatePage(
+          projectId: state.pathParameters['id']!,
+        ),
+      ),
+      GoRoute(
+        path: '/project/:id/update',
+        builder: (context, state) => UpdateProjectScreen(
+          projectId: state.pathParameters['id']!,
+        ),
+      ),
+      GoRoute(
+        path: '/project/:id/update/basic-info',
+        builder: (context, state) => BasicInfoUpdatePage(
+          projectId: state.pathParameters['id']!,
+        ),
+      ),
+      GoRoute(
+        path: '/project/:id/update/funding',
+        builder: (context, state) => FinancialInfoUpdatePage(
+          projectId: state.pathParameters['id']!,
+        ),
+      ),
+      GoRoute(
+        path: '/project/:id/update/location',
+        builder: (context, state) => LocationFormComponent(
+          projectId: state.pathParameters['id']!,
+          onUpdate: () {
+            context.pop();
+          },
+        ),
+      ),
+      GoRoute(
+        path: '/project/:id/milestones/:milestone/edit',
+        builder: (context, state) => MilestoneEditPage(
+          projectId: state.pathParameters['id']!,
+          milestoneId: state.pathParameters['milestone']!,
+        ),
+      ),
+      GoRoute(
+        path: '/project/:id/milestones/:milestone/deliverables/add',
+        builder: (context, state) => DeliverableAddPage(
+          projectId: state.pathParameters['id']!,
+          milestoneId: state.pathParameters['milestone']!,
         ),
       ),
       // GoRoute(
@@ -244,10 +317,6 @@ final routerProvider =
       //     return TeamManagementPage(projectId: projectId);
       //   },
       // ),
-      GoRoute(
-        path: '/project/create',
-        builder: (context, state) => const CreateProjectScreen(),
-      ),
       // Main App
       // ShellRoute(
       //   builder: (context, state, child) => MainPage(child: child),

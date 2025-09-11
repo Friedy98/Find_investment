@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:find_invest_mobile/core/theme/app_colors.dart';
-import 'package:find_invest_mobile/features/project/domain/entities/project_entity.dart';
+import 'package:find_invest_mobile/features/project/domain/entities/project_entity.dart'
+    as project_entity;
 import 'package:find_invest_mobile/features/project_category/domain/entities/project_category_entity.dart';
+import 'package:go_router/go_router.dart';
 
 class ProjectCard extends ConsumerWidget {
-  final ProjectEntity project;
+  final project_entity.ProjectEntity project;
 
   const ProjectCard({
     super.key,
@@ -32,6 +33,8 @@ class ProjectCard extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              _buildCoverImage(),
+              SizedBox(height: 16.h),
               _buildHeader(),
               SizedBox(height: 12.h),
               _buildContent(),
@@ -41,6 +44,56 @@ class ProjectCard extends ConsumerWidget {
           ),
         ),
       ).animate().fadeIn(duration: 300.ms).slideY(begin: 0.3),
+    );
+  }
+
+  Widget _buildCoverImage() {
+    return Container(
+      height: 120.h,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.r),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withOpacity(0.1),
+            blurRadius: 8.r,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10.r),
+        child: project.coverImage != null
+            ? Image.network(
+                project.coverImage!,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                          AppColors.primary),
+                      strokeWidth: 4.w,
+                    ),
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return _buildPlaceholder();
+                },
+              )
+            : _buildPlaceholder(),
+      ),
+    ).animate(delay: 100.ms).fadeIn().slideY(begin: 0.3);
+  }
+
+  Widget _buildPlaceholder() {
+    return Container(
+      color: AppColors.accent.withOpacity(0.1),
+      child: Icon(
+        Icons.image_not_supported,
+        size: 40.sp,
+        color: AppColors.textTertiary.withOpacity(0.6),
+      ),
     );
   }
 
@@ -84,7 +137,7 @@ class ProjectCard extends ConsumerWidget {
             ),
           ),
       ],
-    ).animate(delay: 100.ms).fadeIn().slideX(begin: -0.3);
+    ).animate(delay: 200.ms).fadeIn().slideX(begin: -0.3);
   }
 
   Widget _buildContent() {
@@ -101,7 +154,7 @@ class ProjectCard extends ConsumerWidget {
             ),
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
-          ).animate(delay: 200.ms).fadeIn().slideX(begin: -0.3),
+          ).animate(delay: 300.ms).fadeIn().slideX(begin: -0.3),
         SizedBox(height: 8.h),
         Wrap(
           spacing: 8.w,
@@ -130,7 +183,7 @@ class ProjectCard extends ConsumerWidget {
                 icon: Icons.tag,
               ),
           ],
-        ).animate(delay: 300.ms).fadeIn().slideX(begin: -0.3),
+        ).animate(delay: 400.ms).fadeIn().slideX(begin: -0.3),
       ],
     );
   }
@@ -173,7 +226,7 @@ class ProjectCard extends ConsumerWidget {
           valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
           minHeight: 4.h,
           borderRadius: BorderRadius.circular(4.r),
-        ).animate(delay: 400.ms).fadeIn(),
+        ).animate(delay: 500.ms).fadeIn(),
         SizedBox(height: 8.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -197,7 +250,7 @@ class ProjectCard extends ConsumerWidget {
               ),
             ),
           ],
-        ).animate(delay: 500.ms).fadeIn().slideX(begin: -0.3),
+        ).animate(delay: 600.ms).fadeIn().slideX(begin: -0.3),
         if (project.expectedReturn != null &&
             project.expectedReturn!.percentage != null)
           Padding(
@@ -210,7 +263,7 @@ class ProjectCard extends ConsumerWidget {
                 color: AppColors.accent,
               ),
             ),
-          ).animate(delay: 600.ms).fadeIn().slideX(begin: -0.3),
+          ).animate(delay: 700.ms).fadeIn().slideX(begin: -0.3),
         if (project.location != null && project.location!.city != null)
           Padding(
             padding: EdgeInsets.only(top: 8.h),
@@ -222,7 +275,7 @@ class ProjectCard extends ConsumerWidget {
                 color: AppColors.textSecondary,
               ),
             ),
-          ).animate(delay: 700.ms).fadeIn().slideX(begin: -0.3),
+          ).animate(delay: 800.ms).fadeIn().slideX(begin: -0.3),
       ],
     );
   }

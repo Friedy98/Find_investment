@@ -109,8 +109,8 @@ class ProjectUpdateRemoteDataSourceImpl
         throw Exception('Failed to fetch public updates');
       }
       LoggingService.info(
-          'ProjectUpdateRemoteDataSource: Fetched ${response.data['data']['updates']?.length ?? 0} public updates');
-      return (response.data['data']['updates'] as List)
+          'ProjectUpdateRemoteDataSource: Fetched ${response.data['data']?.length ?? 0} public updates');
+      return (response.data['data'] as List)
           .map((json) => ProjectUpdateModel.fromJson(json))
           .toList();
     } catch (e) {

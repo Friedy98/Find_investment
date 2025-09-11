@@ -150,16 +150,16 @@ class ProjectMilestoneRemoteDataSourceImpl
   @override
   Future<void> deleteMilestone(String milestoneId) async {
     try {
-      final response = await networkService.delete(
+      await networkService.delete(
         '/project-milestone/',
         id: milestoneId,
       );
 
-      if (response.data['success'] == false) {
-        LoggingService.error(
-            'Failed to delete milestone $milestoneId: response not successful');
-        throw Exception('Failed to delete milestone');
-      }
+      // if (response.data['success'] == false) {
+      //   LoggingService.error(
+      //       'Failed to delete milestone $milestoneId: response not successful');
+      //   throw Exception('Failed to delete milestone');
+      // }
       LoggingService.info(
           'ProjectMilestoneRemoteDataSource: Deleted milestone $milestoneId');
     } catch (e) {

@@ -153,7 +153,7 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
             'Failed to fetch project $id: response not successful');
         throw Exception('Failed to fetch project');
       }
-      LoggingService.info('Fetched project $id');
+      LoggingService.info('Fetched project ${response.data['data']}');
       return ProjectModel.fromJson(response.data['data']);
     } catch (e) {
       LoggingService.error('Get project error: $e');

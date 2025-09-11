@@ -1,30 +1,33 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:find_invest_mobile/features/project-milestone/presentation/providers/project_milestone_provider.dart';
+import 'package:find_invest_mobile/features/auth/domain/entities/user_entity.dart';
+import 'package:find_invest_mobile/features/project/presentation/widgets/details_tab.dart';
+import 'package:find_invest_mobile/features/project/presentation/widgets/documents_tab.dart';
+import 'package:find_invest_mobile/features/project/presentation/widgets/overview_tab.dart';
+import 'package:find_invest_mobile/features/project/presentation/widgets/timeline_tab.dart';
+// import 'package:find_invest_mobile/features/project/presentation/widgets/timeline_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:find_invest_mobile/core/theme/app_colors.dart';
+import 'package:find_invest_mobile/features/auth/presentation/providers/auth_provider.dart';
 import 'package:find_invest_mobile/features/project/domain/entities/project_entity.dart';
 import 'package:find_invest_mobile/features/project/presentation/providers/project_provider.dart';
-import 'package:find_invest_mobile/features/project_comments/presentation/providers/project_comment_provider.dart';
-import 'package:find_invest_mobile/features/project_doc/presentation/providers/project_document_provider.dart';
-import 'package:find_invest_mobile/features/project_invitations/presentation/providers/project_invitation_provider.dart';
-import 'package:find_invest_mobile/features/project_repport/presentation/providers/project_report_provider.dart';
-import 'package:find_invest_mobile/features/project_update/presentation/providers/project_update_provider.dart';
 import 'package:find_invest_mobile/shared/widgets/loading_overlay.dart';
-import 'package:intl/intl.dart';
+import 'package:go_router/go_router.dart';
 
-class ProjectDetailPage extends ConsumerStatefulWidget {
+class ProjectDetailsPage extends ConsumerStatefulWidget {
   final String projectId;
 
-  const ProjectDetailPage({super.key, required this.projectId});
+  const ProjectDetailsPage({
+    super.key,
+    required this.projectId,
+  });
 
   @override
-  ConsumerState<ProjectDetailPage> createState() => _ProjectDetailPageState();
+  ConsumerState<ProjectDetailsPage> createState() => _ProjectDetailsPageState();
 }
 
-class _ProjectDetailPageState extends ConsumerState<ProjectDetailPage>
+class _ProjectDetailsPageState extends ConsumerState<ProjectDetailsPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -33,25 +36,8 @@ class _ProjectDetailPageState extends ConsumerState<ProjectDetailPage>
     super.initState();
     _tabController = TabController(length: 6, vsync: this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(projectProvider.notifier).getProjectUseCase(widget.projectId);
-      ref
-          .read(projectCommentProvider.notifier)
-          .fetchProjectComments(projectId: widget.projectId);
-      ref
-          .read(projectDocumentProvider.notifier)
-          .fetchDocuments(projectId: widget.projectId);
-      ref
-          .read(projectInvitationProvider.notifier)
-          .fetchInvitations(projectId: widget.projectId);
-      ref
-          .read(projectReportProvider.notifier)
-          .listPublishedReports(projectId: widget.projectId);
-      ref
-          .read(projectUpdateProvider.notifier)
-          .fetchPublicUpdates(projectId: widget.projectId);
-      ref
-          .read(projectMilestoneProvider.notifier)
-          .fetchMilestones(projectId: widget.projectId);
+      ref.read(projectProvider.notifier).getProject(widget.projectId);
+      // ref.read(projectProvider.notifier).getProjectInvestors(widget.projectId);
     });
   }
 
@@ -64,14 +50,10 @@ class _ProjectDetailPageState extends ConsumerState<ProjectDetailPage>
   @override
   Widget build(BuildContext context) {
     final projectState = ref.watch(projectProvider);
-    final commentState = ref.watch(projectCommentProvider);
-    final documentState = ref.watch(projectDocumentProvider);
-    final invitationState = ref.watch(projectInvitationProvider);
-    final reportState = ref.watch(projectReportProvider);
-    final updateState = ref.watch(projectUpdateProvider);
-    final milestoneState = ref.watch(projectMilestoneProvider);
+    final authState = ref.watch(authProvider);
+    final project = projectState.selectedProject;
 
-    if (projectState.isLoading || projectState.selectedProject == null) {
+    if (projectState.isLoading || project == null) {
       return const Scaffold(
         backgroundColor: AppColors.background,
         body: LoadingOverlay(
@@ -81,649 +63,483 @@ class _ProjectDetailPageState extends ConsumerState<ProjectDetailPage>
       );
     }
 
-    final project = projectState.selectedProject!;
+    if (projectState.errorMessage != null) {
+      return Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: AppBar(
+          backgroundColor: AppColors.cardBackground,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back,
+                color: AppColors.textPrimary, size: 24.sp),
+            onPressed: () => context.pop(),
+          ),
+        ),
+        body: _buildErrorState(projectState.errorMessage!),
+      );
+    }
+
+    final isOwner = authState.user?.id ==
+        (project.owner is String
+            ? project.owner
+            : (project.owner as UserEntity).id);
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: LoadingOverlay(
-        isLoading: commentState.isLoading ||
-            documentState.isLoading ||
-            invitationState.isLoading ||
-            reportState.isLoading ||
-            updateState.isLoading ||
-            milestoneState.isLoading,
-        child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) => [
-            SliverAppBar(
-              expandedHeight: 200.h,
-              floating: false,
-              pinned: true,
-              backgroundColor: AppColors.cardBackground,
-              flexibleSpace: FlexibleSpaceBar(
-                title: Text(
-                  project.title,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
+      appBar: AppBar(
+        backgroundColor: AppColors.cardBackground,
+        elevation: 0,
+        leading: IconButton(
+          icon:
+              Icon(Icons.arrow_back, color: AppColors.textPrimary, size: 24.sp),
+          onPressed: () => context.pop(),
+        ),
+        title: Text(
+          project.title,
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w600,
+            color: AppColors.textPrimary,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.share_outlined,
+                color: AppColors.textPrimary, size: 20.sp),
+            onPressed: () => _shareProject(project),
+          ),
+          if (isOwner)
+            PopupMenuButton<String>(
+              icon: Icon(Icons.more_vert,
+                  color: AppColors.textPrimary, size: 20.sp),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r)),
+              onSelected: (value) => _handleMenuAction(value, project),
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 'edit',
+                  child: Row(
+                    children: [
+                      Icon(Icons.edit_outlined, size: 18.sp),
+                      SizedBox(width: 12.w),
+                      const Text('Edit Project'),
+                    ],
                   ),
                 ),
-                background: project.coverImage != null
-                    ? CachedNetworkImage(
-                        imageUrl: project.coverImage!,
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) => Container(
-                          color: AppColors.accent,
-                          child:
-                              const Center(child: CircularProgressIndicator()),
-                        ),
-                        errorWidget: (context, error, stackTrace) => Container(
-                          color: AppColors.textTertiary.withOpacity(0.2),
-                          child: const Icon(Icons.broken_image, size: 50),
-                        ),
-                      )
-                    // Image.network(
-                    //     project.coverImage!,
-                    //     fit: BoxFit.cover,
-                    //     errorBuilder: (context, error, stackTrace) => Container(
-                    //       color: AppColors.textTertiary.withOpacity(0.2),
-                    //       child: const Icon(Icons.broken_image, size: 50),
-                    //     ),
-                    //   )
-                    : Container(color: AppColors.textTertiary.withOpacity(0.2)),
-              ),
-              bottom: TabBar(
-                controller: _tabController,
-                isScrollable: true,
-                labelColor: AppColors.primary,
-                unselectedLabelColor: AppColors.textSecondary,
-                indicatorColor: AppColors.primary,
-                labelStyle: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
+                PopupMenuItem(
+                  value: 'submit',
+                  child: Row(
+                    children: [
+                      Icon(Icons.send_outlined, size: 18.sp),
+                      SizedBox(width: 12.w),
+                      const Text('Submit for Review'),
+                    ],
+                  ),
                 ),
-                tabs: const [
-                  Tab(text: 'Overview'),
-                  Tab(text: 'Comments'),
-                  Tab(text: 'Documents'),
-                  Tab(text: 'Invitations'),
-                  Tab(text: 'Reports'),
-                  Tab(text: 'Updates'),
-                  Tab(text: 'Milestones'),
-                ],
-              ),
+                PopupMenuItem(
+                  value: 'delete',
+                  child: Row(
+                    children: [
+                      Icon(Icons.delete_outline,
+                          color: AppColors.error, size: 18.sp),
+                      SizedBox(width: 12.w),
+                      const Text('Delete Project',
+                          style: TextStyle(color: AppColors.error)),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-          body: TabBarView(
-            controller: _tabController,
-            children: [
-              _buildOverviewTab(project),
-              _buildCommentsTab(commentState),
-              _buildDocumentsTab(documentState),
-              _buildInvitationsTab(invitationState),
-              _buildReportsTab(reportState),
-              _buildUpdatesTab(updateState),
-              _buildMilestonesTab(milestoneState),
-            ],
+        ],
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(48.h),
+          child: Container(
+            color: AppColors.cardBackground,
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: TabBar(
+              controller: _tabController,
+              isScrollable: true,
+              labelColor: AppColors.primary,
+              unselectedLabelColor: AppColors.textSecondary,
+              indicatorColor: AppColors.primary,
+              indicatorWeight: 3.h,
+              labelStyle: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+              ),
+              unselectedLabelStyle: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+              ),
+              tabs: const [
+                Tab(text: 'Overview'),
+                Tab(text: 'Details'),
+                Tab(text: 'Timeline'),
+                Tab(text: 'Team'),
+                Tab(text: 'Documents'),
+                Tab(text: 'Updates'),
+              ],
+            ),
           ),
         ),
       ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          SingleChildScrollView(
+            child: OverviewTab(project: project, isOwner: isOwner),
+          ),
+          SingleChildScrollView(
+            child: DetailsTab(project: project),
+          ),
+          SingleChildScrollView(
+            child: TimelineTab(project: project, isOwner: isOwner),
+          ),
+          const SingleChildScrollView(
+            child: Center(child: Text("project: project, isOwner: isOwner")),
+          ),
+          SingleChildScrollView(
+            child: DocumentsTab(project: project, isOwner: isOwner),
+          ),
+          const SingleChildScrollView(
+            child: Center(child: Text("project: project, isOwner: isOwner")),
+          ),
+
+          // SingleChildScrollView(
+          //   child: TeamTab(project: project, isOwner: isOwner),
+          // ),
+          // SingleChildScrollView(
+          //   child: DocumentsTab(projectId: widget.projectId),
+          // ),
+          // SingleChildScrollView(
+          //   child: UpdatesTab(projectId: widget.projectId),
+          // ),
+        ],
+      ),
+      floatingActionButton: _buildFloatingActionButton(project, isOwner),
     );
   }
 
-  Widget _buildOverviewTab(ProjectEntity project) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(16.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildSectionTitle('Description'),
-          if (project.description != null)
-            Text(
-              project.description!,
+  Widget _buildFloatingActionButton(ProjectEntity project, bool isOwner) {
+    if (!isOwner && project.status == 'active') {
+      return FloatingActionButton.extended(
+        onPressed: () => _showInvestDialog(project),
+        backgroundColor: AppColors.primary,
+        elevation: 4,
+        icon: Icon(Icons.attach_money, color: Colors.white, size: 20.sp),
+        label: Text(
+          'Invest',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            color: Colors.white,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ).animate().scale(delay: 800.ms);
+    }
+    return const SizedBox.shrink();
+  }
+
+  void _handleMenuAction(String action, ProjectEntity project) {
+    switch (action) {
+      case 'edit':
+        context.push('/project/${project.id}/update');
+        break;
+      case 'submit':
+        _submitProject(project.id);
+        break;
+      case 'delete':
+        _showDeleteConfirmation(project);
+        break;
+    }
+  }
+
+  void _submitProject(String projectId) async {
+    try {
+      await ref.read(projectProvider.notifier).submitForReview(projectId);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Project submitted for review'),
+            backgroundColor: AppColors.success,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error submitting project: $e'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    }
+  }
+
+  void _showDeleteConfirmation(ProjectEntity project) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: AppColors.cardBackground,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        title: Text(
+          'Delete Project',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w600,
+            color: AppColors.textPrimary,
+          ),
+        ),
+        content: Text(
+          'Are you sure you want to delete "${project.title}"? This action cannot be undone.',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 14.sp,
+            color: AppColors.textPrimary,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'Cancel',
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 14.sp,
                 color: AppColors.textSecondary,
               ),
-            ).animate().fadeIn().slideY(begin: 0.3),
-          SizedBox(height: 16.h),
-          _buildSectionTitle('Details'),
-          Wrap(
-            spacing: 8.w,
-            runSpacing: 8.h,
-            children: [
-              _buildInfoChip(
-                label: project.category is String
-                    ? project.category as String
-                    : (project.category as Map<String, dynamic>)['name'] ??
-                        'Non spécifié',
-                icon: Icons.category,
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _deleteProject(project.id);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.error,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.r),
               ),
-              _buildInfoChip(label: project.sector, icon: Icons.business),
-              if (project.subSector != null)
-                _buildInfoChip(
-                    label: project.subSector!,
-                    icon: Icons.subdirectory_arrow_right),
-              if (project.tags != null && project.tags!.isNotEmpty)
-                _buildInfoChip(
-                    label: project.tags!.join(', '), icon: Icons.tag),
-            ],
-          ).animate().fadeIn().slideY(begin: 0.3),
-          SizedBox(height: 16.h),
-          _buildSectionTitle('Funding'),
-          LinearProgressIndicator(
-            value: (project.fundingProgress ?? 0) / 100,
-            backgroundColor: AppColors.textTertiary.withOpacity(0.2),
-            valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
-            minHeight: 4.h,
-            borderRadius: BorderRadius.circular(4.r),
-          ).animate().fadeIn(),
-          SizedBox(height: 8.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '${(project.currentFunding ?? 0).toStringAsFixed(0)} ${project.currency ?? 'EUR'} / ${project.fundingGoal.toStringAsFixed(0)} ${project.currency ?? 'EUR'}',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 12.sp,
-                  color: AppColors.textSecondary,
-                ),
+            ),
+            child: Text(
+              'Delete',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 14.sp,
+                color: Colors.white,
               ),
-              Text(
-                project.daysRemaining != null && project.daysRemaining! > 0
-                    ? '${project.daysRemaining} jours restants'
-                    : 'Terminé',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 12.sp,
-                  color: project.daysRemaining != null &&
-                          project.daysRemaining! > 0
-                      ? AppColors.textSecondary
-                      : AppColors.error,
-                ),
-              ),
-            ],
-          ).animate().fadeIn().slideY(begin: 0.3),
-          if (project.expectedReturn != null &&
-              project.expectedReturn!.percentage != null)
-            Padding(
-              padding: EdgeInsets.only(top: 8.h),
-              child: Text(
-                'Retour attendu : ${project.expectedReturn!.percentage}% ${project.expectedReturn!.period ?? ''}',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 12.sp,
-                  color: AppColors.accent,
-                ),
-              ),
-            ).animate().fadeIn().slideY(begin: 0.3),
-          if (project.location != null && project.location!.city != null)
-            Padding(
-              padding: EdgeInsets.only(top: 8.h),
-              child: Text(
-                'Lieu : ${project.location!.city}, ${project.location!.country}',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 12.sp,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-            ).animate().fadeIn().slideY(begin: 0.3),
-          SizedBox(height: 16.h),
-          if (project.team != null && project.team!.isNotEmpty)
-            _buildSectionTitle('Team'),
-          if (project.team != null && project.team!.isNotEmpty)
-            Wrap(
-              spacing: 8.w,
-              runSpacing: 8.h,
-              children: project.team!
-                  .map((member) => _buildInfoChip(
-                        label: member.user['name'] ?? 'Unknown',
-                        icon: Icons.person,
-                      ))
-                  .toList(),
-            ).animate().fadeIn().slideY(begin: 0.3),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildCommentsTab(ProjectCommentState commentState) {
-    if (commentState.comments.isEmpty) {
-      return _buildEmptyState('No comments available');
+  void _deleteProject(String projectId) async {
+    try {
+      await ref.read(projectProvider.notifier).deleteProject(projectId);
+      if (mounted) {
+        context.pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Project deleted successfully'),
+            backgroundColor: AppColors.success,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error deleting project: $e'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
     }
-    return ListView.builder(
-      padding: EdgeInsets.all(16.w),
-      itemCount: commentState.comments.length,
-      itemBuilder: (context, index) {
-        final comment = commentState.comments[index];
-        return Card(
-          elevation: 1,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
-          margin: EdgeInsets.symmetric(vertical: 8.h),
-          child: Padding(
-            padding: EdgeInsets.all(12.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  comment.author is String
-                      ? comment.author
-                      : (comment.author as Map<String, dynamic>)['name'] ??
-                          'Anonymous',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.textPrimary,
-                  ),
+  }
+
+  void _showInvestDialog(ProjectEntity project) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: AppColors.cardBackground,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        title: Text(
+          'Invest in ${project.title}',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w600,
+            color: AppColors.textPrimary,
+          ),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Minimum investment: ${project.minimumInvestment?.toStringAsFixed(0) ?? 'N/A'} ${project.currency ?? 'USD'}',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 14.sp,
+                color: AppColors.textPrimary,
+              ),
+            ),
+            SizedBox(height: 16.h),
+            TextFormField(
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 14.sp,
+                color: AppColors.textPrimary,
+              ),
+              decoration: InputDecoration(
+                labelText: 'Investment Amount',
+                labelStyle: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14.sp,
+                  color: AppColors.textSecondary,
                 ),
-                SizedBox(height: 8.h),
-                Text(
-                  comment.content,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 12.sp,
-                    color: AppColors.textSecondary,
-                  ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
-                SizedBox(height: 8.h),
-                Text(
-                  comment.createdAt != null
-                      ? DateFormat('dd/MM/yyyy').format(comment.createdAt!)
-                      : 'Unknown date',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 10.sp,
-                    color: AppColors.textTertiary,
-                  ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                  borderSide: const BorderSide(color: AppColors.primary),
                 ),
-              ],
+              ),
+              keyboardType: TextInputType.number,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'Cancel',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 14.sp,
+                color: AppColors.textSecondary,
+              ),
             ),
           ),
-        ).animate().fadeIn().slideY(begin: 0.3);
-      },
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Investment processing...'),
+                  backgroundColor: AppColors.success,
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+            ),
+            child: Text(
+              'Invest',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 14.sp,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildDocumentsTab(ProjectDocumentState documentState) {
-    if (documentState.documents.isEmpty) {
-      return _buildEmptyState('No documents available');
-    }
-    return ListView.builder(
-      padding: EdgeInsets.all(16.w),
-      itemCount: documentState.documents.length,
-      itemBuilder: (context, index) {
-        final document = documentState.documents[index];
-        return ListTile(
-          leading:
-              Icon(Icons.description, color: AppColors.primary, size: 24.sp),
-          title: Text(
-            document.name,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w500,
-              color: AppColors.textPrimary,
-            ),
-          ),
-          subtitle: Text(
-            document.description ?? 'No description',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 12.sp,
-              color: AppColors.textSecondary,
-            ),
-          ),
-          trailing: document.isApproved
-              ? Icon(Icons.check_circle, color: AppColors.success, size: 20.sp)
-              : Icon(Icons.pending, color: AppColors.warning, size: 20.sp),
-          onTap: () {
-            ref
-                .read(projectDocumentProvider.notifier)
-                .incrementDownload(document.id!);
-            // Handle document view/download
-          },
-        ).animate().fadeIn().slideY(begin: 0.3);
-      },
+  void _shareProject(ProjectEntity project) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Share functionality coming soon')),
     );
   }
 
-  Widget _buildInvitationsTab(ProjectInvitationState invitationState) {
-    if (invitationState.invitations.isEmpty) {
-      return _buildEmptyState('No invitations available');
-    }
-    return ListView.builder(
-      padding: EdgeInsets.all(16.w),
-      itemCount: invitationState.invitations.length,
-      itemBuilder: (context, index) {
-        final invitation = invitationState.invitations[index];
-        return Card(
-          elevation: 1,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
-          margin: EdgeInsets.symmetric(vertical: 8.h),
-          child: Padding(
-            padding: EdgeInsets.all(12.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  invitation.email != null
-                      ? invitation.email!
-                      : invitation.user == null
-                          ? "Unknown"
-                          : invitation.user is String
-                              ? invitation.user as String
-                              : (invitation.user
-                                      as Map<String, dynamic>)["name"] ??
-                                  "Unknown",
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.textPrimary,
-                  ),
+  Widget _buildErrorState(String errorMessage) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(20.w),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 120.w,
+              height: 120.h,
+              decoration: BoxDecoration(
+                color: AppColors.error.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.error_outline,
+                size: 60.sp,
+                color: AppColors.error,
+              ),
+            ).animate().scale(delay: 200.ms),
+            SizedBox(height: 24.h),
+            Text(
+              'Error',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+            ).animate(delay: 300.ms).fadeIn(),
+            SizedBox(height: 8.h),
+            Text(
+              errorMessage,
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 14.sp,
+                color: AppColors.textSecondary,
+                height: 1.4,
+              ),
+              textAlign: TextAlign.center,
+            ).animate(delay: 400.ms).fadeIn(),
+            SizedBox(height: 24.h),
+            ElevatedButton.icon(
+              onPressed: () {
+                ref.read(projectProvider.notifier).getProject(widget.projectId);
+                // ref
+                //     .read(projectProvider.notifier)
+                //     .getProjectInvestors(widget.projectId);
+              },
+              icon: Icon(Icons.refresh, size: 20.sp),
+              label: Text(
+                'Retry',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
                 ),
-                SizedBox(height: 8.h),
-                Text(
-                  'Role: ${invitation.role}',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 12.sp,
-                    color: AppColors.textSecondary,
-                  ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
-                Text(
-                  'Status: ${invitation.status}',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 12.sp,
-                    color: _getStatusColor(invitation.status),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ).animate().fadeIn().slideY(begin: 0.3);
-      },
-    );
-  }
-
-  Widget _buildReportsTab(ProjectReportState reportState) {
-    if (reportState.reports.isEmpty) {
-      return _buildEmptyState('No reports available');
-    }
-    return ListView.builder(
-      padding: EdgeInsets.all(16.w),
-      itemCount: reportState.reports.length,
-      itemBuilder: (context, index) {
-        final report = reportState.reports[index];
-        return Card(
-          elevation: 1,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
-          margin: EdgeInsets.symmetric(vertical: 8.h),
-          child: Padding(
-            padding: EdgeInsets.all(12.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  report.title,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                Text(
-                  report.content,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 12.sp,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                Text(
-                  'Type: ${report.type}',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 12.sp,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ).animate().fadeIn().slideY(begin: 0.3);
-      },
-    );
-  }
-
-  Widget _buildUpdatesTab(ProjectUpdateState updateState) {
-    if (updateState.updates.isEmpty) {
-      return _buildEmptyState('No updates available');
-    }
-    return ListView.builder(
-      padding: EdgeInsets.all(16.w),
-      itemCount: updateState.updates.length,
-      itemBuilder: (context, index) {
-        final update = updateState.updates[index];
-        return Card(
-          elevation: 1,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
-          margin: EdgeInsets.symmetric(vertical: 8.h),
-          child: Padding(
-            padding: EdgeInsets.all(12.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  update.title,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                Text(
-                  update.content,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 12.sp,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                Text(
-                  update.publishedAt != null
-                      ? DateFormat('dd/MM/yyyy').format(update.publishedAt!)
-                      : 'Unknown date',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 10.sp,
-                    color: AppColors.textTertiary,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ).animate().fadeIn().slideY(begin: 0.3);
-      },
-    );
-  }
-
-  Widget _buildMilestonesTab(ProjectMilestoneState milestoneState) {
-    if (milestoneState.milestones.isEmpty) {
-      return _buildEmptyState('No milestones available');
-    }
-    return ListView.builder(
-      padding: EdgeInsets.all(16.w),
-      itemCount: milestoneState.milestones.length,
-      itemBuilder: (context, index) {
-        final milestone = milestoneState.milestones[index];
-        return Card(
-          elevation: 1,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
-          margin: EdgeInsets.symmetric(vertical: 8.h),
-          child: Padding(
-            padding: EdgeInsets.all(12.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  milestone.title,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                Text(
-                  milestone.description ?? 'No description',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 12.sp,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                LinearProgressIndicator(
-                  value: milestone.progress / 100,
-                  backgroundColor: AppColors.textTertiary.withOpacity(0.2),
-                  valueColor:
-                      const AlwaysStoppedAnimation<Color>(AppColors.primary),
-                  minHeight: 4.h,
-                  borderRadius: BorderRadius.circular(4.r),
-                ),
-                SizedBox(height: 8.h),
-                Text(
-                  'Due: ${DateFormat('dd/MM/yyyy').format(milestone.dueDate)}',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 12.sp,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-                Text(
-                  'Status: ${milestone.status}',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 12.sp,
-                    color: _getStatusColor(milestone.status),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ).animate().fadeIn().slideY(begin: 0.3);
-      },
-    );
-  }
-
-  Widget _buildSectionTitle(String title) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 8.h),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 16.sp,
-          fontWeight: FontWeight.w600,
-          color: AppColors.textPrimary,
+                elevation: 2,
+              ),
+            ).animate(delay: 500.ms).fadeIn().slideY(begin: 0.3),
+          ],
         ),
       ),
-    ).animate().fadeIn().slideY(begin: 0.3);
-  }
-
-  Widget _buildInfoChip({required String label, required IconData icon}) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-      decoration: BoxDecoration(
-        color: AppColors.accent.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: 12.sp,
-            color: AppColors.accent,
-          ),
-          SizedBox(width: 4.w),
-          Text(
-            label,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 10.sp,
-              color: AppColors.textSecondary,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
     );
-  }
-
-  Widget _buildEmptyState(String message) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.info_outline,
-            size: 80.sp,
-            color: AppColors.textTertiary,
-          ),
-          SizedBox(height: 16.h),
-          Text(
-            message,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 16.sp,
-              color: AppColors.textSecondary,
-            ),
-          ),
-        ],
-      ),
-    ).animate().fadeIn();
-  }
-
-  Color _getStatusColor(String status) {
-    switch (status.toLowerCase()) {
-      case 'completed':
-      case 'accepted':
-        return AppColors.success;
-      case 'pending':
-        return AppColors.warning;
-      case 'rejected':
-      case 'cancelled':
-        return AppColors.error;
-      default:
-        return AppColors.textSecondary;
-    }
   }
 }

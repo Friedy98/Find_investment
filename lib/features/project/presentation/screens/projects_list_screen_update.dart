@@ -43,7 +43,7 @@ class _ProjectsListPageState extends ConsumerState<ProjectsListPage> {
         // Fetch categories (assuming a method exists in projectProvider or elsewhere)
         // _categories = ref.read(projectProvider.notifier).getCategories();
       }
-      _scrollController.addListener(_onScroll);
+      // _scrollController.addListener(_onScroll);
     });
   }
 
@@ -71,45 +71,32 @@ class _ProjectsListPageState extends ConsumerState<ProjectsListPage> {
 
     return LoadingOverlay(
       isLoading: projectState.isLoading,
-      child: Column(
+      child: Stack(
         children: [
-          _buildQuestionnairePrompt(questionnaireState, kycState),
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: _refreshProjects,
-              child: _buildProjectsList(
-                  projectState.projects, questionnaireState, kycState),
-            ),
+          Column(
+            children: [
+              _buildQuestionnairePrompt(questionnaireState, kycState),
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: _refreshProjects,
+                  child: _buildProjectsList(
+                      projectState.projects, questionnaireState, kycState),
+                ),
+              ),
+            ],
           ),
           if (projectState.projects.isNotEmpty)
-            Padding(
-              padding: EdgeInsets.all(16.w),
-              child: ElevatedButton(
+            Positioned(
+              bottom: 16.h,
+              right: 16.w,
+              child: FloatingActionButton(
+                shape: const CircleBorder(),
+
                 onPressed: () =>
                     _handleCreateProject(questionnaireState, kycState),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.r)),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.add, color: Colors.white, size: 20.sp),
-                    SizedBox(width: 8.w),
-                    Text(
-                      'Créer un projet',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
+                backgroundColor: AppColors.primary,
+                // elevation: 6,
+                child: const Icon(Icons.add, color: AppColors.background),
               ).animate().scale(delay: 500.ms),
             ),
         ],

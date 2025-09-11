@@ -84,8 +84,8 @@ class ProjectInvitationRemoteDataSourceImpl
         throw Exception('Failed to fetch invitations');
       }
       LoggingService.info(
-          'ProjectInvitationRemoteDataSource: Fetched ${response.data['data']['invitations']?.length ?? 0} invitations');
-      return (response.data['data']['invitations'] as List)
+          'ProjectInvitationRemoteDataSource: Fetched ${response.data['data']?.length ?? 0} invitations');
+      return (response.data['data'] as List)
           .map((json) => ProjectInvitationModel.fromJson(json))
           .toList();
     } catch (e) {

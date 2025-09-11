@@ -233,7 +233,7 @@ class NetworkService {
       case DioExceptionType.badResponse:
         errorMessage = 'Server Error';
         errorDetail =
-            'Received an invalid response: ${e.response?.statusCode} - ${e.response?.data}';
+            'Received an invalid response: ${e.response?.statusCode} - ${e.response?.data['message']}';
         break;
       case DioExceptionType.cancel:
         errorMessage = 'Request Cancelled';

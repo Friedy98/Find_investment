@@ -3,7 +3,8 @@ class AppConfig {
   static const String appVersion = '1.0.0';
 
   // API Configuration
-  static const String baseUrl = 'http://10.161.196.167:4200/api';
+  // static const String baseUrl = 'http://172.25.253.167:4200/api';
+  static const String baseUrl = 'https://api.findinvestment.org/api';
   static const Duration connectTimeout = Duration(seconds: 30);
   static const Duration receiveTimeout = Duration(seconds: 30);
 
