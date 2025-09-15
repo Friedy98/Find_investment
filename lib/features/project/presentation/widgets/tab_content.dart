@@ -1,6 +1,6 @@
 // import 'package:find_invest_mobile/core/theme/app_colors.dart';
 import 'package:find_invest_mobile/features/project/domain/entities/project_entity.dart';
-import 'package:find_invest_mobile/features/project/presentation/widgets/overview_tab.dart';
+// import 'package:find_invest_mobile/features/project/presentation/widgets/overview_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,7 +17,7 @@ class TabContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          OverviewTab(project: project),
+          // OverviewTab(project: project),
           SizedBox(height: 20.h),
           // DetailsTab(project: project),
           SizedBox(height: 20.h),

@@ -211,8 +211,8 @@ class _ProjectsListPageState extends ConsumerState<ProjectsListPage> {
         final project = projects[index];
         return ProjectCard(
           project: project,
-          onTap: () => context.push('/project/${project.id}'),
-          showOwner: true,
+          // onTap: () => context.push('/project/${project.id}'),
+          // showOwner: true,
         )
             .animate(delay: Duration(milliseconds: index * 100))
             .fadeIn()

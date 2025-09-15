@@ -197,12 +197,12 @@ class DocumentCard extends StatelessWidget {
                         ),
                   ),
                   const Spacer(),
-                  Text(
-                    _formatDate(document.createdAt),
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppColors.textSecondary,
-                        ),
-                  ),
+                  // Text(
+                  //   _formatDate(document.createdAt),
+                  //   style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  //         color: AppColors.textSecondary,
+                  //       ),
+                  // ),
                 ],
               ),
             ],
