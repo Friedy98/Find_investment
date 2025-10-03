@@ -159,7 +159,20 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back, size: 24.sp, color: AppColors.white),
               onPressed: () {
-                context.go('/project-owner/home');
+                switch (user.role) {
+                  case 'project_owner':
+                  // context.go('/investor/home');
+                    context.go('/project-owner/home');
+                    break;
+                  case 'investor':
+                    context.go('/investor/home');
+                    break;
+                  case 'job_candidate':
+                    context.go('/job-seeker/home');
+                    break;
+                  default:
+                    context.go('/user/home');
+                }
               },
             ),
           ),

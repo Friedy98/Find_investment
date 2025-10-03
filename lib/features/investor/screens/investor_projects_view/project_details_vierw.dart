@@ -1,14 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:find_invest_mobile/core/theme/app_colors.dart';
 import 'package:go_router/go_router.dart';
-import '../../../generated/app_localizations.dart';
-import '../../../presentation/widgets/custom_button.dart';
-import '../models/projectDto_model.dart';
+import '../../../../presentation/widgets/custom_button.dart';
+import '../../models/projectDto_model.dart';
 
 class ProjectDetailView extends ConsumerStatefulWidget {
   final ProjectDto projectDto;
@@ -179,7 +177,9 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
               ),
               const Spacer(),
               InkWell(
-                onTap: _showFilterSheet,
+                onTap: ()=> context.push("/investor/payment_methode",
+                  extra: project,
+                ),
                 child: const Chip(
                   label: Text("Investir",
                       style: TextStyle(
@@ -189,7 +189,7 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
               ),
               const SizedBox(width: 10),
               InkWell(
-                onTap: (){},
+                onTap: _showMessageSheet,
                 child: const Chip(
                   label: Text("Contacter",
                       style: TextStyle(
@@ -320,11 +320,11 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
     );
   }
 
-  void _showFilterSheet() {
+  void _showMessageSheet() {
 
-    double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     bool noInvestment = false;
+    final project = widget.projectDto;
 
     showModalBottomSheet(
       context: context,
@@ -332,7 +332,7 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
       backgroundColor: Colors.transparent,
       builder: (context) => DraggableScrollableSheet(
         initialChildSize: 0.8,
-        maxChildSize: 0.95,
+        maxChildSize: 0.8,
         minChildSize: 0.4,
         builder: (context, scrollController) => Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -370,72 +370,40 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
                     Padding(
                       padding: EdgeInsets.all(16.w),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            'Filtres',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.textPrimary,
+                          const CircleAvatar(
+                            backgroundImage: NetworkImage(
+                              "https://i.pravatar.cc/100", // avatar temporaire
                             ),
+                            radius: 18,
                           ),
-                          // IconButton(
-                          //   icon:
-                          //   Icon(Icons.close, size: 28.sp, color: AppColors.gray600),
-                          //   onPressed: () => Navigator.pop(context),
-                          // ),
+                          const SizedBox(width: 8),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(project.owner["name"],
+                                  style:
+                                  const TextStyle(fontWeight: FontWeight.w600)),
+                              Text(project.owner["email"].toString(),
+                                  style: const TextStyle(
+                                      fontSize: 10, color: Colors.grey)),
+                            ],
+                          ),
                         ],
                       ),
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Text("Investir en plusieurs tranches ?"),
-                    Spacer(),
-                    CupertinoSwitch(
-                      value: noInvestment,
-                      activeColor: AppColors.primary, // iOS default
-                      onChanged: (value) {},
-                    )
-                  ],
-                ),
-                const SizedBox(height: 10),
-                _buildTextAreaInput("Montant d'investissement", amountController),
-                const SizedBox(height: 20),
-                paymentMethode(context, "MTN Mobile Money", "1"),
-                const SizedBox(height: 8),
-                paymentMethode(context, "Orange Money", "2"),
-                const SizedBox(height: 8),
-                paymentMethode(context, "Master Card", "3"),
-                const SizedBox(height: 8),
-                paymentMethode(context, "PayPal", "4"),
-                const SizedBox(height: 8),
-                paymentMethode(context, "Paiement manuel", "5"),
-                const SizedBox(height: 20),
-                _buildTextAreaInput("Code promo", codeController),
-                const SizedBox(height: 20),
 
-                const Row(
-                  children: [
-                    Icon(Icons.info, color: Colors.grey, size: 30),
-                    SizedBox(width: 8), // space between icon and text
-                    Expanded(
-                      child: Text(
-                        "Cet investissement sera directement envoyé dans le compte du porteur et mis à disposition en vue de la réalisation du projet.",
-                        style: TextStyle(fontSize: 12),
-                        softWrap: true, // allow wrapping
-                      ),
-                    ),
-                  ],
-                ),
                 const SizedBox(height: 20),
+                _buildTextAreaInput("Objet", codeController, 1, 'Ex : Questions sur ...'),
+                const SizedBox(height: 20),
+                _buildTextAreaInput("Message", codeController, 7, 'Saisisez votre message'),
+                const SizedBox(height: 50),
                 CustomButton(
-                  height: 50,
+                  height: 60,
                   width: width-50,
-                  text: "Confirmer",
+                  text: "Envoyer",
                   onPressed: () => {},
                 ),
               ],
@@ -446,39 +414,7 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
     );
   }
 
-  Widget paymentMethode(BuildContext context, String title, String option){
-    return Container(
-      height: 50,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.blue.shade100.withOpacity(0.2)
-        ),
-      child: ListTile(
-        leading: Container(
-            height: 40, width: 40,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.grey)
-            )
-        ),
-        title: Text(title,
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 12.sp,
-            color: AppColors.textPrimary,
-          ),
-        ),
-        trailing: Radio<String>(
-          value: option,
-          groupValue: selectedOption,
-          onChanged: (value) {},
-        ),
-      )
-    );
-  }
-
-  Widget _buildTextAreaInput(String label, TextEditingController controller) {
+  Widget _buildTextAreaInput(String label, TextEditingController controller, int lines, String hint) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -492,8 +428,9 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
         ),
         TextField(
           controller: controller,
+          maxLines: lines,
           decoration: InputDecoration(
-            hintText: '00000',
+            hintText: hint,
             hintStyle: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 14.sp,

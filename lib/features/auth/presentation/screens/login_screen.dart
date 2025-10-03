@@ -56,8 +56,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         final role = authState.user!.role;
         switch (role) {
           case 'project_owner':
+            // context.go('/investor/home');
             context.go('/project-owner/home');
-            break;
+            break;                                                                                                                                                                         
           case 'investor':
             context.go('/investor/home');
             break;

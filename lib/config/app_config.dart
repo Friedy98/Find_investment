@@ -1,3 +1,8 @@
+import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../core/theme/app_colors.dart';
+
 class AppConfig {
   static const String appName = 'Find App';
   static const String appVersion = '1.0.0';
@@ -26,4 +31,35 @@ class AppConfig {
   static const int maxFileSize = 10 * 1024 * 1024; // 10MB
   static const List<String> allowedImageTypes = ['jpg', 'jpeg', 'png', 'webp'];
   static const List<String> allowedDocumentTypes = ['pdf', 'doc', 'docx'];
+}
+
+class AppTextStyles {
+  AppTextStyles._(); // private constructor to prevent instantiation
+
+  static TextStyle poppins12 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 12.sp,
+    color: AppColors.primary,
+  );
+
+  static TextStyle headerH1 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 24.sp,
+    fontWeight: FontWeight.bold,
+    color: AppColors.black,
+  );
+
+  static TextStyle headerH2 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 16.sp,
+    color: AppColors.black,
+  );
+
+  // 🔹 You can add more reusable styles here
+  static TextStyle poppins14Bold = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 14.sp,
+    fontWeight: FontWeight.bold,
+    color: AppColors.primary,
+  );
 }

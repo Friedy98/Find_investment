@@ -1,3 +1,4 @@
+
 import 'package:find_invest_mobile/features/investor/screens/wallet/wallet_view.dart';
 import 'package:find_invest_mobile/features/project/presentation/delegates/project_search_delegate.dart';
 import 'package:find_invest_mobile/features/project/presentation/providers/project_provider.dart';
@@ -7,10 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:find_invest_mobile/core/theme/app_colors.dart';
 import 'package:find_invest_mobile/features/auth/presentation/providers/auth_provider.dart';
-import 'package:find_invest_mobile/features/project/presentation/screens/funding_screen.dart';
-import 'package:find_invest_mobile/features/project/presentation/screens/team_screen.dart';
-import 'package:find_invest_mobile/features/project/presentation/screens/collaborate_screen.dart';
 import 'package:find_invest_mobile/features/project/presentation/screens/discussions_screen.dart';
+import 'Updates/all_updates_view.dart';
+import 'community/community_view.dart';
 import 'investor_projects_view/investor_home.dart';
 
 class InvestorHomeScreen extends ConsumerStatefulWidget {
@@ -28,19 +28,17 @@ class _InvestorHomeScreenState
   static const List<Widget> _screens = [
     InvestorHome(),
     WalletPage(),
-    TeamScreen(),
-    CollaborateScreen(),
+    UpdatesPage(),
+    CommunityView(),
     DiscussionsScreen(),
   ];
 
   static const List<String> _titles = [
     'Projects',
     'Porte-feuille',
-    'Team',
-    'Collaborate',
+    'Mises à jour',
+    'Communauté',
     'Discussions',
-    // 'Collab',
-    // 'Chat',
   ];
 
   void _onItemTapped(int index) {
@@ -162,7 +160,7 @@ class _InvestorHomeScreenState
             icon: Icon(Icons.account_circle,
                 size: 24.sp, color: AppColors.textPrimary),
             onPressed: () {
-              context.go('/investor/profile');
+              context.push('/investor/profile');
             },
           ),
         ],
@@ -244,7 +242,7 @@ class _InvestorHomeScreenState
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  context.go('/project-owner/profile');
+                  context.go('/investor/profile');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
@@ -253,8 +251,7 @@ class _InvestorHomeScreenState
                   ),
                   padding: EdgeInsets.symmetric(vertical: 12.h),
                 ),
-                child: Text(
-                  'Project Owner',
+                child: Text(user?.role ?? '',
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 15.sp,

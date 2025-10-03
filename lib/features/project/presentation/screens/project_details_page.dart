@@ -101,7 +101,7 @@ class _ProjectDetailsPageState extends ConsumerState<ProjectDetailsPage>
             fontSize: 18.sp,
             fontWeight: FontWeight.w600,
             color: AppColors.textPrimary,
-          ),
+          )
         ),
         actions: [
           IconButton(

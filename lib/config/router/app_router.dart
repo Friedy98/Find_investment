@@ -7,6 +7,9 @@ import 'package:find_invest_mobile/features/auth/presentation/screens/reset_succ
 import 'package:find_invest_mobile/features/auth/presentation/screens/verify_otp_screen.dart';
 import 'package:find_invest_mobile/features/auth/presentation/screens/register_confirmation_screen.dart';
 import 'package:find_invest_mobile/features/auth/presentation/screens/register_screen.dart';
+import 'package:find_invest_mobile/features/investor/screens/community/Tabs/group_details.dart';
+import 'package:find_invest_mobile/features/investor/screens/invest_view.dart';
+import 'package:find_invest_mobile/features/investor/screens/wallet/wallet_view.dart';
 import 'package:find_invest_mobile/features/kyc/presentation/screens/kyc_audit_log_page.dart';
 import 'package:find_invest_mobile/features/kyc/presentation/screens/kyc_dashboard_page.dart';
 import 'package:find_invest_mobile/features/kyc/presentation/screens/kyc_start_page.dart';
@@ -16,10 +19,8 @@ import 'package:find_invest_mobile/features/project-milestone/presentation/scree
 import 'package:find_invest_mobile/features/project-milestone/presentation/screens/milestone_edit_page.dart';
 import 'package:find_invest_mobile/features/project-milestone/presentation/screens/milestone_management_page.dart';
 import 'package:find_invest_mobile/features/project/presentation/screens/basic_info_form_component.dart';
-// import 'package:find_invest_mobile/features/project/presentation/screens/add_project_screen.dart';
 import 'package:find_invest_mobile/features/project/presentation/screens/create_project_screen.dart';
 import 'package:find_invest_mobile/features/project/presentation/screens/financial_info_update_page.dart';
-import 'package:find_invest_mobile/features/project/presentation/screens/funding_form_component.dart';
 import 'package:find_invest_mobile/features/project/presentation/screens/location_form_component.dart';
 // import 'package:find_invest_mobile/features/project/presentation/screens/edit_project_page.dart';
 import 'package:find_invest_mobile/features/project/presentation/screens/project_details_page.dart';
@@ -32,19 +33,13 @@ import 'package:find_invest_mobile/features/project_doc/presentation/screens/doc
 import 'package:find_invest_mobile/features/questionnaire/presentation/screens/questionnaire_overview_page.dart';
 import 'package:find_invest_mobile/features/questionnaire/presentation/screens/questionnaire_result_page.dart';
 import 'package:find_invest_mobile/features/questionnaire/presentation/screens/take_questionnaire_page.dart';
-// import 'package:find_invest_mobile/features/project/presentation/screens/team_management_page.dart';
-// import 'package:find_invest_mobile/features/project/presentation/screens/update_profile_screen.dart';
-// import 'package:find_invest_mobile/presentation/pages/auth/reset_password_page.dart';
 import 'package:find_invest_mobile/presentation/pages/common/success_page.dart';
-// import 'package:find_invest_mobile/presentation/pages/legal/privacy_policy_page.dart';
-// import 'package:find_invest_mobile/presentation/pages/legal/terms_conditions_page.dart';
 import 'package:find_invest_mobile/presentation/pages/onboarding/welcome_page.dart';
 import 'package:find_invest_mobile/shared/pages/change_password_screen.dart';
 import 'package:find_invest_mobile/shared/pages/help_screen.dart';
 import 'package:find_invest_mobile/shared/pages/investor_edit_screen.dart';
 import 'package:find_invest_mobile/shared/pages/notifications_screen.dart';
 import 'package:find_invest_mobile/shared/pages/preferences_screen.dart';
-// import 'package:find_invest_mobile/shared/pages/edit_profile_page.dart';
 import 'package:find_invest_mobile/shared/pages/privacy_policy_screen.dart';
 import 'package:find_invest_mobile/shared/pages/privacy_screen.dart';
 import 'package:find_invest_mobile/shared/pages/profile_page.dart';
@@ -60,6 +55,12 @@ import 'package:go_router/go_router.dart';
 // import '../../presentation/pages/auth/login_page.dart';
 // import '../../presentation/pages/auth/register_page.dart';
 // import '../../presentation/pages/auth/forgot_password_page.dart';
+import '../../features/investor/models/projectDto_model.dart';
+import '../../features/investor/screens/Updates/update_details.dart';
+import '../../features/investor/screens/root.dart';
+import '../../features/investor/screens/investor_projects_view/investor_home.dart';
+import '../../features/investor/screens/investor_projects_view/project_details_vierw.dart';
+import '../../features/investor/screens/wallet/historique_view.dart';
 import '../../presentation/pages/onboarding/onboarding_page.dart';
 import '../../presentation/pages/onboarding/splash_page.dart';
 // import '../../presentation/pages/auth/otp_verification_page.dart';
@@ -142,6 +143,7 @@ final routerProvider =
         builder: (context, state) => const ResetSuccessScreen(),
       ),
 
+      ///Project owner
       GoRoute(
         path: '/project-owner/home',
         builder: (context, state) => const ProjectOwnerHomeScreen(),
@@ -154,6 +156,55 @@ final routerProvider =
         path: '/project-owner/update-profile',
         builder: (context, state) => const UpdateProfileScreen(),
       ),
+
+      ///investor
+      GoRoute(
+        path: '/investor/profile',
+        builder: (context, state) => const ProfilePage(),
+      ),
+      GoRoute(
+        path: '/investor/home',
+        builder: (context, state) => const InvestorHomeScreen(),
+      ),
+      GoRoute(
+        path: '/investor/profile',
+        builder: (context, state) => const ChangePasswordScreen(),
+      ),
+      GoRoute(
+        path: '/investor/payment_methode',
+        builder: (context, state) {
+          final project = state.extra as ProjectDto;
+          return InvestView(projectDto: project);
+          },
+      ),
+      GoRoute(
+        path: '/projectDto/:id',
+        builder: (context, state) {
+          final project = state.extra as ProjectDto; // <-- retrieve it
+          return ProjectDetailView(projectDto: project);
+        },
+      ),
+      GoRoute(
+        path: '/investor/wallet',
+        builder: (context, state) => const WalletPage(),
+      ),
+      GoRoute(
+          path: '/investor/history',
+        builder: (context, state) => const HistoryPage()
+      ),
+      GoRoute(
+        path: '/projectDto/update/:id',
+        builder: (context, state) {
+          final project = state.extra as ProjectDto; // <-- retrieve it
+          return UpdateDetailPage(projectDto: project);
+        },
+      ),
+      GoRoute(
+          path: '/investor/group/details',
+          builder: (context, state) => const GroupDetails()
+      ),
+
+
       GoRoute(
         path: '/change-password',
         builder: (context, state) => const ChangePasswordScreen(),
