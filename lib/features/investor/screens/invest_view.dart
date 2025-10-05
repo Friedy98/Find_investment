@@ -378,3 +378,4 @@ class _InvestViewState extends ConsumerState<InvestView>
   }
 
 }
+
