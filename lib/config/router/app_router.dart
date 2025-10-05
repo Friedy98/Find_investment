@@ -18,15 +18,14 @@ import 'package:find_invest_mobile/features/project-milestone/presentation/scree
 import 'package:find_invest_mobile/features/project-milestone/presentation/screens/milestone_create_page.dart';
 import 'package:find_invest_mobile/features/project-milestone/presentation/screens/milestone_edit_page.dart';
 import 'package:find_invest_mobile/features/project-milestone/presentation/screens/milestone_management_page.dart';
+import 'package:find_invest_mobile/features/project/domain/entities/project_entity.dart';
 import 'package:find_invest_mobile/features/project/presentation/screens/basic_info_form_component.dart';
 import 'package:find_invest_mobile/features/project/presentation/screens/create_project_screen.dart';
 import 'package:find_invest_mobile/features/project/presentation/screens/financial_info_update_page.dart';
 import 'package:find_invest_mobile/features/project/presentation/screens/location_form_component.dart';
 // import 'package:find_invest_mobile/features/project/presentation/screens/edit_project_page.dart';
 import 'package:find_invest_mobile/features/project/presentation/screens/project_details_page.dart';
-// import 'package:find_invest_mobile/features/project/presentation/screens/profile_screen.dart';
-// import 'package:find_invest_mobile/features/project/presentation/screens/project_details_screen.dart';
-// import 'package:find_invest_mobile/features/project/presentation/screens/project_documents_page.dart';
+
 import 'package:find_invest_mobile/features/project/presentation/screens/project_owner_home_screen.dart';
 import 'package:find_invest_mobile/features/project/presentation/screens/update_project_screen.dart';
 import 'package:find_invest_mobile/features/project_doc/presentation/screens/document_management_page.dart';
@@ -52,23 +51,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-// import '../../presentation/pages/auth/login_page.dart';
-// import '../../presentation/pages/auth/register_page.dart';
-// import '../../presentation/pages/auth/forgot_password_page.dart';
-import '../../features/investor/models/projectDto_model.dart';
 import '../../features/investor/screens/Updates/update_details.dart';
 import '../../features/investor/screens/root.dart';
-import '../../features/investor/screens/investor_projects_view/investor_home.dart';
 import '../../features/investor/screens/investor_projects_view/project_details_vierw.dart';
 import '../../features/investor/screens/wallet/historique_view.dart';
 import '../../presentation/pages/onboarding/onboarding_page.dart';
 import '../../presentation/pages/onboarding/splash_page.dart';
-// import '../../presentation/pages/auth/otp_verification_page.dart';
-// import '../../presentation/pages/main/main_page.dart';
-// import '../../presentation/pages/projects/project_list_page.dart';
-// import '../../presentation/pages/projects/project_detail_page.dart';
-// import '../../presentation/pages/jobs/job_list_page.dart';
-// import '../../presentation/pages/profile/profile_page.dart';
 import 'app_routes.dart';
 
 final routerProvider =
@@ -173,14 +161,15 @@ final routerProvider =
       GoRoute(
         path: '/investor/payment_methode',
         builder: (context, state) {
-          final project = state.extra as ProjectDto;
+          final project = state.extra as ProjectEntity;
           return InvestView(projectDto: project);
           },
       ),
+
       GoRoute(
         path: '/projectDto/:id',
         builder: (context, state) {
-          final project = state.extra as ProjectDto; // <-- retrieve it
+          final project = state.extra as ProjectEntity; // <-- retrieve it
           return ProjectDetailView(projectDto: project);
         },
       ),
@@ -195,7 +184,7 @@ final routerProvider =
       GoRoute(
         path: '/projectDto/update/:id',
         builder: (context, state) {
-          final project = state.extra as ProjectDto; // <-- retrieve it
+          final project = state.extra as ProjectEntity; // <-- retrieve it
           return UpdateDetailPage(projectDto: project);
         },
       ),

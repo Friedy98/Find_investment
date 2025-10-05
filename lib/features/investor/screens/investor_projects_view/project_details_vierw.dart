@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:find_invest_mobile/features/project/domain/entities/project_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -6,10 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:find_invest_mobile/core/theme/app_colors.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../presentation/widgets/custom_button.dart';
-import '../../models/projectDto_model.dart';
 
 class ProjectDetailView extends ConsumerStatefulWidget {
-  final ProjectDto projectDto;
+  final ProjectEntity projectDto;
 
   const ProjectDetailView({super.key, required this.projectDto});
 
@@ -116,14 +116,14 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
     );
   }
 
-  Widget _buildOverviewTab(ProjectDto project) {
-    List tags = ["Agriculture", "Actif"];
+  Widget _buildOverviewTab(ProjectEntity project) {
+    List tags = [project.resolvedCategory!.name, project.status];
     return SingleChildScrollView(
       padding: EdgeInsets.all(16.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionTitle(project.title),
+          _buildSectionTitle(project.resolvedCategory!.name),
           SizedBox(height: 16.h),
           Row(
             children: [
@@ -133,8 +133,8 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
                     .map((tag) => Chip(
                   label: Text(tag,
                       style: TextStyle(
-                          fontSize: 10, color: tag == "Actif" ? Colors.green : Colors.orange)),
-                  backgroundColor: tag == "Actif"
+                          fontSize: 10,color: tag == "active" ? Colors.green : Colors.orange)),
+                  backgroundColor: tag == "active"
                       ? Colors.green.withOpacity(0.1)
                       : Colors.orange.withOpacity(0.1),
                 ))
@@ -142,9 +142,9 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
               ),
               const Spacer(),
               const Icon(Icons.access_time_filled, color: Colors.grey),
-              daysSinceCreated(project.createdAt) != 0 ?
+              daysSinceCreated(DateTime.parse(project.createdAt.toString())) != 0 ?
               Text(
-                "Publié il y a ${daysSinceCreated(project.createdAt)} jours",
+                "Publié il y a ${daysSinceCreated(DateTime.parse(project.createdAt.toString()))} jours",
                 style: const TextStyle(
                     fontSize: 10, color: Colors.grey),
               ) : const Text(
@@ -167,10 +167,10 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(project.owner["name"],
+                  Text(project.owner.toString(),
                       style:
                       const TextStyle(fontWeight: FontWeight.w600)),
-                  Text(project.owner["email"].toString(),
+                  Text(project.owner.toString(),
                       style: const TextStyle(
                           fontSize: 10, color: Colors.grey)),
                 ],
@@ -223,7 +223,7 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
           SizedBox(height: 16.h),
           _buildSectionTitle('Etat d\'avancement du projet'),
           LinearProgressIndicator(
-            value: (project.fundingProgress ?? 0),
+            value: (project.fundingProgress?.toDouble() ?? 0),
             backgroundColor: AppColors.textTertiary.withOpacity(0.2),
             valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
             minHeight: 20.h,
@@ -233,7 +233,7 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
           SizedBox(height: 20.h),
           _buildSectionTitle('Etat d\'avancement du financement'),
           LinearProgressIndicator(
-            value: (project.fundingProgress ?? 0),
+            value: (project.fundingProgress?.toDouble() ?? 0),
             backgroundColor: AppColors.textTertiary.withOpacity(0.2),
             valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
             minHeight: 20.h,

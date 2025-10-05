@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../config/app_config.dart';
+import '../../../../shared/widgets/loading_overlay.dart';
 import '../../widgets/investment_tile.dart';
+import 'data/wallet_provider.dart';
 
 class HistoryPage extends ConsumerStatefulWidget {
   const HistoryPage({super.key});
@@ -15,16 +17,24 @@ class HistoryPage extends ConsumerStatefulWidget {
 class _HistoryPageState extends ConsumerState<HistoryPage>
     with SingleTickerProviderStateMixin {
 
-  final List<Map<String, String>> investments = [
-    {"title": "Investissement de ", "amount": "200,000 FCFA", "date": "12 Juil 2025", "subTitle": "Mise en place d'une plateforme de vente de bijoux de luxe"},
-    {"title": "Investissement de ", "amount": "400,000 FCFA", "date": "12 Juil 2025", "subTitle": "Mise en place d'une plateforme de vente de bijoux de luxe"},
-    {"title": "Investissement de ", "amount": "150,000 FCFA", "date": "12 Juil 2025", "subTitle": "Mise en place d'une plateforme de vente de bijoux de luxe"},
-    {"title": "Investissement de ", "amount": "350,000 FCFA", "date": "12 Juil 2025", "subTitle": "Mise en place d'une plateforme de vente de bijoux de luxe"},
-    {"title": "Investissement de ", "amount": "600,000 FCFA", "date": "12 Juil 2025", "subTitle": "Mise en place d'une plateforme de vente de bijoux de luxe"},
-  ];
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(investmentProvider.notifier).getInvestments();
+
+    });
+  }
+
+
+  Future<void> _refreshProjects() async {
+    await ref.read(investmentProvider.notifier).getInvestments();
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    final investmentState = ref.watch(investmentProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -50,21 +60,32 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
         ),
       ),
 
-      body: ListView.builder(
-        itemCount: investments.length,
-        itemBuilder: (context, index) {
-          final investment = investments[index];
-          return InvestmentTile(
-            title: investment["title"]!,
-            subTitle: investment["subTitle"]!,
-            date: investment["date"]!,
-            amount: investment["amount"]!,
-            onTap: () {
-              // you can navigate to detail page here
-              print("Clicked on ${investment["title"]}");
-            },
-          );
-        },
+      body: LoadingOverlay(
+        isLoading: investmentState.isLoading,
+        child: Column(
+          children: [
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: _refreshProjects,
+                child: ListView.builder(
+                  itemCount: investmentState.investments.length,
+                  itemBuilder: (context, index) {
+                    final investment = investmentState.investments[index];
+                    return InvestmentTile(
+                      subTitle: investment.expectedReturn.description,
+                      date: DateTime.parse(investment.createdAt.toString()),
+                      amount: investment.amount,
+                      onTap: () {
+                        // you can navigate to detail page here
+                        print("Clicked on ${investment.amount}");
+                      },
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

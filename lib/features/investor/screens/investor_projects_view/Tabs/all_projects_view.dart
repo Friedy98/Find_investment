@@ -13,7 +13,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../presentation/widgets/custom_button.dart';
 import '../../../../auth/presentation/providers/auth_provider.dart';
-import '../../../models/projectDto_model.dart';
 import '../../../widgets/project_card.dart';
 
 class InvestorProjectsList extends ConsumerStatefulWidget {
@@ -42,77 +41,6 @@ class _InvestorProjectsListState extends ConsumerState<InvestorProjectsList> {
 
 // range values
   final rangeValuesProvider = StateProvider<RangeValues>((ref) => const RangeValues(100000, 2000000));
-
-  List<ProjectDto> projectDetails = [
-    ProjectDto(
-      id: "1",
-      title: "Sustainable Agriculture Project",
-      description: "A project focused on modern sustainable farming techniques.",
-      budget: 500000,
-      status: "Active",
-      owner: {
-        "id": "user_001",
-        "name": "John Doe",
-        "role": "Investisseur",
-        "email": "john@example.com",
-      },
-      createdAt: DateTime.now(),
-      internalId: "INT-001",
-      slug: "sustainable-agriculture-project",
-      shortDescription: "Boosting agriculture with modern methods.",
-      category: "Agriculture",
-      sector: "Food Production",
-      fundingGoal: 1000000,
-      currentFunding: 250000,
-      currency: "USD",
-      visibility: "public",
-      location: {
-        "country": "Cameroon",
-        "city": "Douala",
-      },
-      images: ["https://example.com/image1.png", "https://example.com/image2.png"],
-      team: [
-        {"name": "Alice", "role": "Manager"},
-        {"name": "Bob", "role": "Engineer"},
-      ],
-      updatedAt: DateTime.now(),
-      subSector: "Crops",
-      tags: ["Farming", "Green", "Organic"],
-      fundingType: "Equity",
-      minimumInvestment: 1000,
-      maximumInvestment: 50000,
-      expectedReturn: {
-        "percentage": 12,
-        "durationMonths": 24,
-      },
-      featured: true,
-      priority: 1,
-      startDate: DateTime(2025, 1, 1),
-      endDate: DateTime(2025, 12, 31),
-      fundingDeadline: DateTime(2025, 6, 30),
-      duration: 5,
-      logo: "https://example.com/logo.png",
-      coverImage: "https://www.cahorsjuinjardins.fr/wp-content/uploads/2025/08/Les-erreurs-a-eviter-pour-maximiser-les-recoltes-de-choux.png",
-      videos: ["https://example.com/video.mp4"],
-      analytics: {"views": 1500, "likes": 200},
-      seo: {"keywords": ["agriculture", "sustainability"]},
-      auditLog: ["created", "updated"],
-      settings: {"allowComments": true},
-      archivedAt: null,
-      archivedBy: null,
-      archiveReason: null,
-      moderationStatus: {"approved": true},
-      type: "Investment",
-      collaborationType: "Joint Venture",
-      groupSettings: {"members": 10},
-      impact: {"co2Reduction": "200 tons/year"},
-      risks: ["Climate risk", "Market fluctuation"],
-      fundingProgress: 0.25,
-      daysRemaining: 180,
-      durationMonths: 12,
-      riskLevel: "Medium",
-    )
-  ];
 
   @override
   void initState() {
@@ -156,6 +84,7 @@ class _InvestorProjectsListState extends ConsumerState<InvestorProjectsList> {
     ];
 
     return LoadingOverlay(
+
       isLoading: projectState.isLoading,
       child: Stack(
         children: [
@@ -228,41 +157,48 @@ class _InvestorProjectsListState extends ConsumerState<InvestorProjectsList> {
                     ),
                     SizedBox(
                       height: height/1.7,
-                      child: Expanded(
-                        child: RefreshIndicator(
-                          onRefresh: _refreshProjects,
-                          child: ListView.builder(
-                            controller: _scrollController,
-                            padding: EdgeInsets.all(4.w),
-                            itemCount: projectDetails.length, // +1 for filter bar
-                            itemBuilder: (context, index) {
-                              /*if (index == 0) {
-                                return _buildFilterBar();
-                              }*/
-                              // final project = projects[index - 1];
-                              return InvestorProjectCard(
-                                onUpdateTap: (){},
-                                isUpdate: false,
-                                newUpdate: "",
-                                updateDescription: "",
-                                imageUrl: "https://www.cahorsjuinjardins.fr/wp-content/uploads/2025/08/Les-erreurs-a-eviter-pour-maximiser-les-recoltes-de-choux.png",
-                                title: "Plateforme de plantation des choux en série",
-                                tags: ["Agriculture", "Actif"],
-                                amount: 2300000,
-                                progress: 0.4,
-                                author: "Akoo Asaph",
-                                role: "Porteur du projet",
-                                publishedAgo: "22 jours",
-                                onTap: ()=> context.push(
-                                  '/projectDto/${projectDetails[index].id}',
-                                  extra: projectDetails[index], // <-- send the whole object
-                                ),
-                              ).animate(delay: Duration(milliseconds: (index - 1) * 100))
-                                  .fadeIn()
-                                  .slideY(begin: 0.3);
-                            },
-                          )
-                        ),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: RefreshIndicator(
+                              onRefresh: _refreshProjects,
+                              child: ListView.builder(
+                                controller: _scrollController,
+                                padding: EdgeInsets.all(4.w),
+                                itemCount: projectState.projects.length, // +1 for filter bar
+                                itemBuilder: (context, index) {
+                                  /*if (index == 0) {
+                                    return _buildFilterBar();
+                                  }*/
+                                  final project = projectState.projects[index];
+                                  print(project);
+                                  return InvestorProjectCard(
+                                    onUpdateTap: (){},
+                                    isUpdate: false,
+                                    newUpdate: "10",
+                                    updateDescription: project.description,
+                                    imageUrl: project.images!.isNotEmpty ?
+                                    project.images![0].url :
+                                    "https://www.cahorsjuinjardins.fr/wp-content/uploads/2025/08/Les-erreurs-a-eviter-pour-maximiser-les-recoltes-de-choux.png",
+                                    title: project.title,
+                                    tags: [project.resolvedCategory!.name, project.status.toString()],
+                                    amount: project.maximumInvestment!.toInt(),
+                                    progress: project.fundingProgress!.toDouble(),
+                                    author: project.owner != null ? project.resolvedOwner!.firstName.toString() : "John Doe",
+                                    role: project.owner != null ?  project.resolvedOwner!.role.toString() : "investor",
+                                    publishedAgo: project.createdAt.toString(),
+                                    onTap: ()=> context.push(
+                                      '/projectDto/${project.id}',
+                                      extra: project, // <-- send the whole object
+                                    ),
+                                  ).animate(delay: Duration(milliseconds: (index - 1) * 100))
+                                      .fadeIn()
+                                      .slideY(begin: 0.3);
+                                },
+                              )
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],

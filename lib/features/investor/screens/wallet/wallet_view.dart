@@ -113,16 +113,7 @@ class _WalletPageState extends ConsumerState<WalletPage>
             Expanded(
               child: ListView(
                 children: const [
-                  InvestmentTile(title: "Investissement de", amount: "300,000 FCFA",
-                      date: "12 Juil 2025", subTitle: "Mise en place d'une plateforme de vente de bijoux de luxe"),
-                  InvestmentTile(title: "Investissement de", amount: "200,000 FCFA",
-                      date: "12 Juil 2025", subTitle: "Mise en place d'une plateforme de vente de bijoux de luxe"),
-                  InvestmentTile(title: "Investissement de", amount: "500,000 FCFA",
-                      date: "12 Juil 2025", subTitle: "Mise en place d'une plateforme de vente de bijoux de luxe"),
-                  InvestmentTile(title: "Investissement de", amount: "100,000 FCFA",
-                      date: "12 Juil 2025", subTitle: "Mise en place d'une plateforme de vente de bijoux de luxe"),
-                  InvestmentTile(title: "Investissement de", amount: "250,000 FCFA",
-                      date: "12 Juil 2025", subTitle: "Mise en place d'une plateforme de vente de bijoux de luxe"),
+
                 ],
               ),
             ),
@@ -131,7 +122,6 @@ class _WalletPageState extends ConsumerState<WalletPage>
       ),
     );
   }
-
 
   void _showStatisticsSheet() {
     showModalBottomSheet(

@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:find_invest_mobile/core/network/network_service.dart';
 import 'package:find_invest_mobile/core/services/logging_service.dart';
-import 'package:find_invest_mobile/core/services/secure_storage_service.dart';
 import 'package:find_invest_mobile/features/auth/data/models/user_model.dart';
 import 'package:find_invest_mobile/features/project/data/models/project_model.dart';
 

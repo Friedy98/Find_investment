@@ -3,15 +3,13 @@ import 'package:find_invest_mobile/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class InvestmentTile extends StatelessWidget {
-  final String title;
   final String subTitle;
-  final String amount;
-  final String date;
+  final int amount;
+  final DateTime date;
   final VoidCallback? onTap;
 
   const InvestmentTile({
     super.key,
-    required this.title,
     required this.amount,
     required this.date,
     required this.subTitle,
@@ -33,9 +31,9 @@ class InvestmentTile extends StatelessWidget {
               color: Colors.black, // base style
             ),
             children: [
-              TextSpan(
-                text: title,
-                style: const TextStyle(fontWeight: FontWeight.w500),
+              const TextSpan(
+                text: 'Investissement de: ',
+                style: TextStyle(fontWeight: FontWeight.w500),
               ),
               TextSpan(
                 text: ': $amount',
@@ -46,7 +44,7 @@ class InvestmentTile extends StatelessWidget {
               ),
             ],
           )),
-      trailing: Text(date),
+      trailing: Text(date.toString()),
       subtitle: Text(subTitle, style: TextStyle(fontSize: 10),),
       onTap: onTap,
     );

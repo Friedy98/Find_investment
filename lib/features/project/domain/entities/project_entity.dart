@@ -1,5 +1,8 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../auth/domain/entities/user_entity.dart';
+import '../../../project_category/domain/entities/project_category_entity.dart';
+
 class ProjectEntity extends Equatable {
   final String id; // _id de MongoDB
   final String title;
@@ -106,6 +109,50 @@ class ProjectEntity extends Equatable {
     this.durationMonths,
     this.riskLevel,
   });
+
+  /// Returns the `UserEntity` if owner is populated, otherwise null
+  UserEntity? get resolvedOwner {
+    if (owner is UserEntity) {
+      return owner as UserEntity;
+    }
+    return null;
+  }
+
+  /// Returns the owner ID whether it's a String or inside a UserEntity
+  String? get ownerId {
+    if (owner is String) {
+      return owner as String;
+    } else if (owner is UserEntity) {
+      return (owner as UserEntity).id;
+    }
+    return null;
+  }
+
+  /// Example for archivedBy (similar dynamic field)
+  UserEntity? get resolvedArchivedBy {
+    if (archivedBy is UserEntity) {
+      return archivedBy as UserEntity;
+    }
+    return null;
+  }
+
+  String? get archivedById {
+    if (archivedBy is String) {
+      return archivedBy as String;
+    } else if (archivedBy is UserEntity) {
+      return (archivedBy as UserEntity).id;
+    }
+    return null;
+  }
+
+  ProjectCategoryEntity? get resolvedCategory =>
+      category is ProjectCategoryEntity ? category as ProjectCategoryEntity : null;
+
+  String? get categoryId {
+    if (category is String) return category as String;
+    if (category is ProjectCategoryEntity) return (category as ProjectCategoryEntity).id;
+    return null;
+  }
 
   ProjectEntity copyWith({
     String? id,
@@ -270,6 +317,7 @@ class ProjectEntity extends Equatable {
         riskLevel,
       ];
 }
+
 
 // Sous-classes pour les structures imbriquées
 class TeamMember extends Equatable {
@@ -731,4 +779,5 @@ class Risk extends Equatable {
 
   @override
   List<Object?> get props => [type, description, probability, impact, mitigation];
+
 }

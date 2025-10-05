@@ -7,7 +7,7 @@ class InvestorProjectCard extends StatelessWidget {
   final String imageUrl;
   final String title;
   final List<String> tags; // ex: ["Agriculture", "Actif"]
-  final double amount; // ex: 2300000
+  final int amount; // ex: 2300000
   final double progress; // 0.0 - 1.0
   final String author;
   final String newUpdate;
@@ -85,8 +85,8 @@ class InvestorProjectCard extends StatelessWidget {
                             .map((tag) => Chip(
                           label: Text(tag,
                               style: TextStyle(
-                                  fontSize: 10, color: tag == "Actif" ? Colors.green : Colors.orange)),
-                          backgroundColor: tag == "Actif"
+                                  fontSize: 10, color: tag == "active" ? Colors.green : Colors.orange)),
+                          backgroundColor: tag == "active"
                               ? Colors.green.withOpacity(0.1)
                               : Colors.orange.withOpacity(0.1),
                         ))
@@ -153,7 +153,7 @@ class InvestorProjectCard extends StatelessWidget {
                       const Icon(Icons.access_time_filled, color: Colors.grey),
                       if(!isUpdate)
                       Text(
-                        "Publié il y a $publishedAgo",
+                        "Publié il y a ${daysSinceCreated(DateTime.parse(publishedAgo))} jours",
                         style: const TextStyle(
                             fontSize: 10, color: Colors.grey),
                       ),
@@ -163,7 +163,7 @@ class InvestorProjectCard extends StatelessWidget {
                   if(isUpdate)
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      height: 160,
+                      height: 180,
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
@@ -174,12 +174,16 @@ class InvestorProjectCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(newUpdate,
+                          Text("Avancement de $newUpdate%",
                               style: const TextStyle(
                                   color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+
+                          SizedBox(height: 10),
                           Text(updateDescription,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
-                                  color: Colors.white, fontSize: 14)),
+                                  color: Colors.white, fontSize: 12)),
                           const SizedBox(height: 20),
                           Align(
                             alignment: Alignment.center,
@@ -203,4 +207,12 @@ class InvestorProjectCard extends StatelessWidget {
       ),
     );
   }
+
+  int daysSinceCreated(DateTime createdAt) {
+    final now = DateTime.now();
+    final difference = now.difference(createdAt); // Duration
+    return difference.inDays;
+  }
+
+
 }

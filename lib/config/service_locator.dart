@@ -21,6 +21,9 @@ import 'package:find_invest_mobile/features/auth/domain/usecases/update_security
 import 'package:find_invest_mobile/features/auth/domain/usecases/update_social_links_usecase.dart';
 import 'package:find_invest_mobile/features/auth/domain/usecases/verify_otp_usecase.dart';
 import 'package:find_invest_mobile/features/auth/domain/usecases/verify_phone_usecase.dart';
+import 'package:find_invest_mobile/features/investor/investor_usecases/investment_usecase.dart';
+import 'package:find_invest_mobile/features/investor/screens/wallet/data/repository/investment_repository_impl.dart';
+import 'package:find_invest_mobile/features/investor/screens/wallet/data/repository/wallet_repository.dart';
 import 'package:find_invest_mobile/features/kyc/data/datasources/kyc_remote_data_source.dart';
 import 'package:find_invest_mobile/features/kyc/data/repositories/kyc_repository_impl.dart';
 import 'package:find_invest_mobile/features/kyc/domain/repositories/kyc_repository.dart';
@@ -197,6 +200,7 @@ import '../features/auth/data/datasources/auth_local_datasource.dart';
 import '../features/auth/data/datasources/auth_remote_datasource.dart';
 import '../features/auth/data/repositories/auth_repository_impl.dart';
 import '../features/auth/domain/repositories/auth_repository.dart';
+import '../features/investor/screens/wallet/data/datasource/investment_datasource.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -243,6 +247,14 @@ Future<void> setupServiceLocator(
   );
   getIt.registerSingleton<ProjectRepository>(
     ProjectRepositoryImpl(remoteDataSource: getIt<ProjectRemoteDataSource>()),
+  );
+
+  //Investor
+  getIt.registerSingleton<InvestmentRemoteDataSource>(
+    InvestmentRemoteDataSourceImpl(networkService: getIt<NetworkService>()),
+  );
+  getIt.registerSingleton<InvestmentRepository>(
+    InvestmentRepositoryImpl(investmentRemoteDataSource: getIt<InvestmentRemoteDataSource>()),
   );
 
   // Questionnaire
@@ -645,6 +657,13 @@ Future<void> setupServiceLocator(
       UpdateSocialLinksUseCase(getIt<AuthRepository>()));
   getIt.registerSingleton<VerifyPhoneUseCase>(
       VerifyPhoneUseCase(getIt<AuthRepository>()));
+
+  ///Investor
+  getIt.registerSingleton<GetInvestmentUsecase>(
+      GetInvestmentUsecase(repository: getIt<InvestmentRepository>()));
+  getIt.registerSingleton<CreateInvestmentUseCase>(
+      CreateInvestmentUseCase(repository: getIt<InvestmentRepository>()));
+
 
   // Use Cases projects
   getIt.registerSingleton<GetProjectsUseCase>(

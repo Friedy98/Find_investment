@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../../core/theme/app_colors.dart';
-import '../../../models/projectDto_model.dart';
+import '../../../../project/domain/entities/project_entity.dart';
 
 class OverviewTab extends ConsumerStatefulWidget {
-  final ProjectDto projectDto;
+  final ProjectEntity projectDto;
 
   const OverviewTab({super.key, required this.projectDto});
 
@@ -30,7 +29,7 @@ class _OverviewTabState extends ConsumerState<OverviewTab>
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Image.network("https://picsum.photos/400/200"),
+            // Image.network("https://picsum.photos/400/200"),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: _buildOverviewTab(project),
@@ -41,8 +40,8 @@ class _OverviewTabState extends ConsumerState<OverviewTab>
     );
   }
 
-  Widget _buildOverviewTab(ProjectDto project) {
-    List tags = ["Agriculture", "Actif"];
+  Widget _buildOverviewTab(ProjectEntity project) {
+    List tags = [project.resolvedCategory!.name, project.status];
     double value = project.fundingProgress! * 100;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,8 +55,8 @@ class _OverviewTabState extends ConsumerState<OverviewTab>
                   .map((tag) => Chip(
                 label: Text(tag,
                     style: TextStyle(
-                        fontSize: 10, color: tag == "Actif" ? Colors.green : Colors.orange)),
-                backgroundColor: tag == "Actif"
+                        fontSize: 10, color: tag == "active" ? Colors.green : Colors.orange)),
+                backgroundColor: tag == "active"
                     ? Colors.green.withOpacity(0.1)
                     : Colors.orange.withOpacity(0.1),
               ))
@@ -65,9 +64,9 @@ class _OverviewTabState extends ConsumerState<OverviewTab>
             ),
             const Spacer(),
             const Icon(Icons.access_time_filled, color: Colors.grey),
-            daysSinceCreated(project.createdAt) != 0 ?
+            daysSinceCreated(DateTime.parse(project.createdAt.toString())) != 0 ?
             Text(
-              "Publié il y a ${daysSinceCreated(project.createdAt)} jours",
+              "Publié il y a ${daysSinceCreated(DateTime.parse(project.createdAt.toString()))} jours",
               style: const TextStyle(
                   fontSize: 10, color: Colors.grey),
             ) : const Text(
@@ -90,10 +89,10 @@ class _OverviewTabState extends ConsumerState<OverviewTab>
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(project.owner["name"],
+                Text(project.owner.toString(),
                     style:
                     const TextStyle(fontWeight: FontWeight.w600)),
-                Text(project.owner["email"].toString(),
+                Text(project.owner.toString(),
                     style: const TextStyle(
                         fontSize: 10, color: Colors.grey)),
               ],
@@ -103,7 +102,7 @@ class _OverviewTabState extends ConsumerState<OverviewTab>
         SizedBox(height: 16.h),
         _buildSectionTitle('Etat d\'avancement du projet'),
         LinearProgressIndicator(
-          value: (project.fundingProgress ?? 0),
+          value: (project.fundingProgress!.toDouble() ?? 0),
           backgroundColor: AppColors.textTertiary.withOpacity(0.2),
           valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
           minHeight: 20.h,
@@ -113,7 +112,7 @@ class _OverviewTabState extends ConsumerState<OverviewTab>
         SizedBox(height: 20.h),
         _buildSectionTitle('Etat d\'avancement du financement'),
         LinearProgressIndicator(
-          value: (project.fundingProgress ?? 0),
+          value: (project.fundingProgress!.toDouble() ?? 0),
           backgroundColor: AppColors.textTertiary.withOpacity(0.2),
           valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
           minHeight: 20.h,
@@ -172,7 +171,7 @@ class _OverviewTabState extends ConsumerState<OverviewTab>
                 ),
                 Row(
                   children: [
-                    const Icon(Icons.access_time_filled, color: Colors.grey),
+                    const Icon(Icons.access_time_filled, color: Colors.grey, size: 20,),
                     Text(DateTime.now().toString(),
                       style: TextStyle(
                         fontFamily: 'Poppins',
