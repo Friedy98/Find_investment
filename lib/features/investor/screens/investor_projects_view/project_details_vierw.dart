@@ -167,10 +167,10 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(project.owner.toString(),
+                  Text(project.owner != null ? project.resolvedOwner!.firstName.toString() : "John Doe",
                       style:
                       const TextStyle(fontWeight: FontWeight.w600)),
-                  Text(project.owner.toString(),
+                  Text(project.owner != null ?  project.resolvedOwner!.role.toString() : "investor",
                       style: const TextStyle(
                           fontSize: 10, color: Colors.grey)),
                 ],
@@ -381,10 +381,10 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(project.owner["name"],
+                              Text(project.owner != null ? project.resolvedOwner!.firstName.toString() : "John Doe",
                                   style:
                                   const TextStyle(fontWeight: FontWeight.w600)),
-                              Text(project.owner["email"].toString(),
+                              Text(project.owner != null ? project.resolvedOwner!.role.toString() : "investor",
                                   style: const TextStyle(
                                       fontSize: 10, color: Colors.grey)),
                             ],

@@ -41,8 +41,8 @@ class _UpdatesPageState extends ConsumerState<UpdatesPage>
               tags: [project.resolvedCategory!.name, project.status.toString()],
               amount: project.maximumInvestment!.toInt(),
               progress: project.fundingProgress!.toDouble(),
-              author: project.owner.toString(),
-              role: "project",
+              author: project.owner != null ?  project.resolvedOwner!.fullName.toString() : "John Doe",
+              role: project.owner != null ?  project.resolvedOwner!.role.toString() : "investor",
               publishedAgo: project.createdAt.toString(),
               onTap: (){},
             ).animate(delay: Duration(milliseconds: (index - 1) * 100))

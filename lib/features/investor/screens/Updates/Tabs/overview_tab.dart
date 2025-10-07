@@ -89,10 +89,10 @@ class _OverviewTabState extends ConsumerState<OverviewTab>
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(project.owner.toString(),
+                Text(project.owner != null ?  project.resolvedOwner!.fullName.toString() : "John Doe",
                     style:
                     const TextStyle(fontWeight: FontWeight.w600)),
-                Text(project.owner.toString(),
+                Text(project.owner != null ?  project.resolvedOwner!.role.toString() : "investor",
                     style: const TextStyle(
                         fontSize: 10, color: Colors.grey)),
               ],

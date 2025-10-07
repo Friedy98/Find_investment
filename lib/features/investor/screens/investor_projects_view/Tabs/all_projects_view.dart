@@ -86,125 +86,119 @@ class _InvestorProjectsListState extends ConsumerState<InvestorProjectsList> {
     return LoadingOverlay(
 
       isLoading: projectState.isLoading,
-      child: Stack(
+      child: Column(
         children: [
-          Column(
-            children: [
-              Container(
-                width: width,
-                height: height/3.2,
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: AppColors.error.withOpacity(0.1)
-                ),
-                  child: _buildQuestionnairePrompt(context, questionnaireState, kycState)
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 10),
-                    Text("Secteurs", style: AppTextStyles.headerH1),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      height: 100,
-                      width: width,
-                      child: Expanded(
-                          child: ListView.builder(
-                              itemCount: secteurs.length,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (cointext, item){
-                                return Container(
-                                  margin: const EdgeInsets.symmetric(horizontal: 5),
-                                  padding: EdgeInsets.symmetric(horizontal: 3),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                          color: AppColors.primary.withOpacity(0.3),
-                                          width: 2),
-                                      color: AppColors.primary.withOpacity(0.1)
-                                  ),
-                                  height: 50.sp,
-                                  width: width/4,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(secteurs[item], style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 12.sp,
-                                          color: AppColors.primary),
-                                      ),
-                                      SizedBox(height: 10)
-                                    ],
-                                  ),
-                                ).animate().fadeIn().slideY(begin: 0.3);
-                              }
-                          )
-                      ),
-                    ),
-                    const SizedBox(height: 15),
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: _showFilterSheet,
-                          icon: const Icon(Icons.tune_sharp),
-                        ),
-
-                        const SizedBox(width: 5),
-                        Text("Filtres", style: AppTextStyles.headerH2),
-                      ],
-                    ),
-                    SizedBox(
-                      height: height/1.7,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: RefreshIndicator(
-                              onRefresh: _refreshProjects,
-                              child: ListView.builder(
-                                controller: _scrollController,
-                                padding: EdgeInsets.all(4.w),
-                                itemCount: projectState.projects.length, // +1 for filter bar
-                                itemBuilder: (context, index) {
-                                  /*if (index == 0) {
-                                    return _buildFilterBar();
-                                  }*/
-                                  final project = projectState.projects[index];
-                                  print(project);
-                                  return InvestorProjectCard(
-                                    onUpdateTap: (){},
-                                    isUpdate: false,
-                                    newUpdate: "10",
-                                    updateDescription: project.description,
-                                    imageUrl: project.images!.isNotEmpty ?
-                                    project.images![0].url :
-                                    "https://www.cahorsjuinjardins.fr/wp-content/uploads/2025/08/Les-erreurs-a-eviter-pour-maximiser-les-recoltes-de-choux.png",
-                                    title: project.title,
-                                    tags: [project.resolvedCategory!.name, project.status.toString()],
-                                    amount: project.maximumInvestment!.toInt(),
-                                    progress: project.fundingProgress!.toDouble(),
-                                    author: project.owner != null ? project.resolvedOwner!.firstName.toString() : "John Doe",
-                                    role: project.owner != null ?  project.resolvedOwner!.role.toString() : "investor",
-                                    publishedAgo: project.createdAt.toString(),
-                                    onTap: ()=> context.push(
-                                      '/projectDto/${project.id}',
-                                      extra: project, // <-- send the whole object
-                                    ),
-                                  ).animate(delay: Duration(milliseconds: (index - 1) * 100))
-                                      .fadeIn()
-                                      .slideY(begin: 0.3);
-                                },
-                              )
-                            ),
+          Container(
+            width: width,
+            height: height/3.2,
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: AppColors.error.withOpacity(0.1)
+            ),
+              child: _buildQuestionnairePrompt(context, questionnaireState, kycState)
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 10),
+                Text("Secteurs", style: AppTextStyles.headerH1),
+                const SizedBox(height: 10),
+                SizedBox(
+                  height: 100,
+                  width: width,
+                  child: ListView.builder(
+                      itemCount: secteurs.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (cointext, item){
+                        return Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 5),
+                          padding: EdgeInsets.symmetric(horizontal: 3),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                  color: AppColors.primary.withOpacity(0.3),
+                                  width: 2),
+                              color: AppColors.primary.withOpacity(0.1)
                           ),
-                        ],
-                      ),
+                          height: 50.sp,
+                          width: width/4,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(secteurs[item], style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 12.sp,
+                                  color: AppColors.primary),
+                              ),
+                              SizedBox(height: 10)
+                            ],
+                          ),
+                        ).animate().fadeIn().slideY(begin: 0.3);
+                      }
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: _showFilterSheet,
+                      icon: const Icon(Icons.tune_sharp),
                     ),
+
+                    const SizedBox(width: 5),
+                    Text("Filtres", style: AppTextStyles.headerH2),
                   ],
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: height/1.7,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: RefreshIndicator(
+                          onRefresh: _refreshProjects,
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            padding: EdgeInsets.all(4.w),
+                            itemCount: projectState.projects.length, // +1 for filter bar
+                            itemBuilder: (context, index) {
+                              /*if (index == 0) {
+                                return _buildFilterBar();
+                              }*/
+                              final project = projectState.projects[index];
+                              print(project);
+                              return InvestorProjectCard(
+                                onUpdateTap: (){},
+                                isUpdate: false,
+                                newUpdate: "10",
+                                updateDescription: project.description,
+                                imageUrl: project.images!.isNotEmpty ?
+                                project.images![0].url :
+                                "https://www.cahorsjuinjardins.fr/wp-content/uploads/2025/08/Les-erreurs-a-eviter-pour-maximiser-les-recoltes-de-choux.png",
+                                title: project.title,
+                                tags: [project.resolvedCategory!.name, project.status.toString()],
+                                amount: project.maximumInvestment!.toInt(),
+                                progress: project.fundingProgress!.toDouble(),
+                                author: project.owner != null ? project.resolvedOwner!.firstName.toString() : "John Doe",
+                                role: project.owner != null ?  project.resolvedOwner!.role.toString() : "investor",
+                                publishedAgo: project.createdAt.toString(),
+                                onTap: ()=> context.push(
+                                  '/projectDto/${project.id}',
+                                  extra: project, // <-- send the whole object
+                                ),
+                              ).animate(delay: Duration(milliseconds: (index - 1) * 100))
+                                  .fadeIn()
+                                  .slideY(begin: 0.3);
+                            },
+                          )
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
