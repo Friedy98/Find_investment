@@ -13,7 +13,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../presentation/widgets/custom_button.dart';
 import '../../../../auth/presentation/providers/auth_provider.dart';
-import '../../../widgets/project_card.dart';
 
 class InvestorProjectsList extends ConsumerStatefulWidget {
   const InvestorProjectsList({super.key});
@@ -154,7 +153,7 @@ class _InvestorProjectsListState extends ConsumerState<InvestorProjectsList> {
                   height: height/1.7,
                   child: Column(
                     children: [
-                      Expanded(
+                      /*Expanded(
                         child: RefreshIndicator(
                           onRefresh: _refreshProjects,
                           child: ListView.builder(
@@ -162,9 +161,9 @@ class _InvestorProjectsListState extends ConsumerState<InvestorProjectsList> {
                             padding: EdgeInsets.all(4.w),
                             itemCount: projectState.projects.length, // +1 for filter bar
                             itemBuilder: (context, index) {
-                              /*if (index == 0) {
+                              *//*if (index == 0) {
                                 return _buildFilterBar();
-                              }*/
+                              }*//*
                               final project = projectState.projects[index];
                               print(project);
                               return InvestorProjectCard(
@@ -192,7 +191,7 @@ class _InvestorProjectsListState extends ConsumerState<InvestorProjectsList> {
                             },
                           )
                         ),
-                      ),
+                      ),*/
                     ],
                   ),
                 ),

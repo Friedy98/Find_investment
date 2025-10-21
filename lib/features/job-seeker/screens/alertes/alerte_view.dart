@@ -3,32 +3,30 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:find_invest_mobile/core/theme/app_colors.dart';
 
-import 'Tabs/discover_tab.dart';
-import 'Tabs/groups_tab.dart';
-import 'Tabs/posts_tab.dart';
+import 'Tabs/alerts_tab.dart';
+import 'Tabs/favorites_tab.dart';
 
-class CommunityView extends ConsumerStatefulWidget {
+class AlertView extends ConsumerStatefulWidget {
 
-  const CommunityView({super.key});
+  const AlertView({super.key});
 
   @override
-  ConsumerState<CommunityView> createState() => _CommunityViewState();
+  ConsumerState<AlertView> createState() => _AlertViewState();
 }
 
-class _CommunityViewState extends ConsumerState<CommunityView>
+class _AlertViewState extends ConsumerState<AlertView>
     with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           title: const TabBar(
             tabs: [
-              Tab(text: "Mes groupes"),
-              Tab(text: "Découvrir"),
-              Tab(text: "Posts"),
+              Tab(text: "Alertes"),
+              Tab(text: "Favories"),
             ],
           ),
         ),
@@ -39,9 +37,8 @@ class _CommunityViewState extends ConsumerState<CommunityView>
         ),
         body: const TabBarView(
           children: [
-            MyGroupsTab(),
-            DiscoverTab(),
-            PostsTab(),
+            AlertsTab(),
+            FavoritesTab(),
           ],
         ),
       ),

@@ -46,7 +46,6 @@ class _InvestViewState extends ConsumerState<InvestView>
     final project = widget.projectDto;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(

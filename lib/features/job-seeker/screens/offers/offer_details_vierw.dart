@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:find_invest_mobile/features/project/domain/entities/project_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,16 +7,16 @@ import 'package:find_invest_mobile/core/theme/app_colors.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../presentation/widgets/custom_button.dart';
 
-class ProjectDetailView extends ConsumerStatefulWidget {
+class OfferDetailView extends ConsumerStatefulWidget {
   final ProjectEntity projectDto;
 
-  const ProjectDetailView({super.key, required this.projectDto});
+  const OfferDetailView({super.key, required this.projectDto});
 
   @override
-  ConsumerState<ProjectDetailView> createState() => _ProjectDetailViewState();
+  ConsumerState<OfferDetailView> createState() => _OfferDetailViewState();
 }
 
-class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
+class _OfferDetailViewState extends ConsumerState<OfferDetailView>
     with SingleTickerProviderStateMixin {
 
   TextEditingController amountController = TextEditingController();
@@ -72,45 +71,98 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
     // final project = projectState.selectedProject!;
 
     return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          SliverAppBar(
-            expandedHeight: 200.h,
-            floating: false,
-            pinned: true,
-            backgroundColor: AppColors.cardBackground,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_outlined, color: Colors.white, size: 30),
-              onPressed: () => context.pop()
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: const Color(0xFF0056F7).withOpacity(0.1),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Colors.pink[100],
+                    child: const Text('SF'),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    "Développeur Frontend",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.star, color: Colors.amber, size: 18),
+                      const Text(' 4.5 ★', style: TextStyle(color: Colors.black87))
+                    ],
+                  ),
+                ],
+              ),
             ),
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text("Détails du projet",
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
+            const SizedBox(height: 16),
+            const Text("Description",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            const SizedBox(height: 8),
+            const Text(
+              "Nous recherchons un développeur frontend passionné pour rejoindre notre équipe. Vous travaillerez sur des applications modernes avec Flutter, React et d'autres outils de design.",
+            ),
+            const SizedBox(height: 16),
+            const Text("Compétences requises",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              children: const [
+                Chip(label: Text("Flutter")),
+                Chip(label: Text("React")),
+                Chip(label: Text("UI/UX")),
+              ],
+            ),
+            const SizedBox(height: 16),
+            const Text("Recruteur",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            const SizedBox(height: 8),
+            ListTile(
+              leading: const CircleAvatar(child: Icon(Icons.person)),
+              title: const Text("Alice Joseph"),
+              trailing: ElevatedButton(
+                onPressed: () {},
+                child: const Text("Contacter"),
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Text("Commentaires",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            const ListTile(
+              leading: CircleAvatar(child: Icon(Icons.person)),
+              title: Text("Steve POGA"),
+              subtitle: Text(
+                  "Très belle opportunité ! L’entreprise semble sérieuse."),
+            ),
+            const SizedBox(height: 30),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => Navigator.pushNamed(context, '/apply'),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF0056F7),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Text("Postuler",
+                      style: TextStyle(fontSize: 16, color: Colors.white)),
                 ),
               ),
-              centerTitle: true,
-              background: project.coverImage != null
-                  ? CachedNetworkImage(
-                      imageUrl: 'https://www.cahorsjuinjardins.fr/wp-content/uploads/2025/08/Les-erreurs-a-eviter-pour-maximiser-les-recoltes-de-choux.png',
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Container(
-                        color: AppColors.accent,
-                        child: const Center(child: CircularProgressIndicator()),
-                      ),
-                      errorWidget: (context, error, stackTrace) => Container(
-                        color: AppColors.textTertiary.withOpacity(0.2),
-                        child: const Icon(Icons.image_not_supported_outlined, size: 50),
-                      ),
-                    )
-                  : Container(color: AppColors.textTertiary.withOpacity(0.2)),
-            ),
-          ),
-        ],
-        body: _buildOverviewTab(project),
+            )
+          ],
+        ),
       ),
     );
   }

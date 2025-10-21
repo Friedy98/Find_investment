@@ -63,16 +63,15 @@ class _OverviewTabState extends ConsumerState<OverviewTab>
                   .toList(),
             ),
             const Spacer(),
-            const Icon(Icons.access_time_filled, color: Colors.grey),
+            const Icon(Icons.access_time_filled),
             daysSinceCreated(DateTime.parse(project.createdAt.toString())) != 0 ?
             Text(
               "Publié il y a ${daysSinceCreated(DateTime.parse(project.createdAt.toString()))} jours",
               style: const TextStyle(
-                  fontSize: 10, color: Colors.grey),
+                  fontSize: 10),
             ) : const Text(
               "Publié Ajourd'hui",
-              style: TextStyle(
-                  fontSize: 10, color: Colors.grey),
+              style: TextStyle(fontSize: 10),
             ),
           ],
         ),
@@ -94,7 +93,8 @@ class _OverviewTabState extends ConsumerState<OverviewTab>
                     const TextStyle(fontWeight: FontWeight.w600)),
                 Text(project.owner != null ?  project.resolvedOwner!.role.toString() : "investor",
                     style: const TextStyle(
-                        fontSize: 10, color: Colors.grey)),
+                        fontSize: 10)
+                ),
               ],
             ),
           ],
@@ -124,16 +124,14 @@ class _OverviewTabState extends ConsumerState<OverviewTab>
           'Montant d`\'investisssement total demandé',
           style: TextStyle(
             fontFamily: 'Poppins',
-            fontSize: 14.sp,
-            color: AppColors.secondary,
+            fontSize: 14.sp
           ),
         ),
         Text(
           '${project.maximumInvestment} ${project.currency ?? 'XAF'}',
           style: TextStyle(
               fontFamily: 'Poppins',
-              fontSize: 16.sp,
-              color: AppColors.primary
+              fontSize: 16.sp
           ),
         ),
 
@@ -141,8 +139,7 @@ class _OverviewTabState extends ConsumerState<OverviewTab>
         Text('Dernier avancement',
           style: TextStyle(
               fontFamily: 'Poppins',
-              fontSize: 16.sp,
-              color: Colors.black
+              fontSize: 16.sp
           ),
         ),
         const SizedBox(height: 10),
@@ -153,7 +150,6 @@ class _OverviewTabState extends ConsumerState<OverviewTab>
               style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 40.sp,
-                  color: AppColors.primary,
                   fontWeight: FontWeight.bold
               ),
             ),
@@ -165,18 +161,16 @@ class _OverviewTabState extends ConsumerState<OverviewTab>
                   'D`\'avancement den 2 semaines',
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 12.sp,
-                    color: AppColors.secondary,
+                    fontSize: 12.sp
                   ),
                 ),
                 Row(
                   children: [
-                    const Icon(Icons.access_time_filled, color: Colors.grey, size: 20,),
+                    const Icon(Icons.access_time_filled, size: 20),
                     Text(DateTime.now().toString(),
                       style: TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize: 10.sp,
-                        color: AppColors.secondary,
+                        fontSize: 10.sp
                       ),
                     ),
                   ],
@@ -197,15 +191,13 @@ class _OverviewTabState extends ConsumerState<OverviewTab>
                 style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 18.sp,
-                    color: Colors.black,
                     fontWeight: FontWeight.bold
                 ),
               ),
               Text(project.description,
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 12.sp,
-                    color: Colors.black,
+                    fontSize: 12.sp
                   )
               ),
             ],
@@ -229,8 +221,7 @@ class _OverviewTabState extends ConsumerState<OverviewTab>
         style: TextStyle(
           fontFamily: 'Poppins',
           fontSize: 14.sp,
-          fontWeight: FontWeight.w600,
-          color: AppColors.textPrimary,
+          fontWeight: FontWeight.w600
         ),
       ),
     ).animate().fadeIn().slideY(begin: 0.3);

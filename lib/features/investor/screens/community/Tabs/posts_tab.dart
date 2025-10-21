@@ -85,7 +85,7 @@ class PostCard extends StatelessWidget {
             child: RichText(
               text: TextSpan(
                 text: displayText,
-                style: TextStyle(color: Colors.black, fontSize: 14),
+                style: TextStyle(fontSize: 14),
                 children: <TextSpan>[
                   TextSpan(
                       text: postText.length > 20 ? "voir plus" : "",

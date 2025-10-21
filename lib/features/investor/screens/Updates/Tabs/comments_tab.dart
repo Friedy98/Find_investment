@@ -38,17 +38,15 @@ class CommentsTab extends StatelessWidget {
                           style:
                           TextStyle(fontWeight: FontWeight.w600)),
                       Text("porteur de projet",
-                          style: TextStyle(
-                              fontSize: 10, color: Colors.grey)),
-                    ],
+                          style: TextStyle( fontSize: 10)),
+                    ]
                   ),
                   Spacer(),
-                    Icon(Icons.access_time_filled, color: Colors.grey, size: 15),
+                    Icon(Icons.access_time_filled, size: 15),
                     SizedBox(width: 10),
                     Text(
                       "12 Juil 2025",
-                      style: TextStyle(
-                          fontSize: 10, color: Colors.grey),
+                      style: TextStyle( fontSize: 10),
                     ),
                 ],
               ),
@@ -60,8 +58,7 @@ class CommentsTab extends StatelessWidget {
                     "typeand scrambled it to make a type specimen book.",
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontSize: 12, color: Colors.black),
+                style: TextStyle(fontSize: 12),
               )
             ],
           ),

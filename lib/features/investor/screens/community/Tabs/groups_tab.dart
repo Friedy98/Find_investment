@@ -32,13 +32,11 @@ class GroupListTile extends StatelessWidget {
             style: const TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 14,
-                color: Colors.black
             )),
         subtitle: Text(members,
             style: const TextStyle(
             fontFamily: 'Poppins',
             fontSize: 10,
-            color: Colors.black
         )),
         trailing: IconButton(
           icon: const Icon(Icons.more_vert),

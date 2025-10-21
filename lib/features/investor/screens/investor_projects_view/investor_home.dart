@@ -64,9 +64,7 @@ class _InvestorHomeState extends ConsumerState<InvestorHome>
     }
 
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.cardBackground,
         elevation: 0,
         bottom: PreferredSize(
             preferredSize: Size.fromHeight(20.h),
@@ -92,13 +90,11 @@ class _InvestorHomeState extends ConsumerState<InvestorHome>
         child: Column(
           children: [
             Container(
-              color: AppColors.cardBackground,
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: TabBar(
                 controller: _tabController,
                 // isScrollable: true,
                 labelColor: AppColors.primary,
-                unselectedLabelColor: AppColors.textSecondary,
                 indicatorColor: AppColors.primary,
                 indicatorWeight: 3.h,
                 labelStyle: TextStyle(

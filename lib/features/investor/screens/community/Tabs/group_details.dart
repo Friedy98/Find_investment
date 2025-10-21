@@ -27,7 +27,7 @@ class _GroupDetailsState extends ConsumerState<GroupDetails>
           children: [
             IconButton(
                 onPressed: ()=> context.pop(),
-                icon: const Icon(Icons.arrow_back, color: Colors.black)),
+                icon: const Icon(Icons.arrow_back)),
             const CircleAvatar(
               radius: 22,
               backgroundColor: Colors.white,
@@ -95,6 +95,7 @@ class _GroupDetailsState extends ConsumerState<GroupDetails>
                             ),
                             backgroundColor: Colors.redAccent,
                           ),
+                          SizedBox(width: 10),
                           Chip(
                             label: SizedBox(
                               width: 100,
@@ -113,7 +114,6 @@ class _GroupDetailsState extends ConsumerState<GroupDetails>
                       Text("Description du group",
                           style: TextStyle(
                             // fontStyle: FontStyle.italic,
-                              color: Colors.black,
                               fontSize: 14,
                               fontWeight: FontWeight.bold
                           )
@@ -130,7 +130,6 @@ class _GroupDetailsState extends ConsumerState<GroupDetails>
                           Text("Membres du group",
                               style: TextStyle(
                                 // fontStyle: FontStyle.italic,
-                                  color: Colors.black,
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold
                               )
@@ -139,7 +138,6 @@ class _GroupDetailsState extends ConsumerState<GroupDetails>
                           Text("12 membres",
                               style: TextStyle(
                                 // fontStyle: FontStyle.italic,
-                                  color: Colors.black,
                                   fontSize: 10,
                               )
                           ),
@@ -164,7 +162,6 @@ class _GroupDetailsState extends ConsumerState<GroupDetails>
                       style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 12,
-                          color: Colors.black
                       )),
                   subtitle: const Align(
                     alignment: Alignment.topLeft,

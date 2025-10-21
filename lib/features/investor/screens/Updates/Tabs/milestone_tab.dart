@@ -48,13 +48,12 @@ class _MilestonesTabState extends ConsumerState<MilestonesTab>
               ListTile(
                 leading: index == activeStep ? const Icon(Icons.verified, color: AppColors.primary, size: 35) :
                 index < activeStep ? const Icon(Icons.check_circle, color: Colors.green, size: 30) :
-                const Icon(Icons.access_time_filled_rounded, color: Colors.grey, size: 30),
+                const Icon(Icons.access_time_filled_rounded, size: 30),
                 title: Text(
                   milestones[index],
                   maxLines: 2,
                   style: TextStyle(
                     fontSize: 16,
-                    color: color,
                     overflow: TextOverflow.ellipsis,
                     fontWeight: index == activeStep ? FontWeight.bold : FontWeight.normal,
                   ),

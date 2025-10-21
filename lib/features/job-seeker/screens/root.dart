@@ -1,7 +1,4 @@
 
-import 'package:find_invest_mobile/features/investor/screens/wallet/wallet_view.dart';
-import 'package:find_invest_mobile/features/project/presentation/delegates/project_search_delegate.dart';
-import 'package:find_invest_mobile/features/project/presentation/providers/project_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,36 +6,34 @@ import 'package:go_router/go_router.dart';
 import 'package:find_invest_mobile/core/theme/app_colors.dart';
 import 'package:find_invest_mobile/features/auth/presentation/providers/auth_provider.dart';
 import 'package:find_invest_mobile/features/project/presentation/screens/discussions_screen.dart';
-import 'Updates/all_updates_view.dart';
-import 'community/community_view.dart';
-import 'investor_projects_view/investor_home.dart';
+import 'alertes/alerte_view.dart';
+import 'my_applications/applications_view.dart';
+import 'offers/job_offers.dart';
 
-class InvestorHomeScreen extends ConsumerStatefulWidget {
-  const InvestorHomeScreen({super.key});
+class JobSeekerHome extends ConsumerStatefulWidget {
+  const JobSeekerHome({super.key});
 
   @override
-  ConsumerState<InvestorHomeScreen> createState() =>
-      _InvestorHomeScreenState();
+  ConsumerState<JobSeekerHome> createState() =>
+      _JobSeekerHomeState();
 }
 
-class _InvestorHomeScreenState
-    extends ConsumerState<InvestorHomeScreen> {
+class _JobSeekerHomeState
+    extends ConsumerState<JobSeekerHome> {
   int _selectedIndex = 0;
 
   static const List<Widget> _screens = [
-    InvestorHome(),
-    WalletPage(),
-    UpdatesPage(),
-    CommunityView(),
+    JobOffers(),
+    ApplicationPage(),
+    AlertView(),
     DiscussionsScreen(),
   ];
 
   static const List<String> _titles = [
-    'Projects',
-    'Porte-feuille',
-    'Mises à jour',
-    'Communauté',
-    'Discussions',
+    'Offres d\'emploi',
+    'Mes candidatures',
+    'Alertes et favoris',
+    'Messagerie'
   ];
 
   void _onItemTapped(int index) {
@@ -47,86 +42,18 @@ class _InvestorHomeScreenState
     });
   }
 
-  void _showSearchDelegate() {
-    switch (_selectedIndex) {
-      case 0: // Projects
-        _showProjectSearch();
-        break;
-      case 1: // Funding
-        _showFundingSearch();
-        break;
-      case 2: // Team
-        _showTeamSearch();
-        break;
-      case 3: // Collaborate
-        _showCollaborateSearch();
-        break;
-      case 4: // Discussions
-        _showDiscussionsSearch();
-        break;
-    }
-  }
-
-  void _showProjectSearch() {
-    final projects = ref.read(projectProvider).projects;
-    showSearch(
-      context: context,
-      delegate: ProjectSearchDelegate(
-        projects: projects,
-        onProjectSelected: (project) {
-          context.push('/project/${project.id}');
-        },
-      ),
-    );
-  }
-
-  void _showFundingSearch() {
-    // showSearch(
-    //   context: context,
-    //   // delegate: FundingSearchDelegate(
-    //   //   onFundingSelected: (funding) {
-    //   //     // Navigate to funding details
-    //   //     context.push('/funding/${funding.id}');
-    //   //   },
-    //   // ),
-    // );
-  }
-
-  void _showTeamSearch() {
-    // showSearch(
-    //   context: context,
-    //   delegate: TeamSearchDelegate(
-    //     onMemberSelected: (member) {
-    //       // Navigate to member profile
-    //       context.push('/team/member/${member.id}');
-    //     },
-    //   ),
-    // );
-  }
-
-  void _showCollaborateSearch() {
-    // showSearch(
-    //   context: context,
-    //   delegate: CollaborateSearchDelegate(
-    //     onCollaborationSelected: (collaboration) {
-    //       // Navigate to collaboration details
-    //       context.push('/collaborate/${collaboration.id}');
-    //     },
-    //   ),
-    // );
-  }
-
-  void _showDiscussionsSearch() {
-    // showSearch(
-    //   context: context,
-    //   delegate: DiscussionsSearchDelegate(
-    //     onDiscussionSelected: (discussion) {
-    //       // Navigate to discussion details
-    //       context.push('/discussions/${discussion.id}');
-    //     },
-    //   ),
-    // );
-  }
+  // void _showProjectSearch() {
+  //   final projects = ref.read(projectProvider).projects;
+  //   showSearch(
+  //     context: context,
+  //     delegate: ProjectSearchDelegate(
+  //       projects: projects,
+  //       onProjectSelected: (project) {
+  //         context.push('/project/${project.id}');
+  //       },
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -404,7 +331,6 @@ class _InvestorHomeScreenState
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         selectedItemColor: AppColors.primary,
-        unselectedItemColor: AppColors.textSecondary,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
         selectedLabelStyle: TextStyle(
@@ -419,19 +345,15 @@ class _InvestorHomeScreenState
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.work, size: 24.sp),
-            label: 'Projects',
+            label: 'Offres',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet, size: 24.sp),
-            label: 'Porte-feuille',
+            icon: Icon(Icons.local_offer_rounded, size: 24.sp),
+            label: 'Mes Candidatures',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.group, size: 24.sp),
-            label: 'Mise à jour',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.handshake, size: 24.sp),
-            label: 'Communauté',
+            icon: Icon(Icons.notification_important_outlined, size: 24.sp),
+            label: 'Alertes',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat, size: 24.sp),

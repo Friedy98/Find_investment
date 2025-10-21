@@ -214,5 +214,4 @@ class InvestorProjectCard extends StatelessWidget {
     return difference.inDays;
   }
 
-
 }

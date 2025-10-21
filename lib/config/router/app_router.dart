@@ -51,6 +51,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/job-seeker/screens/alertes/add_alert.dart';
+import '../../features/job-seeker/screens/offers/offer_details_vierw.dart';
+import '../../features/job-seeker/screens/root.dart';
 import '../../features/investor/screens/Updates/update_details.dart';
 import '../../features/investor/screens/root.dart';
 import '../../features/investor/screens/investor_projects_view/project_details_vierw.dart';
@@ -165,6 +168,24 @@ final routerProvider =
           return InvestView(projectDto: project);
           },
       ),
+
+      ///Job-seeker
+      GoRoute(
+        path: '/job-seeker/home',
+        builder: (context, state) => const JobSeekerHome(),
+      ),
+      GoRoute(
+        path: '/my_applications/details',
+        builder: (context, state) {
+          final project = state.extra as ProjectEntity;
+          return OfferDetailView(projectDto: project);
+        },
+      ),
+      GoRoute(
+        path: '/add-alert/form',
+        builder: (context, state)=> const AddAlertForm(),
+      ),
+
 
       GoRoute(
         path: '/projectDto/:id',
