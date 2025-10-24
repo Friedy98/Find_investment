@@ -145,7 +145,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
     final authState = ref.watch(authProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.cardBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -182,16 +181,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                 padding: EdgeInsets.all(20.w),
                 constraints: BoxConstraints(maxWidth: 420.w),
                 decoration: BoxDecoration(
-                  color: AppColors.cardBackground,
                   borderRadius: BorderRadius.circular(24.r),
-                  gradient: LinearGradient(
-                    colors: [
-                      AppColors.cardBackground,
-                      AppColors.cardBackground.withOpacity(0.95)
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
+                  // gradient: LinearGradient(
+                  //   colors: [
+                  //     AppColors.cardBackground,
+                  //     AppColors.cardBackground.withOpacity(0.95)
+                  //   ],
+                  //   begin: Alignment.topCenter,
+                  //   end: Alignment.bottomCenter,
+                  // ),
                   // boxShadow: [
                   //   BoxShadow(
                   //     color: Colors.black.withOpacity(0.12),
@@ -212,7 +210,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 14.sp,
-                        color: AppColors.textSecondary,
                         fontWeight: FontWeight.w500,
                       ),
                       textAlign: TextAlign.center,
@@ -232,7 +229,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 14.sp,
-                                color: AppColors.textSecondary,
                                 fontWeight: FontWeight.w400,
                               ),
                               textAlign: TextAlign.center,
@@ -309,7 +305,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 14.sp,
-                                color: AppColors.textSecondary,
                                 fontWeight: FontWeight.w400,
                               ),
                               textAlign: TextAlign.center,
@@ -429,14 +424,24 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                               items: _validRoles.entries
                                   .map((entry) => DropdownMenuItem<String>(
                                         value: entry.key,
-                                        child: Text(
-                                          entry.value[0].toUpperCase() +
-                                              entry.value.substring(1),
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 15.sp,
-                                            color: AppColors.textPrimary,
-                                            fontWeight: FontWeight.w500,
+
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(10)
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+                                            child: Text(
+                                              entry.value[0].toUpperCase() +
+                                                  entry.value.substring(1),
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 15.sp,
+                                                color: AppColors.textPrimary,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ))
@@ -483,7 +488,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                                         style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 14.sp,
-                                          color: AppColors.textPrimary,
                                         ),
                                         children: [
                                           TextSpan(
@@ -537,7 +541,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                                         style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 14.sp,
-                                          color: AppColors.textPrimary,
                                         ),
                                         children: [
                                           TextSpan(
@@ -584,7 +587,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 14.sp,
-                              color: AppColors.textSecondary,
                               fontWeight: FontWeight.w400,
                             ),
                             textAlign: TextAlign.center,
@@ -617,8 +619,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                                     ),
                                     padding:
                                         EdgeInsets.symmetric(vertical: 14.h),
-                                    backgroundColor:
-                                        AppColors.gray50.withOpacity(0.5),
                                   ),
                                   child: Text(
                                     'Edit Step 1',
@@ -648,8 +648,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                                     ),
                                     padding:
                                         EdgeInsets.symmetric(vertical: 14.h),
-                                    backgroundColor:
-                                        AppColors.gray50.withOpacity(0.5),
                                   ),
                                   child: Text(
                                     'Edit Step 2',
@@ -781,7 +779,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
             fontFamily: 'Poppins',
             fontSize: 26.sp,
             fontWeight: FontWeight.w700,
-            color: AppColors.textPrimary,
             letterSpacing: 0.5,
           ),
           textAlign: TextAlign.center,

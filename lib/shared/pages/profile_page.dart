@@ -50,7 +50,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundLight,
       body: CustomScrollView(
         slivers: [
           // App Bar avec avatar
@@ -58,7 +57,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             expandedHeight: 340.h,
             floating: false,
             pinned: true,
-            backgroundColor: AppColors.primary,
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
                 decoration: const BoxDecoration(
@@ -252,7 +250,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                       'Non vérifié',
                                       style: TextStyle(
                                         fontSize: 10.sp,
-                                        color: AppColors.warning,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
@@ -719,7 +716,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.w600,
-            color: AppColors.textPrimary,
           ),
         ),
         SizedBox(height: 16.h),

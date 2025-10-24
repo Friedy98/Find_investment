@@ -173,7 +173,7 @@ class _ProjectFilterSheetState extends State<ProjectFilterSheet> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.cardBackground,
+        color: Theme.of(context).dialogBackgroundColor,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24.r),
           topRight: Radius.circular(24.r),

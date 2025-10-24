@@ -192,9 +192,9 @@ class _JobSeekerHomeState
             ),
             Divider(height: 1.h, color: AppColors.gray200),
             ListTile(
-              leading: Icon(Icons.work_outline, size: 20.sp),
+              leading: Icon(Icons.work, size: 20.sp),
               title: Text(
-                'Projects',
+                'Offres',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 15.sp,
@@ -208,25 +208,9 @@ class _JobSeekerHomeState
               },
             ),
             ListTile(
-              leading: Icon(Icons.account_balance_wallet_outlined, size: 20.sp),
+              leading: Icon(Icons.local_offer_rounded, size: 20.sp),
               title: Text(
-                'Funding',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 15.sp,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                setState(() {
-                  _selectedIndex = 1;
-                });
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.group_outlined, size: 20.sp),
-              title: Text(
-                'Team',
+                'Mes candidatures',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 15.sp,
@@ -240,9 +224,9 @@ class _JobSeekerHomeState
               },
             ),
             ListTile(
-              leading: Icon(Icons.handshake_outlined, size: 20.sp),
+              leading: Icon(Icons.notification_important_outlined, size: 20.sp),
               title: Text(
-                'Collaborate',
+                'Alertes',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 15.sp,
@@ -253,34 +237,6 @@ class _JobSeekerHomeState
                 setState(() {
                   _selectedIndex = 3;
                 });
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.notifications_outlined, size: 20.sp),
-              title: Text(
-                'Notifications',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 15.sp,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                // TODO: Implement Notifications screen
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.trending_up_outlined, size: 20.sp),
-              title: Text(
-                'Evolutions',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 15.sp,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                // TODO: Implement Evolutions screen
               },
             ),
             SizedBox(height: 10.h),

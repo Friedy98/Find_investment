@@ -136,7 +136,7 @@ class _WalletPageState extends ConsumerState<WalletPage>
           padding: const EdgeInsets.symmetric(horizontal: 15),
           // height: height/1.8,
           decoration: BoxDecoration(
-            color: AppColors.cardBackground,
+            color: Theme.of(context).dialogBackgroundColor,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24.r),
               topRight: Radius.circular(24.r),

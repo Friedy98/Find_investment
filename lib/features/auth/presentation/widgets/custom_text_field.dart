@@ -75,7 +75,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
               fontFamily: 'Poppins',
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
             ),
           ),
           SizedBox(height: 8.h),

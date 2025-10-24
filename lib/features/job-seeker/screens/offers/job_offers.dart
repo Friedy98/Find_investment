@@ -76,6 +76,8 @@ class _JobOffersState extends ConsumerState<JobOffers>
                 decoration: InputDecoration(
                   hintText: "Rechercher",
                   border: InputBorder.none,
+                  filled: true,
+                  fillColor: Theme.of(context).dialogBackgroundColor,
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.search, color: Colors.grey),
                     onPressed: () {},

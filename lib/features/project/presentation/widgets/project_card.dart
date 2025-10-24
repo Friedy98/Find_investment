@@ -26,7 +26,6 @@ class ProjectCard extends ConsumerWidget {
           borderRadius: BorderRadius.circular(12.r),
           side: const BorderSide(color: AppColors.gray200),
         ),
-        color: AppColors.cardBackground,
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         child: Padding(
           padding: EdgeInsets.all(16.w),
@@ -114,7 +113,6 @@ class ProjectCard extends ConsumerWidget {
               fontFamily: 'Poppins',
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
             ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
@@ -131,8 +129,8 @@ class ProjectCard extends ConsumerWidget {
               _getPriorityLabel(project.priority!),
               style: TextStyle(
                 fontFamily: 'Poppins',
-                fontSize: 10.sp,
                 color: Colors.white,
+                fontSize: 10.sp
               ),
             ),
           ),
@@ -150,7 +148,6 @@ class ProjectCard extends ConsumerWidget {
             style: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 12.sp,
-              color: AppColors.textSecondary,
             ),
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
@@ -205,7 +202,6 @@ class ProjectCard extends ConsumerWidget {
                 fontFamily: 'Poppins',
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w500,
-                color: AppColors.textPrimary,
               ),
             ),
             if (project.riskLevel != null)
@@ -236,7 +232,6 @@ class ProjectCard extends ConsumerWidget {
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 12.sp,
-                color: AppColors.textSecondary,
               ),
             ),
             Text(

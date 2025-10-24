@@ -154,8 +154,7 @@ class _ProjectsListPageState extends ConsumerState<ProjectsListPage> {
                     'Complétez le questionnaire pour créer des projets',
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 14.sp,
-                  color: AppColors.textSecondary,
+                  fontSize: 14.sp
                 ),
               ),
             ],
@@ -532,7 +531,6 @@ class _ProjectsListPageState extends ConsumerState<ProjectsListPage> {
                 fontFamily: 'Poppins',
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
-                color: AppColors.primary,
               ),
             ),
           ],
@@ -547,7 +545,6 @@ class _ProjectsListPageState extends ConsumerState<ProjectsListPage> {
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 16.sp,
-                color: AppColors.textPrimary,
                 height: 1.4,
               ),
             ),

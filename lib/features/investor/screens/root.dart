@@ -267,7 +267,7 @@ class _InvestorHomeScreenState
             ListTile(
               leading: Icon(Icons.work_outline, size: 20.sp),
               title: Text(
-                'Projects',
+                'Projets',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 15.sp,
@@ -283,7 +283,7 @@ class _InvestorHomeScreenState
             ListTile(
               leading: Icon(Icons.account_balance_wallet_outlined, size: 20.sp),
               title: Text(
-                'Funding',
+                'Porte-feuille',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 15.sp,
@@ -299,7 +299,7 @@ class _InvestorHomeScreenState
             ListTile(
               leading: Icon(Icons.group_outlined, size: 20.sp),
               title: Text(
-                'Team',
+                'Mise à jour',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 15.sp,
@@ -315,7 +315,7 @@ class _InvestorHomeScreenState
             ListTile(
               leading: Icon(Icons.handshake_outlined, size: 20.sp),
               title: Text(
-                'Collaborate',
+                'Communauté',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 15.sp,
@@ -404,6 +404,7 @@ class _InvestorHomeScreenState
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         selectedItemColor: AppColors.primary,
+        backgroundColor: Theme.of(context).dialogBackgroundColor,
         unselectedItemColor: AppColors.textSecondary,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,

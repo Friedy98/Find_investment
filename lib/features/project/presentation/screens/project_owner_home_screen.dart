@@ -134,13 +134,11 @@ class _ProjectOwnerHomeScreenState
     final user = ref.watch(authProvider).user;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.cardBackground,
         elevation: 0,
         leading: Builder(
           builder: (context) => IconButton(
-            icon: Icon(Icons.menu, size: 24.sp, color: AppColors.textPrimary),
+            icon: Icon(Icons.menu, size: 24.sp),
             onPressed: () {
               Scaffold.of(context).openDrawer();
             },
@@ -150,20 +148,19 @@ class _ProjectOwnerHomeScreenState
           _titles[_selectedIndex],
           style: TextStyle(
             fontFamily: 'Poppins',
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
+            fontSize: 16.sp,
+            fontWeight: FontWeight.bold
           ),
         ),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.search, size: 24.sp, color: AppColors.textPrimary),
+            icon: Icon(Icons.search, size: 24.sp),
             onPressed: _showSearchDelegate,
           ),
           IconButton(
             icon: Icon(Icons.account_circle,
-                size: 24.sp, color: AppColors.textPrimary),
+                size: 24.sp),
             onPressed: () {
               context.go('/project-owner/profile');
             },
@@ -171,14 +168,12 @@ class _ProjectOwnerHomeScreenState
         ],
       ),
       drawer: Drawer(
-        backgroundColor: AppColors.cardBackground,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             // First Block: Menu and Close
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-              color: AppColors.cardBackground,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -188,12 +183,11 @@ class _ProjectOwnerHomeScreenState
                       fontFamily: 'Poppins',
                       fontSize: 20.sp,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
                     ),
                   ),
                   IconButton(
                     icon: Icon(Icons.close,
-                        size: 24.sp, color: AppColors.textPrimary),
+                        size: 24.sp),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -204,7 +198,6 @@ class _ProjectOwnerHomeScreenState
             // Second Block: Profile Info
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-              color: AppColors.cardBackground,
               child: Row(
                 children: [
                   CircleAvatar(
@@ -223,7 +216,6 @@ class _ProjectOwnerHomeScreenState
                             fontFamily: 'Poppins',
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.textPrimary,
                           ),
                         ),
                         Text(
@@ -231,7 +223,6 @@ class _ProjectOwnerHomeScreenState
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 13.sp,
-                            color: AppColors.textSecondary,
                           ),
                         ),
                       ],
@@ -243,7 +234,6 @@ class _ProjectOwnerHomeScreenState
             // Third Block: Project Owner Button
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-              color: AppColors.cardBackground,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -276,21 +266,19 @@ class _ProjectOwnerHomeScreenState
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w600
                 ),
               ),
             ),
-            Divider(height: 1.h, color: AppColors.gray200),
+            Divider(height: 1.h),
             ListTile(
               leading: Icon(Icons.work_outline,
-                  size: 20.sp, color: AppColors.textPrimary),
+                  size: 20.sp),
               title: Text(
                 'Projects',
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 15.sp,
-                  color: AppColors.textPrimary,
+                  fontSize: 15.sp
                 ),
               ),
               onTap: () {
@@ -302,13 +290,12 @@ class _ProjectOwnerHomeScreenState
             ),
             ListTile(
               leading: Icon(Icons.account_balance_wallet_outlined,
-                  size: 20.sp, color: AppColors.textPrimary),
+                  size: 20.sp),
               title: Text(
                 'Funding',
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 15.sp,
-                  color: AppColors.textPrimary,
+                  fontSize: 15.sp
                 ),
               ),
               onTap: () {
@@ -320,13 +307,12 @@ class _ProjectOwnerHomeScreenState
             ),
             ListTile(
               leading: Icon(Icons.group_outlined,
-                  size: 20.sp, color: AppColors.textPrimary),
+                  size: 20.sp),
               title: Text(
                 'Team',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 15.sp,
-                  color: AppColors.textPrimary,
                 ),
               ),
               onTap: () {
@@ -338,13 +324,12 @@ class _ProjectOwnerHomeScreenState
             ),
             ListTile(
               leading: Icon(Icons.handshake_outlined,
-                  size: 20.sp, color: AppColors.textPrimary),
+                  size: 20.sp),
               title: Text(
                 'Collaborate',
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 15.sp,
-                  color: AppColors.textPrimary,
+                  fontSize: 15.sp
                 ),
               ),
               onTap: () {
@@ -356,13 +341,12 @@ class _ProjectOwnerHomeScreenState
             ),
             ListTile(
               leading: Icon(Icons.notifications_outlined,
-                  size: 20.sp, color: AppColors.textPrimary),
+                  size: 20.sp),
               title: Text(
                 'Notifications',
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 15.sp,
-                  color: AppColors.textPrimary,
+                  fontSize: 15.sp
                 ),
               ),
               onTap: () {
@@ -372,13 +356,12 @@ class _ProjectOwnerHomeScreenState
             ),
             ListTile(
               leading: Icon(Icons.trending_up_outlined,
-                  size: 20.sp, color: AppColors.textPrimary),
+                  size: 20.sp),
               title: Text(
                 'Evolutions',
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 15.sp,
-                  color: AppColors.textPrimary,
+                  fontSize: 15.sp
                 ),
               ),
               onTap: () {
@@ -395,21 +378,19 @@ class _ProjectOwnerHomeScreenState
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w600
                 ),
               ),
             ),
             Divider(height: 1.h, color: AppColors.gray200),
             ListTile(
               leading: Icon(Icons.info_outline,
-                  size: 20.sp, color: AppColors.textPrimary),
+                  size: 20.sp),
               title: Text(
                 'About the Application',
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 15.sp,
-                  color: AppColors.textPrimary,
+                  fontSize: 15.sp
                 ),
               ),
               onTap: () {
@@ -424,8 +405,7 @@ class _ProjectOwnerHomeScreenState
                 '© 2025 Find Invest Mobile. All rights reserved.',
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 12.sp,
-                  color: AppColors.textSecondary,
+                  fontSize: 12.sp
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -438,10 +418,10 @@ class _ProjectOwnerHomeScreenState
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         selectedItemColor: AppColors.primary,
+        backgroundColor: Theme.of(context).dialogBackgroundColor,
         unselectedItemColor: AppColors.textSecondary,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: AppColors.cardBackground,
         selectedLabelStyle: TextStyle(
           fontFamily: 'Poppins',
           fontSize: 12.sp,

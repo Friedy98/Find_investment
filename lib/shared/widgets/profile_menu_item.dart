@@ -31,7 +31,6 @@ class ProfileMenuItem extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(16.w),
           decoration: BoxDecoration(
-            color: AppColors.white,
             borderRadius: BorderRadius.circular(16.r),
             border: Border.all(
               color: AppColors.border,
@@ -62,7 +61,6 @@ class ProfileMenuItem extends StatelessWidget {
                       title,
                       style: TextStyle(
                         fontSize: 14.sp,
-                        color: titleColor ?? AppColors.textPrimary,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -72,7 +70,6 @@ class ProfileMenuItem extends StatelessWidget {
                         subtitle!,
                         style: TextStyle(
                           fontSize: 12.sp,
-                          color: AppColors.textSecondary,
                         ),
                       ),
                     ],

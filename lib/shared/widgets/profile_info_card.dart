@@ -31,7 +31,6 @@ class ProfileInfoCard extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(16.w),
           decoration: BoxDecoration(
-            color: AppColors.white,
             borderRadius: BorderRadius.circular(16.r),
             border: Border.all(
               color: AppColors.border,
@@ -62,7 +61,6 @@ class ProfileInfoCard extends StatelessWidget {
                       title,
                       style: TextStyle(
                         fontSize: 12.sp,
-                        color: AppColors.textSecondary,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -71,7 +69,6 @@ class ProfileInfoCard extends StatelessWidget {
                       value,
                       style: TextStyle(
                         fontSize: 14.sp,
-                        color: valueColor ?? AppColors.textPrimary,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

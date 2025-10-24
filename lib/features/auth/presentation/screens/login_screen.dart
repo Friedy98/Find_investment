@@ -79,7 +79,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ref.watch(authProvider.select((state) => state.isLoading));
 
     return Scaffold(
-      backgroundColor: AppColors.cardBackground,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -115,7 +114,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         fontFamily: 'Poppins',
                         fontSize: 30.sp,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.textPrimary,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -125,7 +123,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 16.sp,
-                        color: AppColors.textSecondary,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -205,7 +202,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 13.sp,
-                                color: AppColors.textPrimary,
                               ),
                             ),
                           ),
@@ -216,6 +212,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             'Forgot Password?',
                             style: TextStyle(
                               fontFamily: 'Poppins',
+                              decoration: TextDecoration.underline,
                               fontSize: 13.sp,
                               color: AppColors.primaryLight,
                               fontWeight: FontWeight.w500,
@@ -239,7 +236,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 14.sp,
-                            color: AppColors.textSecondary,
                           ),
                         ),
                         GestureDetector(
@@ -248,6 +244,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             'Sign Up',
                             style: TextStyle(
                               fontFamily: 'Poppins',
+                              decoration: TextDecoration.underline,
                               fontSize: 14.sp,
                               color: AppColors.primaryLight,
                               fontWeight: FontWeight.w600,
