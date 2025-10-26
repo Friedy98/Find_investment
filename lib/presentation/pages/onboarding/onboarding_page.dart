@@ -64,7 +64,7 @@ class OnboardingPage extends ConsumerWidget {
             borderRadius: BorderRadius.circular(5.r),
           ),
         ),
-        globalBackgroundColor: AppColors.white,
+        globalBackgroundColor: Theme.of(context).dialogBackgroundColor,
         animationDuration: 300,
         curve: Curves.easeInOut,
       ),
@@ -120,12 +120,10 @@ class OnboardingPage extends ConsumerWidget {
     return PageDecoration(
       titleTextStyle: TextStyle(
         fontSize: 24.sp,
-        fontWeight: FontWeight.bold,
-        color: AppColors.textPrimary,
+        fontWeight: FontWeight.bold
       ),
       bodyTextStyle: TextStyle(
         fontSize: 16.sp,
-        color: AppColors.textSecondary,
         height: 1.5,
       ),
       imagePadding: EdgeInsets.only(top: 60.h),

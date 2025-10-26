@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:find_invest_mobile/core/theme/app_colors.dart';
@@ -32,9 +33,10 @@ class _AlertViewState extends ConsumerState<AlertView>
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: AppColors.primary,
-          child: const Icon(Icons.add, size: 30),
+            shape: const CircleBorder(),
+          child: const Icon(Icons.add, color: Colors.white, size: 30),
             onPressed: ()=> _showOptionsSheet()
-        ),
+        ).animate().scale(delay: 500.ms),
         body: const TabBarView(
           children: [
             AlertsTab(),
@@ -95,8 +97,7 @@ class _AlertViewState extends ConsumerState<AlertView>
                         child: Text("Créer un nouveau groupe",
                           style: TextStyle(
                               fontFamily: 'Poppins',
-                              fontSize: 14.sp,
-                              color: Colors.black
+                              fontSize: 14.sp
                           ),)
                     ),
                     const SizedBox(height: 10),
@@ -105,8 +106,7 @@ class _AlertViewState extends ConsumerState<AlertView>
                         child: Text("Ajouter un post",
                           style: TextStyle(
                               fontFamily: 'Poppins',
-                              fontSize: 14.sp,
-                              color: Colors.black
+                              fontSize: 14.sp
                           ),)
                     ),
                   ],

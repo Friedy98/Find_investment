@@ -54,7 +54,7 @@ class _InvestViewState extends ConsumerState<InvestView>
             pinned: true,
             backgroundColor: AppColors.cardBackground,
             leading: IconButton(
-                icon: const Icon(Icons.arrow_circle_left_sharp, color: AppColors.primary, size: 30),
+                icon: const Icon(Icons.arrow_circle_left_sharp, color: AppColors.white, size: 30),
                 onPressed: () => context.pop()
             ),
             flexibleSpace: FlexibleSpaceBar(
@@ -63,7 +63,7 @@ class _InvestViewState extends ConsumerState<InvestView>
                   fontFamily: 'Poppins',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.primary,
+                  color: AppColors.white,
                 ),
               ),
               centerTitle: true,
@@ -205,8 +205,7 @@ class _InvestViewState extends ConsumerState<InvestView>
           title: Text(title,
             style: TextStyle(
               fontFamily: 'Poppins',
-              fontSize: 12.sp,
-              color: AppColors.textPrimary,
+              fontSize: 12.sp
             ),
           ),
           trailing: Radio<String>(
@@ -238,6 +237,8 @@ class _InvestViewState extends ConsumerState<InvestView>
           controller: controller,
           decoration: InputDecoration(
             hintText: '00000',
+            filled: true,
+            fillColor: Theme.of(context).dialogBackgroundColor,
             hintStyle: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 14.sp,
@@ -261,7 +262,6 @@ class _InvestViewState extends ConsumerState<InvestView>
           style: TextStyle(
             fontFamily: 'Poppins',
             fontSize: 15.sp,
-            color: AppColors.textPrimary,
           ),
           onChanged: (value) {
 

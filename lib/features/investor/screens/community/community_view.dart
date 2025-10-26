@@ -34,7 +34,8 @@ class _CommunityViewState extends ConsumerState<CommunityView>
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: AppColors.primary,
-          child: const Icon(Icons.add, size: 30),
+            shape: const CircleBorder(),
+          child: const Icon(Icons.add,color: Colors.white, size: 30),
             onPressed: ()=> _showOptionsSheet()
         ),
         body: const TabBarView(

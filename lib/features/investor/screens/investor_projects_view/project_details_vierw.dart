@@ -7,6 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:find_invest_mobile/core/theme/app_colors.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../presentation/widgets/custom_button.dart';
+import '../../../auth/presentation/providers/auth_provider.dart';
+import '../../../kyc/presentation/providers/kyc_provider.dart';
 
 class ProjectDetailView extends ConsumerStatefulWidget {
   final ProjectEntity projectDto;
@@ -27,6 +29,16 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final user = ref.read(authProvider).user;
+      if (user != null && mounted) {
+
+        ref.read(kycProvider.notifier).fetchKYCStatus(user.id);
+        // Fetch categories (assuming a method exists in projectProvider or elsewhere)
+        // _categories = ref.read(projectProvider.notifier).getCategories();
+      }
+      // _scrollController.addListener(_onScroll);
+    });
     /*WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(projectProvider.notifier).getProject(widget.projectId);
       ref
@@ -89,12 +101,13 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
                   fontFamily: 'Poppins',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
                 ),
               ),
               centerTitle: true,
-              background: project.coverImage != null
-                  ? CachedNetworkImage(
+              background:
+              // project.coverImage == null
+              //     ?
+              CachedNetworkImage(
                       imageUrl: 'https://www.cahorsjuinjardins.fr/wp-content/uploads/2025/08/Les-erreurs-a-eviter-pour-maximiser-les-recoltes-de-choux.png',
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Container(
@@ -106,7 +119,7 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
                         child: const Icon(Icons.image_not_supported_outlined, size: 50),
                       ),
                     )
-                  : Container(color: AppColors.textTertiary.withOpacity(0.2)),
+                  // : Container(color: AppColors.textTertiary.withOpacity(0.2)),
             ),
           ),
         ],
@@ -117,6 +130,7 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
 
   Widget _buildOverviewTab(ProjectEntity project) {
     List tags = [project.resolvedCategory!.name, project.status];
+    final kycState = ref.watch(kycProvider);
     return SingleChildScrollView(
       padding: EdgeInsets.all(16.w),
       child: Column(
@@ -144,12 +158,10 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
               daysSinceCreated(DateTime.parse(project.createdAt.toString())) != 0 ?
               Text(
                 "Publié il y a ${daysSinceCreated(DateTime.parse(project.createdAt.toString()))} jours",
-                style: const TextStyle(
-                    fontSize: 10, color: Colors.grey),
+                style: const TextStyle( fontSize: 10),
               ) : const Text(
                 "Publié Ajourd'hui",
-                style: TextStyle(
-                    fontSize: 10, color: Colors.grey),
+                style: TextStyle(fontSize: 10),
               ),
             ],
           ),
@@ -170,15 +182,21 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
                       style:
                       const TextStyle(fontWeight: FontWeight.w600)),
                   Text(project.owner != null ?  project.resolvedOwner!.role.toString() : "investor",
-                      style: const TextStyle(
-                          fontSize: 10, color: Colors.grey)),
+                      style: const TextStyle(fontSize: 10)),
                 ],
               ),
               const Spacer(),
               InkWell(
-                onTap: ()=> context.push("/investor/payment_methode",
-                  extra: project,
-                ),
+                onTap: (){
+                  final kycStatus = kycState.selectedKyc?.status;
+                  if (kycStatus == 'approved') {
+                    return _buildKycPrompt();
+                  }else{
+                    context.push("/investor/payment_methode",
+                      extra: project,
+                    );
+                  }
+                },
                 child: const Chip(
                   label: Text("Investir",
                       style: TextStyle(
@@ -244,8 +262,7 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
             'Montant d`\'investisssement total demandé',
             style: TextStyle(
               fontFamily: 'Poppins',
-              fontSize: 14.sp,
-              color: AppColors.secondary,
+              fontSize: 14.sp
             ),
           ),
           Text(
@@ -303,19 +320,92 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
             style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 18.sp,
-                color: Colors.black,
                 fontWeight: FontWeight.bold
             ),
           ),
           Text(project.description,
             style: TextStyle(
                 fontFamily: 'Poppins',
-                fontSize: 12.sp,
-                color: Colors.black,
+                fontSize: 12.sp
             )
           ),
         ],
       ),
+    );
+  }
+
+
+  void _buildKycPrompt() {
+    showDialog(
+        context: context,
+        builder: (context) => Dialog(
+          child: Material(
+            color: Colors.transparent,
+            child: Container(
+              height: MediaQuery.of(context).size.width/1.5,
+              margin: EdgeInsets.symmetric(vertical: 16.w),
+              padding: EdgeInsets.all(16.w),
+              decoration: BoxDecoration(
+                color: AppColors.error.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(12.r),
+                border: Border.all(color: AppColors.error.withOpacity(0.3)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Icon(
+                    Icons.warning_amber_rounded,
+                    color: AppColors.error,
+                    size: 26.sp,
+                  ),
+                  SizedBox(height: 20.w),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        textAlign: TextAlign.center,
+                        'Validation KYC requise',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.error,
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                      Text(
+                        textAlign: TextAlign.center,
+                        'Vous devez compléter la vérification KYC pour créer des projets.',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 14.sp
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20.w),
+                  ElevatedButton(
+                    onPressed: () => context.push('/kyc/dashboard'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.error,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r)),
+                    ),
+                    child: Text(
+                      'Compléter KYC',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        )
     );
   }
 
@@ -337,7 +427,7 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
           padding: const EdgeInsets.symmetric(horizontal: 15),
           // height: height/1.8,
           decoration: BoxDecoration(
-            color: AppColors.cardBackground,
+            color: Theme.of(context).dialogBackgroundColor,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24.r),
               topRight: Radius.circular(24.r),
@@ -422,7 +512,6 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
           style: TextStyle(
             fontFamily: 'Poppins',
             fontSize: 14.sp,
-            color: AppColors.textPrimary,
           ),
         ),
         TextField(
@@ -430,6 +519,8 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
           maxLines: lines,
           decoration: InputDecoration(
             hintText: hint,
+            filled: true,
+            fillColor: Theme.of(context).dialogBackgroundColor,
             hintStyle: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 14.sp,
@@ -477,8 +568,7 @@ class _ProjectDetailViewState extends ConsumerState<ProjectDetailView>
         style: TextStyle(
           fontFamily: 'Poppins',
           fontSize: 14.sp,
-          fontWeight: FontWeight.w600,
-          color: AppColors.textPrimary,
+          fontWeight: FontWeight.w600
         ),
       ),
     ).animate().fadeIn().slideY(begin: 0.3);

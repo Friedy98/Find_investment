@@ -8,7 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:find_invest_mobile/core/theme/app_colors.dart';
 import 'package:find_invest_mobile/features/auth/presentation/providers/auth_provider.dart';
-import 'package:find_invest_mobile/features/project/presentation/screens/discussions_screen.dart';
+import '../../chat/chats_view.dart';
+import '../../support/support_screen.dart';
 import 'Updates/all_updates_view.dart';
 import 'community/community_view.dart';
 import 'investor_projects_view/investor_home.dart';
@@ -30,7 +31,7 @@ class _InvestorHomeScreenState
     WalletPage(),
     UpdatesPage(),
     CommunityView(),
-    DiscussionsScreen(),
+    MessagesPage(),
   ];
 
   static const List<String> _titles = [
@@ -357,6 +358,23 @@ class _InvestorHomeScreenState
               },
             ),
             SizedBox(height: 10.h),
+            ListTile(
+              leading: Icon(Icons.support_agent_sharp, size: 20.sp,),
+              title: Text(
+                'Support et assistance',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 15.sp,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SupportScreen()),
+                );
+              },
+            ),
             // About Group
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),

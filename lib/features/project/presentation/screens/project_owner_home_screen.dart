@@ -7,10 +7,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:find_invest_mobile/core/theme/app_colors.dart';
 import 'package:find_invest_mobile/features/auth/presentation/providers/auth_provider.dart';
-import 'package:find_invest_mobile/features/project/presentation/screens/funding_screen.dart';
-import 'package:find_invest_mobile/features/project/presentation/screens/team_screen.dart';
-import 'package:find_invest_mobile/features/project/presentation/screens/collaborate_screen.dart';
-import 'package:find_invest_mobile/features/project/presentation/screens/discussions_screen.dart';
+import 'package:find_invest_mobile/features/project/presentation/screens/team/screens/team_screen.dart';
+import 'package:find_invest_mobile/features/project/presentation/screens/collaborer/screens/collaborate_screen.dart';
+
+import '../../../chat/chats_view.dart';
+import '../../../support/support_screen.dart';
+import 'funding/screens/funding_screen.dart';
 
 class ProjectOwnerHomeScreen extends ConsumerStatefulWidget {
   const ProjectOwnerHomeScreen({super.key});
@@ -29,7 +31,7 @@ class _ProjectOwnerHomeScreenState
     FundingScreen(),
     TeamScreen(),
     CollaborateScreen(),
-    DiscussionsScreen(),
+    MessagesPage(),
   ];
 
   static const List<String> _titles = [
@@ -38,7 +40,7 @@ class _ProjectOwnerHomeScreenState
     'Team',
     'Collaborate',
     'Discussions',
-    // 'Collab',
+    'Support',
     // 'Chat',
   ];
 
@@ -355,7 +357,7 @@ class _ProjectOwnerHomeScreenState
               },
             ),
             ListTile(
-              leading: Icon(Icons.trending_up_outlined,
+              leading: Icon(Icons.star,
                   size: 20.sp),
               title: Text(
                 'Evolutions',
@@ -367,6 +369,23 @@ class _ProjectOwnerHomeScreenState
               onTap: () {
                 Navigator.pop(context);
                 // TODO: Implement Evolutions screen
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.support_agent_sharp, size: 20.sp,),
+              title: Text(
+                'Support et assistance',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 15.sp,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SupportScreen()),
+                );
               },
             ),
             SizedBox(height: 10.h),

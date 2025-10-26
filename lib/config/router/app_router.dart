@@ -10,6 +10,7 @@ import 'package:find_invest_mobile/features/auth/presentation/screens/register_s
 import 'package:find_invest_mobile/features/investor/screens/community/Tabs/group_details.dart';
 import 'package:find_invest_mobile/features/investor/screens/invest_view.dart';
 import 'package:find_invest_mobile/features/investor/screens/wallet/wallet_view.dart';
+import 'package:find_invest_mobile/features/job-seeker/screens/my_applications/application_details_view.dart';
 import 'package:find_invest_mobile/features/kyc/presentation/screens/kyc_audit_log_page.dart';
 import 'package:find_invest_mobile/features/kyc/presentation/screens/kyc_dashboard_page.dart';
 import 'package:find_invest_mobile/features/kyc/presentation/screens/kyc_start_page.dart';
@@ -51,6 +52,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/chat/chat_details.dart';
 import '../../features/job-seeker/screens/alertes/add_alert.dart';
 import '../../features/job-seeker/screens/offers/offer_details_vierw.dart';
 import '../../features/job-seeker/screens/root.dart';
@@ -58,6 +60,10 @@ import '../../features/investor/screens/Updates/update_details.dart';
 import '../../features/investor/screens/root.dart';
 import '../../features/investor/screens/investor_projects_view/project_details_vierw.dart';
 import '../../features/investor/screens/wallet/historique_view.dart';
+import '../../features/project/presentation/screens/funding/screens/etat_avancement.dart';
+import '../../features/project/presentation/screens/funding/screens/funding_details.dart';
+import '../../features/project/presentation/screens/team/screens/team_members.dart';
+import '../../features/support/support_screen.dart';
 import '../../presentation/pages/onboarding/onboarding_page.dart';
 import '../../presentation/pages/onboarding/splash_page.dart';
 import 'app_routes.dart';
@@ -147,6 +153,14 @@ final routerProvider =
         path: '/project-owner/update-profile',
         builder: (context, state) => const UpdateProfileScreen(),
       ),
+      GoRoute(
+        path: '/project-owner/group/members',
+        builder: (context, state) => const TeamMembersView(),
+      ),
+      GoRoute(
+        path: '/project-owner/funding/avancement',
+        builder: (context, state) => const EtatAvancementView(),
+      ),
 
       ///investor
       GoRoute(
@@ -177,15 +191,38 @@ final routerProvider =
       GoRoute(
         path: '/my_applications/details',
         builder: (context, state) {
-          final project = state.extra as ProjectEntity;
-          return OfferDetailView(projectDto: project);
+          // final project = state.extra as ProjectEntity;
+          // return OfferDetailView(projectDto: project);
+          return OfferDetailView();
         },
       ),
       GoRoute(
         path: '/add-alert/form',
         builder: (context, state)=> const AddAlertForm(),
       ),
+      GoRoute(
+        path: '/applications/details',
+        builder: (context, state) {
+          // final project = state.extra as ProjectEntity;
+          // return OfferDetailView(projectDto: project);
+          return const ApplicationDetailsPage();
+        },
+      ),
 
+      GoRoute(
+        path: '/chat/details',
+        builder: (context, state) {
+          // final project = state.extra as ProjectEntity;
+          // return OfferDetailView(projectDto: project);
+          return const ChatDetailPage();
+        },
+      ),
+      GoRoute(
+          path: 'user/support',
+          builder: (context, state) {
+                return const SupportScreen();
+          }
+      ),
 
       GoRoute(
         path: '/projectDto/:id',

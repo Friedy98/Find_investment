@@ -5,7 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:find_invest_mobile/core/theme/app_colors.dart';
 import 'package:find_invest_mobile/features/auth/presentation/providers/auth_provider.dart';
-import 'package:find_invest_mobile/features/project/presentation/screens/discussions_screen.dart';
+import '../../chat/chats_view.dart';
+import '../../support/support_screen.dart';
 import 'alertes/alerte_view.dart';
 import 'my_applications/applications_view.dart';
 import 'offers/job_offers.dart';
@@ -26,7 +27,7 @@ class _JobSeekerHomeState
     JobOffers(),
     ApplicationPage(),
     AlertView(),
-    DiscussionsScreen(),
+    MessagesPage(),
   ];
 
   static const List<String> _titles = [
@@ -219,7 +220,7 @@ class _JobSeekerHomeState
               onTap: () {
                 Navigator.pop(context);
                 setState(() {
-                  _selectedIndex = 2;
+                  _selectedIndex = 1;
                 });
               },
             ),
@@ -235,8 +236,55 @@ class _JobSeekerHomeState
               onTap: () {
                 Navigator.pop(context);
                 setState(() {
+                  _selectedIndex = 2;
+                });
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.message, size: 20.sp),
+              title: Text(
+                'Messagerie',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 15.sp,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                setState(() {
                   _selectedIndex = 3;
                 });
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.star, size: 20.sp,),
+              title: Text(
+                'Feedbacks',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 15.sp,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                // TODO: Implement About screen
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.support_agent_sharp, size: 20.sp,),
+              title: Text(
+                'Support et assistance',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 15.sp,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SupportScreen()),
+                );
               },
             ),
             SizedBox(height: 10.h),
@@ -244,7 +292,7 @@ class _JobSeekerHomeState
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               child: Text(
-                'About',
+                'A propos',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 14.sp,
@@ -254,9 +302,9 @@ class _JobSeekerHomeState
             ),
             Divider(height: 1.h, color: AppColors.gray200),
             ListTile(
-              leading: Icon(Icons.info_outline, size: 20.sp,),
+              leading: Icon(Icons.question_mark, size: 20.sp),
               title: Text(
-                'About the Application',
+                'A propso de l\'application',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 15.sp,
@@ -294,6 +342,7 @@ class _JobSeekerHomeState
           fontSize: 12.sp,
           fontWeight: FontWeight.w600,
         ),
+        backgroundColor: Theme.of(context).dialogBackgroundColor,
         unselectedLabelStyle: TextStyle(
           fontFamily: 'Poppins',
           fontSize: 12.sp,

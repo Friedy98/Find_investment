@@ -8,9 +8,8 @@ import 'package:go_router/go_router.dart';
 import '../../../../presentation/widgets/custom_button.dart';
 
 class OfferDetailView extends ConsumerStatefulWidget {
-  final ProjectEntity projectDto;
 
-  const OfferDetailView({super.key, required this.projectDto});
+  const OfferDetailView({super.key});
 
   @override
   ConsumerState<OfferDetailView> createState() => _OfferDetailViewState();
@@ -56,7 +55,6 @@ class _OfferDetailViewState extends ConsumerState<OfferDetailView>
 
   @override
   Widget build(BuildContext context) {
-    final project = widget.projectDto;
 
     // if (projectState.isLoading || projectState.selectedProject == null) {
     //   return const Scaffold(
@@ -71,141 +69,242 @@ class _OfferDetailViewState extends ConsumerState<OfferDetailView>
     // final project = projectState.selectedProject!;
 
     return Scaffold(
+      backgroundColor: AppColors.primary,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Theme.of(context).dialogBackgroundColor,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_outlined, size: 24.sp),
+          onPressed: () {
+            context.pop(context);
+          },
+        ),
+        title: Text("Détails de l'offre",
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 16.sp,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: const Color(0xFF0056F7).withOpacity(0.1),
-                borderRadius: BorderRadius.circular(16),
-              ),
+            SizedBox(
+              height: 150,
               child: Column(
                 children: [
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundColor: Colors.pink[100],
-                    child: const Text('SF'),
+                  SizedBox(height: 20),
+                  Text("Projet",
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 12.sp,
+                      color: Colors.white
+                    ),
                   ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    "Développeur Frontend",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.star, color: Colors.amber, size: 18),
-                      const Text(' 4.5 ★', style: TextStyle(color: Colors.black87))
-                    ],
+                  Text("Détails de l'offre",
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.sp,
+                        color: Colors.white
+                    ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 16),
-            const Text("Description",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            const SizedBox(height: 8),
-            const Text(
-              "Nous recherchons un développeur frontend passionné pour rejoindre notre équipe. Vous travaillerez sur des applications modernes avec Flutter, React et d'autres outils de design.",
-            ),
-            const SizedBox(height: 16),
-            const Text("Compétences requises",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              children: const [
-                Chip(label: Text("Flutter")),
-                Chip(label: Text("React")),
-                Chip(label: Text("UI/UX")),
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).dialogBackgroundColor,
+                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                  ),
+                  child: Padding(
+                      padding: const EdgeInsets.all(10),
+                    child: buildOfferDto(context),
+                  )
+                ),
+                Positioned(
+                  top: -35,
+                  left: 0,
+                  right: 0,
+                  child: CircleAvatar(
+                    radius: 40,
+                    backgroundColor: Colors.white,
+                    child: CircleAvatar(
+                      radius: 35,
+                      backgroundColor: Colors.red.withOpacity(0.4),
+                      child: const Text('SF', style: TextStyle(fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                ),
               ],
             ),
-            const SizedBox(height: 16),
-            const Text("Recruteur",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            const SizedBox(height: 8),
-            ListTile(
-              leading: const CircleAvatar(child: Icon(Icons.person)),
-              title: const Text("Alice Joseph"),
-              trailing: ElevatedButton(
-                onPressed: () {},
-                child: const Text("Contacter"),
-              ),
-            ),
-            const SizedBox(height: 16),
-            const Text("Commentaires",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            const ListTile(
-              leading: CircleAvatar(child: Icon(Icons.person)),
-              title: Text("Steve POGA"),
-              subtitle: Text(
-                  "Très belle opportunité ! L’entreprise semble sérieuse."),
-            ),
-            const SizedBox(height: 30),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () => Navigator.pushNamed(context, '/apply'),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF0056F7),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  child: Text("Postuler",
-                      style: TextStyle(fontSize: 16, color: Colors.white)),
-                ),
-              ),
-            )
           ],
         ),
       ),
     );
   }
 
-  Widget _buildOverviewTab(ProjectEntity project) {
-    List tags = [project.resolvedCategory!.name, project.status];
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(16.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildSectionTitle(project.resolvedCategory!.name),
-          SizedBox(height: 16.h),
-          Row(
+  Widget buildOfferDto(BuildContext context){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Column(
             children: [
-              Wrap(
-                spacing: 5,
-                children: tags
-                    .map((tag) => Chip(
-                  label: Text(tag,
-                      style: TextStyle(
-                          fontSize: 10,color: tag == "active" ? Colors.green : Colors.orange)),
-                  backgroundColor: tag == "active"
-                      ? Colors.green.withOpacity(0.1)
-                      : Colors.orange.withOpacity(0.1),
-                ))
-                    .toList(),
+              const SizedBox(height: 30),
+              const Text(
+                "Développeur Frontend",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
-              const Spacer(),
-              const Icon(Icons.access_time_filled, color: Colors.grey),
-              daysSinceCreated(DateTime.parse(project.createdAt.toString())) != 0 ?
-              Text(
-                "Publié il y a ${daysSinceCreated(DateTime.parse(project.createdAt.toString()))} jours",
-                style: const TextStyle(
-                    fontSize: 10, color: Colors.grey),
-              ) : const Text(
-                "Publié Ajourd'hui",
-                style: TextStyle(
-                    fontSize: 10, color: Colors.grey),
+              const Text(
+                "Cameroun, Yaoundé",
+                style: TextStyle( fontSize: 12),
+              ),
+              SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "24 candidatures",
+                    style: TextStyle( fontSize: 12),
+                  ),
+                  SizedBox(width: 10),
+                  Chip(label: const Text("Ouverte",
+                    style: TextStyle( color: Colors.green)),
+                      backgroundColor: Colors.green.withOpacity(0.3)),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: 125,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).dialogBackgroundColor,
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundColor: AppColors.primary.withOpacity(0.3),
+                                child: const Icon(Icons.monetization_on_rounded, color: AppColors.primary),
+                              ),
+                              SizedBox(width: 10),
+                              Text('Salaire'),
+                            ],
+                          ),
+                          SizedBox(height: 5),
+                          Text('100.000 XAF - 200.000 XAF', style: TextStyle(fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Container(
+                      height: 125,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).dialogBackgroundColor,
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundColor: Colors.brown.withOpacity(0.3),
+                                child: const Icon(Icons.access_time_filled, color: Colors.brown),
+                              ),
+                              SizedBox(width: 10),
+                              Text('Type'),
+                            ],
+                          ),
+                          SizedBox(height: 5),
+                          Text('Temps plein', style: TextStyle(fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-          // 👤 Author row
+        ),
+        const SizedBox(height: 16),
+        const Text("Description",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        const SizedBox(height: 8),
+        const Text(
+          "Nous recherchons un développeur frontend passionné pour rejoindre notre équipe. Vous travaillerez sur des applications modernes avec Flutter, React et d'autres outils de design.",
+        ),
+        const SizedBox(height: 16),
+        const Text("Compétences requises",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          children: [
+            Chip(label: Text("Flutter"), backgroundColor: AppColors.primary.withOpacity(0.1)),
+            Chip(label: Text("React"), backgroundColor: AppColors.primary.withOpacity(0.1)),
+            Chip(label: Text("UI/UX"), backgroundColor: AppColors.primary.withOpacity(0.1)),
+            Chip(label: Text("Frontend"), backgroundColor: AppColors.primary.withOpacity(0.1)),
+            Chip(label: Text("Angular"), backgroundColor: AppColors.primary.withOpacity(0.1)),
+            Chip(label: Text("Travail en équipe"), backgroundColor: AppColors.primary.withOpacity(0.1)),
+          ],
+        ),
+        const SizedBox(height: 16),
+        const Text("Recruteur",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        const SizedBox(height: 10),
+        UserWidget(context, 0),
+        const SizedBox(height: 16),
+        const Text("Commentaires",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        const SizedBox(height: 10),
+        UserWidget(context, 1),
+        const SizedBox(height: 30),
+        SizedBox(
+          width: double.infinity,
+          height: 50,
+          child: ElevatedButton(
+            onPressed: () {} ,
+            style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF0056F7),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))),
+            child: Text("Postuler",
+                style: TextStyle(fontSize: 16, color: Colors.white)),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget UserWidget(BuildContext context,int position){
+    return Container(
+      decoration: BoxDecoration(
+          color: position == 1 ? Theme.of(context).primaryColor.withOpacity(0.2) : null,
+          borderRadius: BorderRadius.circular(8)),
+      padding: EdgeInsets.all(10),
+      child: Column(
+        children: [
           Row(
             children: [
               const CircleAvatar(
@@ -218,154 +317,36 @@ class _OfferDetailViewState extends ConsumerState<OfferDetailView>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(project.owner != null ? project.resolvedOwner!.firstName.toString() : "John Doe",
+                  const Text("Akoa Asaph",
                       style:
-                      const TextStyle(fontWeight: FontWeight.w600)),
-                  Text(project.owner != null ?  project.resolvedOwner!.role.toString() : "investor",
+                      TextStyle(fontWeight: FontWeight.w600)),
+                  Text(position == 0 ? "Porteur de projet" : "★★★★★",
                       style: const TextStyle(
                           fontSize: 10, color: Colors.grey)),
                 ],
               ),
               const Spacer(),
-              InkWell(
-                onTap: ()=> context.push("/investor/payment_methode",
-                  extra: project,
-                ),
-                child: const Chip(
-                  label: Text("Investir",
-                      style: TextStyle(
-                          fontSize: 10, color: Colors.white)),
-                  backgroundColor: AppColors.primary,
-                ),
-              ),
-              const SizedBox(width: 10),
-              InkWell(
-                onTap: _showMessageSheet,
-                child: const Chip(
-                  label: Text("Contacter",
-                      style: TextStyle(
-                          fontSize: 10, color: Colors.white)),
-                  backgroundColor: AppColors.primary,
-                ),
-              ),
+                if(position == 0)... [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
+                    onPressed: () {},
+                    child: const Text("Contacter", style: TextStyle(color: Colors.white)),
+                  ),
+                ]else...const [
+                  Icon(Icons.access_time_filled, color: Colors.grey),
+                  Text(
+                    "12 juil, 2025",
+                    style: TextStyle(
+                        fontSize: 10, color: Colors.grey),
+                  )
+                ]
             ],
           ),
-          /*Wrap(
-            spacing: 8.w,
-            runSpacing: 8.h,
-            children: [
-              _buildInfoChip(
-                label: project.category is String
-                    ? project.category as String
-                    : (project.category as Map<String, dynamic>)['name'] ??
-                    'Non spécifié',
-                icon: Icons.category,
-              ),
-              _buildInfoChip(label: project.sector, icon: Icons.business),
-              if (project.subSector != null)
-                _buildInfoChip(
-                    label: project.subSector!,
-                    icon: Icons.subdirectory_arrow_right),
-              if (project.tags != null && project.tags!.isNotEmpty)
-                _buildInfoChip(
-                    label: project.tags!.join(', '), icon: Icons.tag),
-            ],
-          ).animate().fadeIn().slideY(begin: 0.3),*/
-          SizedBox(height: 16.h),
-          _buildSectionTitle('Etat d\'avancement du projet'),
-          LinearProgressIndicator(
-            value: (project.fundingProgress?.toDouble() ?? 0),
-            backgroundColor: AppColors.textTertiary.withOpacity(0.2),
-            valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
-            minHeight: 20.h,
-            borderRadius: BorderRadius.circular(15.r),
-          ).animate().fadeIn(),
-
-          SizedBox(height: 20.h),
-          _buildSectionTitle('Etat d\'avancement du financement'),
-          LinearProgressIndicator(
-            value: (project.fundingProgress?.toDouble() ?? 0),
-            backgroundColor: AppColors.textTertiary.withOpacity(0.2),
-            valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
-            minHeight: 20.h,
-            borderRadius: BorderRadius.circular(15.r),
-          ).animate().fadeIn(),
-
-          SizedBox(height: 20.h),
-          Text(
-            'Montant d`\'investisssement total demandé',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14.sp,
-              color: AppColors.secondary,
-            ),
-          ),
-          Text(
-            '${project.maximumInvestment} ${project.currency ?? 'XAF'}',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 18.sp,
-              color: AppColors.primary,
-              fontWeight: FontWeight.bold
-            ),
-          ),
-
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.symmetric(vertical: 15),
-            height: 120,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.blue.shade50, // start color
-                  Colors.blue.shade200, // end color
-                ],
-              ),
-            ),
-            child: Column(
-              children: [
-                ListTile(
-                  title: Text(
-                    'Objectif',
-                    style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 18.sp,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  subtitle: Text(
-                    '${project.shortDescription}',
-                    style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 12.sp,
-                        color: Colors.black
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          Text(
-            'Description',
-            style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 18.sp,
-                color: Colors.black,
-                fontWeight: FontWeight.bold
-            ),
-          ),
-          Text(project.description,
-            style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 12.sp,
-                color: Colors.black,
-            )
-          ),
+          SizedBox(height: 10),
+          if(position == 1)
+            const Text("J'aime bien cette affiche d'emplooi qui est en plus dans une  zone ou il y a un taux de "
+                "changement en hausse. Et ce serait une belle opportunité pour quelqu'un",
+              style: TextStyle(fontSize: 10))
         ],
       ),
     );
@@ -375,8 +356,6 @@ class _OfferDetailViewState extends ConsumerState<OfferDetailView>
 
     double width = MediaQuery.of(context).size.width;
     bool noInvestment = false;
-    final project = widget.projectDto;
-
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -429,17 +408,6 @@ class _OfferDetailViewState extends ConsumerState<OfferDetailView>
                             radius: 18,
                           ),
                           const SizedBox(width: 8),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(project.owner != null ? project.resolvedOwner!.firstName.toString() : "John Doe",
-                                  style:
-                                  const TextStyle(fontWeight: FontWeight.w600)),
-                              Text(project.owner != null ? project.resolvedOwner!.role.toString() : "investor",
-                                  style: const TextStyle(
-                                      fontSize: 10, color: Colors.grey)),
-                            ],
-                          ),
                         ],
                       ),
                     ),

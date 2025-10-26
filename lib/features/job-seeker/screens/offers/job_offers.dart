@@ -131,8 +131,8 @@ class _JobOffersState extends ConsumerState<JobOffers>
                 itemBuilder: (context, index) {
                   var offer = offers[index];
                   return GestureDetector(
-                    // onTap: () => context.go('/my_applications/details'),
-                      onTap: (){},
+                    onTap: () => context.push('/my_applications/details'),
+                      // onTap: (){},
                     child: OfferWidget(
                       index: index+1,
                         title: offer['title'],

@@ -95,8 +95,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           enabled: widget.enabled,
           style: TextStyle(
             fontFamily: 'Poppins',
-            fontSize: 16.sp,
-            color: AppColors.textPrimary,
+            fontSize: 16.sp
           ),
           decoration: InputDecoration(
             hintText: widget.hintText,
@@ -110,7 +109,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 : null,
             suffixIcon: widget.suffixIcon,
             filled: true,
-            fillColor: AppColors.gray50,
+            fillColor: Theme.of(context).dialogBackgroundColor,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.r),
               borderSide: BorderSide.none,

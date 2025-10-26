@@ -87,8 +87,7 @@ class _ApplicationPageState extends ConsumerState<ApplicationPage>
                 itemBuilder: (context, index) {
                   var offer = offers[index];
                   return GestureDetector(
-                    // onTap: () => context.go('/my_applications/details'),
-                    onTap: (){},
+                    onTap: () => context.push('/applications/details'),
                     child: OfferWidget(
                       index: index+1,
                       title: offer['title'],
