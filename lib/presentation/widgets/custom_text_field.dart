@@ -53,8 +53,7 @@ class CustomTextField extends StatelessWidget {
           Text(
             label!,
             style: TextStyle(
-              fontSize: 14.sp,
-              color: AppColors.textPrimary,
+              fontSize: 14.sp
             ),
           ),
           SizedBox(height: 8.h),
@@ -88,7 +87,7 @@ class CustomTextField extends StatelessWidget {
                 : null,
             suffixIcon: suffixIcon,
             filled: true,
-            fillColor: AppColors.gray50,
+            fillColor: Theme.of(context).dialogBackgroundColor,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.r),
               borderSide: BorderSide.none,

@@ -47,7 +47,6 @@ class _SupportScreenState extends ConsumerState<SupportScreen>
         centerTitle: true,
         elevation: 0,
       ),
-      backgroundColor: Colors.grey[100],
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         child: Column(
@@ -69,7 +68,9 @@ class _SupportScreenState extends ConsumerState<SupportScreen>
               onTap: _showMessageFormSheet,
             ),
 
+            SizedBox(height: 15.h),
             Divider(),
+            SizedBox(height: 15.h),
 
             ListTile(
               leading: CircleAvatar(
@@ -105,7 +106,7 @@ class _SupportScreenState extends ConsumerState<SupportScreen>
           padding: const EdgeInsets.symmetric(horizontal: 15),
           // height: height/1.8,
           decoration: BoxDecoration(
-            color: AppColors.cardBackground,
+            color: Theme.of(context).dialogBackgroundColor,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24.r),
               topRight: Radius.circular(24.r),
@@ -180,6 +181,7 @@ class _SupportScreenState extends ConsumerState<SupportScreen>
                     ),
                   ),
                 ),
+                SizedBox(height: 24.h),
               ],
             ),
           ),

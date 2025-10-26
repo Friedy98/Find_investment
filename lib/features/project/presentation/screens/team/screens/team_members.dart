@@ -167,7 +167,7 @@ class _TeamMembersViewState extends ConsumerState<TeamMembersView>
           padding: const EdgeInsets.symmetric(horizontal: 15),
           // height: height/1.8,
           decoration: BoxDecoration(
-            color: AppColors.cardBackground,
+            color: Theme.of(context).dialogBackgroundColor,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24.r),
               topRight: Radius.circular(24.r),
@@ -240,7 +240,7 @@ class _TeamMembersViewState extends ConsumerState<TeamMembersView>
           padding: const EdgeInsets.symmetric(horizontal: 15),
           // height: height/1.8,
           decoration: BoxDecoration(
-            color: AppColors.cardBackground,
+            color: Theme.of(context).dialogBackgroundColor,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24.r),
               topRight: Radius.circular(24.r),
@@ -294,14 +294,13 @@ class _TeamMembersViewState extends ConsumerState<TeamMembersView>
                     Text("Rôle",
                       style: TextStyle(
                         fontSize: 14.sp,
-                        color: AppColors.textPrimary,
                       ),
                     ),
                     SizedBox(height: 8.h),
                     DropdownButtonFormField<String>(
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: AppColors.gray50,
+                        fillColor: Theme.of(context).dialogBackgroundColor,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16.r),
                           borderSide: BorderSide.none,
@@ -327,7 +326,7 @@ class _TeamMembersViewState extends ConsumerState<TeamMembersView>
                         value: entry.key,
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: Theme.of(context).dialogBackgroundColor,
                               borderRadius: BorderRadius.circular(10)
                           ),
                           child: Padding(
@@ -368,7 +367,6 @@ class _TeamMembersViewState extends ConsumerState<TeamMembersView>
                     Text("Une invitation va être envoyé au membre",
                       style: TextStyle(
                         fontSize: 14.sp,
-                        color: AppColors.textPrimary,
                       ),
                     ),
                   ],
